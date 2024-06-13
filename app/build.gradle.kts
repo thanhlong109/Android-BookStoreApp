@@ -79,6 +79,7 @@ dependencies {
     //firebase
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.analytics)
+    implementation(libs.firebase.firestore)
 
     //viewpager
     implementation(libs.viewpager2)
