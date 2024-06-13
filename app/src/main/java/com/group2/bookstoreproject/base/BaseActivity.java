@@ -1,10 +1,13 @@
 package com.group2.bookstoreproject.base;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
@@ -50,15 +53,12 @@ public abstract class BaseActivity<T extends ViewBinding> extends AppCompatActiv
         }
     }
 
-    private void initProgressBar() {
-        loadingDialog = new LoadingDialog(this);
-    }
 
     public void showLoading() {
-        if (loadingDialog == null) {
-            initProgressBar();
-        }
+        if(loadingDialog == null)
+        loadingDialog = new LoadingDialog(this);
         loadingDialog.show();
+
     }
 
     public void hideLoading() {

@@ -40,4 +40,6 @@ public abstract class BaseViewModel extends ViewModel {
     protected void setErrorMessage(String message) {
         errorMessage.setValue(message);
     }
+
+
 }
