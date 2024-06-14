@@ -14,30 +14,5 @@ import com.group2.bookstoreproject.data.repositoryImpl.AuthRepositoryImpl;
 
 public class SignInViewModel extends BaseViewModel {
 
-    private MutableLiveData<Resource<Void>> signUpResult;
 
-    public SignInViewModel() {
-        signUpResult = new MutableLiveData<>();
-    }
-
-    public MutableLiveData<Resource<Void>> getSignUpResult() {
-        return signUpResult;
-    }
-
-    AuthRepository authRepository = new AuthRepositoryImpl();
-    public void signUp(User user){
-        setLoading(true);
-        authRepository.upsert(user.getEmail(),user, new OnCompleteListener<Void>(){
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if(task.isSuccessful()){
-                    signUpResult.setValue(Resource.success(null));
-                }else{
-                    setErrorMessage(task.getException().getMessage());
-                }
-                setLoading(false);
-            }
-        });
-
-    }
 }

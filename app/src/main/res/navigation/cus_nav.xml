@@ -9,9 +9,13 @@
         android:id="@+id/navigation_cus_home"
         android:name="com.group2.bookstoreproject.ui.customer.home.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_navigation_cus_home_to_bookDetailsFragment2"
+            app:destination="@id/bookDetailsFragment2" />
+    </fragment>
     <fragment
-        android:id="@+id/navigation_cus_chat"
+        android:id="@+id/navigation_chat"
         android:name="com.group2.bookstoreproject.ui.common.chat.ChatFragment"
         android:label="fragment_chat"
         tools:layout="@layout/fragment_chat" />
@@ -19,10 +23,51 @@
         android:id="@+id/navigation_cus_cart"
         android:name="com.group2.bookstoreproject.ui.customer.cart.CartFragment"
         android:label="fragment_cart"
-        tools:layout="@layout/fragment_cart" />
+        tools:layout="@layout/fragment_cart" >
+        <action
+            android:id="@+id/action_navigation_cus_cart_to_bookDetailsFragment2"
+            app:destination="@id/bookDetailsFragment2" />
+    </fragment>
     <fragment
         android:id="@+id/navigation_cus_profile"
         android:name="com.group2.bookstoreproject.ui.customer.profile.ProfileFragment"
         android:label="fragment_profile"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/action_navigation_cus_profile_to_orderListFragment2"
+            app:destination="@id/orderListFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/bookDetailsFragment2"
+        android:name="com.group2.bookstoreproject.ui.common.bookDetails.BookDetailsFragment"
+        android:label="fragment_book_details"
+        tools:layout="@layout/fragment_book_details" >
+        <action
+            android:id="@+id/action_bookDetailsFragment2_to_navigation_cus_home"
+            app:destination="@id/navigation_cus_home" />
+        <action
+            android:id="@+id/action_bookDetailsFragment2_to_navigation_cus_cart"
+            app:destination="@id/navigation_cus_cart" />
+    </fragment>
+    <fragment
+        android:id="@+id/orderListFragment2"
+        android:name="com.group2.bookstoreproject.ui.common.orderList.OrderListFragment"
+        android:label="fragment_order_list"
+        tools:layout="@layout/fragment_order_list" >
+        <action
+            android:id="@+id/action_orderListFragment2_to_navigation_cus_profile"
+            app:destination="@id/navigation_cus_profile" />
+        <action
+            android:id="@+id/action_orderListFragment2_to_orderDetailsFragment2"
+            app:destination="@id/orderDetailsFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/orderDetailsFragment2"
+        android:name="com.group2.bookstoreproject.ui.common.orderDetails.OrderDetailsFragment"
+        android:label="fragment_order_details"
+        tools:layout="@layout/fragment_order_details" >
+        <action
+            android:id="@+id/action_orderDetailsFragment2_to_orderListFragment2"
+            app:destination="@id/orderListFragment2" />
+    </fragment>
 </navigation>

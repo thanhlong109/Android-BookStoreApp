@@ -13,10 +13,13 @@ import android.view.ViewGroup;
 
 import com.group2.bookstoreproject.R;
 import com.group2.bookstoreproject.base.BaseFragment;
+import com.group2.bookstoreproject.data.model.Shipping;
 import com.group2.bookstoreproject.data.model.User;
 import com.group2.bookstoreproject.data.model.base.Resource;
 import com.group2.bookstoreproject.databinding.FragmentSignInBinding;
+import com.group2.bookstoreproject.ui.activity.AdminActivity;
 import com.group2.bookstoreproject.ui.activity.CustomerActivity;
+import com.group2.bookstoreproject.ui.activity.ShipperActivity;
 
 
 public class SignInFragment extends BaseFragment<FragmentSignInBinding, SignInViewModel> {
@@ -35,21 +38,17 @@ public class SignInFragment extends BaseFragment<FragmentSignInBinding, SignInVi
     }
 
     @Override
+    protected void observeViewModel() {
+        super.observeViewModel();
+
+    }
+
+    @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        User u = new User();
-        u.setEmail("long@gmail.com");
-        u.setPassword("123");
-        viewModel.getSignUpResult().observe(getViewLifecycleOwner(), new Observer<Resource<Void>>() {
-            @Override
-            public void onChanged(Resource<Void> resource) {
-                if(resource !=null){
-                   if(resource.getStatus() == Resource.Status.SUCCESS){
-                       goToActivity(CustomerActivity.class, true);
-                   }
-                }
-            }
-        });
-        binding.btnSignIn.setOnClickListener(v ->viewModel.signUp(u));
+
+        binding.btnClient.setOnClickListener(v -> goToActivity(CustomerActivity.class));
+        binding.btnAdmin.setOnClickListener(v -> goToActivity(AdminActivity.class));
+        binding.btnGoToShip.setOnClickListener(v -> goToActivity(ShipperActivity.class));
+        binding.btnGoSignUp.setOnClickListener(v -> navigateToPage(R.id.action_signInFragment_to_signUpFragment));
     }
 }

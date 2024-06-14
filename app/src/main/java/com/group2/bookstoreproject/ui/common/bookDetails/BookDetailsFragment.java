@@ -26,4 +26,6 @@ public class BookDetailsFragment extends BaseFragment<FragmentBookDetailsBinding
     protected Class<BookDetailsViewModel> getViewModelClass() {
         return BookDetailsViewModel.class;
     }
+
+
 }

@@ -28,4 +28,10 @@ public class OtpFragment extends BaseFragment<FragmentOtpBinding, OtpViewModel> 
     protected Class<OtpViewModel> getViewModelClass() {
         return OtpViewModel.class;
     }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        binding.btnGoToSignIn.setOnClickListener(v -> navigateToPage(R.id.action_otpFragment_to_signInFragment));
+    }
 }

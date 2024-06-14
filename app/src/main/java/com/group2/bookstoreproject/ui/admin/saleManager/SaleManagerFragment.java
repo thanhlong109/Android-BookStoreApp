@@ -1,0 +1,31 @@
+package com.group2.bookstoreproject.ui.admin.saleManager;
+
+import android.os.Bundle;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import com.group2.bookstoreproject.R;
+import com.group2.bookstoreproject.base.BaseFragment;
+import com.group2.bookstoreproject.databinding.FragmentSaleManagerBinding;
+
+public class SaleManagerFragment extends BaseFragment<FragmentSaleManagerBinding,SaleManagerViewModel> {
+
+
+    @NonNull
+    @Override
+    protected FragmentSaleManagerBinding inflateBinding(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, boolean attachToParent) {
+        return FragmentSaleManagerBinding.inflate(inflater, container, attachToParent);
+    }
+
+    @NonNull
+    @Override
+    protected Class<SaleManagerViewModel> getViewModelClass() {
+        return SaleManagerViewModel.class;
+    }
+}

@@ -31,5 +31,26 @@
             app:exitAnim="@anim/slide_out_right"
             app:popEnterAnim="@anim/slide_in_right"
             app:popExitAnim="@anim/slide_out_left" />
+        <action
+            android:id="@+id/action_signUpFragment_to_otpFragment"
+            app:destination="@id/otpFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:launchSingleTop="false"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
+    </fragment>
+    <fragment
+        android:id="@+id/otpFragment"
+        android:name="com.group2.bookstoreproject.ui.common.otp.OtpFragment"
+        android:label="fragment_otp"
+        tools:layout="@layout/fragment_otp" >
+        <action
+            android:id="@+id/action_otpFragment_to_signInFragment"
+            app:destination="@id/signInFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"/>
     </fragment>
 </navigation>

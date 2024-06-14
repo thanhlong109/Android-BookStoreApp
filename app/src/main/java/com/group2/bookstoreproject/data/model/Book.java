@@ -12,8 +12,9 @@ public class Book implements Serializable {
     private String bookImg;
     private String categoryId;
     private int stock;
+    private int sale; //max 100
 
-    public Book(String bookId, String title, String author, String publisher, double price, String description, String bookImg, String categoryId, int stock) {
+    public Book(String bookId, String title, String author, String publisher, double price, String description, String bookImg, String categoryId, int stock, int sale) {
         this.bookId = bookId;
         this.title = title;
         this.author = author;
@@ -23,6 +24,7 @@ public class Book implements Serializable {
         this.bookImg = bookImg;
         this.categoryId = categoryId;
         this.stock = stock;
+        this.sale = sale;
     }
 
     public Book() {
@@ -65,7 +67,7 @@ public class Book implements Serializable {
     }
 
     public void setPrice(double price) {
-        this.price = price;
+        this.price = price<0?0:price;
     }
 
     public String getDescription() {
@@ -97,6 +99,14 @@ public class Book implements Serializable {
     }
 
     public void setStock(int stock) {
-        this.stock = stock;
+        this.stock = stock<0?0:stock;
+    }
+
+    public int getSale() {
+        return sale;
+    }
+
+    public void setSale(int sale) {
+        this.sale = sale>100?100:(sale<0?0:sale);
     }
 }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@+id/navigation_cus_home" android:icon="@drawable/ic_home_24px" android:title="Trang chủ"/>
-    <item android:id="@+id/navigation_cus_chat" android:icon="@drawable/ic_chat_24px" android:title="Tin nhắn"/>
+    <item android:id="@+id/navigation_chat" android:icon="@drawable/ic_chat_24px" android:title="Tin nhắn"/>
     <item android:id="@+id/navigation_cus_cart" android:icon="@drawable/ic_shopping_cart_24px" android:title="Giỏ hàng"/>
     <item android:id="@+id/navigation_cus_profile" android:icon="@drawable/ic_account_circle_24px" android:title="Hồ sơ"/>
 </menu>

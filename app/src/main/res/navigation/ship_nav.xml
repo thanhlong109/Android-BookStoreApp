@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ship_nav"
+    app:startDestination="@id/navigation_order_list">
+
+    <fragment
+        android:id="@+id/navigation_order_list"
+        android:name="com.group2.bookstoreproject.ui.common.orderList.OrderListFragment"
+        android:label="fragment_order_list"
+        tools:layout="@layout/fragment_order_list" >
+        <action
+            android:id="@+id/action_orderListFragment_to_orderDetailsFragment"
+            app:destination="@id/orderDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/orderDetailsFragment"
+        android:name="com.group2.bookstoreproject.ui.common.orderDetails.OrderDetailsFragment"
+        android:label="fragment_order_details"
+        tools:layout="@layout/fragment_order_details" >
+        <action
+            android:id="@+id/action_orderDetailsFragment_to_orderListFragment"
+            app:destination="@id/navigation_order_list" />
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_notification_ship"
+        android:name="com.group2.bookstoreproject.ui.common.notification.NotificationFragment"
+        android:label="fragment_notification"
+        tools:layout="@layout/fragment_notification" />
+</navigation>

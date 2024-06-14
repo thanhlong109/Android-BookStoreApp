@@ -27,6 +27,7 @@ public abstract class BaseFragment<B extends ViewBinding, VM extends BaseViewMod
     @NonNull
     protected abstract Class<VM> getViewModelClass();
 
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = inflateBinding(inflater, container, false);
@@ -41,7 +42,7 @@ public abstract class BaseFragment<B extends ViewBinding, VM extends BaseViewMod
         binding = null;
     }
 
-    private void observeViewModel() {
+    protected void observeViewModel() {
         viewModel.getIsLoading().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean isLoading) {

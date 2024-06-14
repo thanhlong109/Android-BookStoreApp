@@ -3,18 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.common.otp.OtpFragment">
+    tools:context=".ui.admin.upsertUser.UpsertUserFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Otp" />
-
-    <Button
-        android:id="@+id/btnGoToSignIn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="gotosignin" />
+        android:text="@string/hello_blank_fragment" />
 
 </FrameLayout>

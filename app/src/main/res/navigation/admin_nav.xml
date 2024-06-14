@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/admin_nav"
+    app:startDestination="@id/navigation_dashbard">
+
+    <fragment
+        android:id="@+id/navigation_dashbard"
+        android:name="com.group2.bookstoreproject.ui.admin.dashboard.DashboardFragment"
+        android:label="fragment_dashboard"
+        tools:layout="@layout/fragment_dashboard" />
+    <fragment
+        android:id="@+id/navigation_books"
+        android:name="com.group2.bookstoreproject.ui.admin.bookManager.BookManagerFragment"
+        android:label="fragment_book_manager"
+        tools:layout="@layout/fragment_book_manager" >
+        <action
+            android:id="@+id/action_bookManagerFragment_to_bookDetailsFragment"
+            app:destination="@id/bookDetailsFragment" />
+        <action
+            android:id="@+id/action_bookManagerFragment_to_upsertBookFragment"
+            app:destination="@id/upsertBookFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_chatlist"
+        android:name="com.group2.bookstoreproject.ui.admin.chatlist.ChatListFragment"
+        android:label="fragment_chat_list"
+        tools:layout="@layout/fragment_chat_list" >
+        <action
+            android:id="@+id/action_chatListFragment_to_chatFragment"
+            app:destination="@id/chat_fragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_account"
+        android:name="com.group2.bookstoreproject.ui.admin.userManager.UserManagerFragment"
+        android:label="fragment_user_manager"
+        tools:layout="@layout/fragment_user_manager" />
+    <fragment
+        android:id="@+id/upsertBookFragment"
+        android:name="com.group2.bookstoreproject.ui.admin.upsertBook.UpsertBookFragment"
+        android:label="fragment_upsert_book"
+        tools:layout="@layout/fragment_upsert_book" >
+        <action
+            android:id="@+id/action_upsertBookFragment_to_bookDetailsFragment"
+            app:destination="@id/bookDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/bookDetailsFragment"
+        android:name="com.group2.bookstoreproject.ui.common.bookDetails.BookDetailsFragment"
+        android:label="fragment_book_details"
+        tools:layout="@layout/fragment_book_details" >
+        <action
+            android:id="@+id/action_bookDetailsFragment_to_upsertBookFragment"
+            app:destination="@id/upsertBookFragment" />
+        <action
+            android:id="@+id/action_bookDetailsFragment_to_bookManagerFragment"
+            app:destination="@id/navigation_books" />
+    </fragment>
+    <fragment
+        android:id="@+id/chat_fragment"
+        android:name="com.group2.bookstoreproject.ui.common.chat.ChatFragment"
+        android:label="fragment_chat"
+        tools:layout="@layout/fragment_chat" >
+        <action
+            android:id="@+id/action_chatFragment_to_chatListFragment"
+            app:destination="@id/navigation_chatlist" />
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_order"
+        android:name="com.group2.bookstoreproject.ui.common.orderList.OrderListFragment"
+        android:label="fragment_order_list"
+        tools:layout="@layout/fragment_order_list" >
+        <action
+            android:id="@+id/action_orderListFragment3_to_orderDetailsFragment3"
+            app:destination="@id/orderDetailsFragment3" />
+    </fragment>
+    <fragment
+        android:id="@+id/orderDetailsFragment3"
+        android:name="com.group2.bookstoreproject.ui.common.orderDetails.OrderDetailsFragment"
+        android:label="fragment_order_details"
+        tools:layout="@layout/fragment_order_details" >
+        <action
+            android:id="@+id/action_orderDetailsFragment3_to_orderListFragment3"
+            app:destination="@id/navigation_order" />
+    </fragment>
+</navigation>
