@@ -2,6 +2,7 @@ package com.group2.bookstoreproject.util.session;
 
 import android.util.Log;
 
+import com.group2.bookstoreproject.data.model.User;
 import com.group2.bookstoreproject.data.sharePreference.AppSharePreference;
 import com.squareup.moshi.JsonAdapter;
 import com.squareup.moshi.Moshi;
@@ -22,7 +23,7 @@ public class SessionManager {
 
 
 
-//    public User getLoggedInUser() {
-//
-//    }
+    public User getLoggedInUser() {
+        return  new User();
+    }
 }
