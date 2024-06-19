@@ -57,4 +57,10 @@
     <color name="gray_600">#FF757575</color>
 
     <color name="zxing_transparent">#00000000</color>
+
+    <color name="ibg1">#7B50AC</color>
+    <color name="ibg2">#CA436B</color>
+    <color name="green_1">#18A686</color>
+    <color name="green_2">#32A3BF</color>
+    <color name="green_3">#3FC670</color>
 </resources>
