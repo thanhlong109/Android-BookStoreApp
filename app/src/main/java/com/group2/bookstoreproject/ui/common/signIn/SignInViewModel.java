@@ -14,5 +14,6 @@ import com.group2.bookstoreproject.data.repositoryImpl.AuthRepositoryImpl;
 
 public class SignInViewModel extends BaseViewModel {
 
-
+    public SignInViewModel() {
+    }
 }

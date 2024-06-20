@@ -13,5 +13,4 @@ public class AuthRepositoryImpl extends BaseRepositoryImpl<User> implements Auth
     protected String getCollectionPath() {
         return COLLECTION_PATH;
     }
-
 }
