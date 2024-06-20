@@ -17,7 +17,7 @@ import com.group2.bookstoreproject.R;
 
 public class CustomChatMessage extends ConstraintLayout {
 
-    private CustomChatMessageBinding binding;
+    public CustomChatMessageBinding binding;
     private boolean startDirection;
     private final ColorStateList leftBackGround;
     private final ColorStateList rightBackGround;
@@ -89,9 +89,9 @@ public class CustomChatMessage extends ConstraintLayout {
     public void setAvatar(int resource) {
         if (startDirection) {
             binding.ivMessageLeft.setImageResource(resource);
-            binding.ivMessageLeft.setVisibility(View.GONE);
         } else {
             binding.ivMessageRight.setImageResource(resource);
+            binding.ivMessageLeft.setVisibility(View.GONE);
         }
     }
 

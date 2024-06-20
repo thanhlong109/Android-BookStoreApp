@@ -1,6 +1,9 @@
 package com.group2.bookstoreproject.data.model;
 
+import android.util.Log;
+
 import java.io.Serializable;
+import java.util.Objects;
 
 public class ChatMessage implements Serializable {
     private long sendTime;// also id
@@ -68,5 +71,36 @@ public class ChatMessage implements Serializable {
 
     public void setMessageContent(String messageContent) {
         this.messageContent = messageContent;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ChatMessage that = (ChatMessage) o;
+        return sendTime == that.sendTime &&
+                seen == that.seen &&
+                Objects.equals(chatRoomId, that.chatRoomId) &&
+                Objects.equals(senderId, that.senderId) &&
+                Objects.equals(receiverId, that.receiverId) &&
+                Objects.equals(messageContent, that.messageContent);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(chatRoomId, senderId, receiverId, messageContent, sendTime, seen);
+    }
+
+    @Override
+    public String toString() {
+        return "ChatMessage{" +
+                "chatRoomId='" + chatRoomId + '\'' +
+                ", senderId='" + senderId + '\'' +
+                ", receiverId='" + receiverId + '\'' +
+                ", messageContent='" + messageContent + '\'' +
+                ", sendTime=" + sendTime +
+                ", isSeen=" + seen +
+                '}';
     }
 }

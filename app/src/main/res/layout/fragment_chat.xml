@@ -6,18 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".ui.common.chat.ChatFragment">
 
-
-
-    <Button
-        android:id="@+id/btnStartChat"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="56dp"
-        android:text="start chat"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -56,7 +44,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:background="@color/white"
+            android:background="@color/i_blue_light"
             android:padding="10dp"
             android:gravity="center_vertical"
             android:layout_alignParentBottom="true"
@@ -76,4 +64,13 @@
         </LinearLayout>
 
     </RelativeLayout>
+    <Button
+        android:id="@+id/btnStartChat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="56dp"
+        android:text="start chat"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

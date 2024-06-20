@@ -42,8 +42,10 @@ public class ChatViewModel extends BaseViewModel {
     public ChatViewModel() {
         chatRoomRepository = new ChatRoomRepositoryImpl();
         AddChatRoomResult = new MutableLiveData<>();
+        chatMessages = new MutableLiveData<>();
         //addListener();
-        getChatRoomsByMember();
+       // getChatRoomsByMember();
+        listenToMessagesInChatRoom();
     }
 
     public void addChatRoom(String receiverID) {
@@ -59,7 +61,7 @@ public class ChatViewModel extends BaseViewModel {
             public void onComplete(@NonNull Task<Void> task) {
                 if(task.isSuccessful()){
                     AddChatRoomResult.setValue(Resource.success(roomId));
-                    currentChatRoom.setValue(cr);
+                    //currentChatRoom.setValue(cr);
                 }else{
                     setErrorMessage(task.getException().getMessage());
                 }
@@ -136,8 +138,8 @@ public class ChatViewModel extends BaseViewModel {
         });
     }
 
-    public void addMessageToChatRoom( String text) {
-        String chatRoomId = currentChatRoom.getValue().getChatRoomId();
+    public void addMessageToChatRoom( String text,String chatRoomId) {
+        //String chatRoomId = currentChatRoom.getValue().getChatRoomId();
         ChatMessage message = new ChatMessage();
         message.setSendTime(System.currentTimeMillis());
         message.setMessageContent(text);
@@ -149,9 +151,6 @@ public class ChatViewModel extends BaseViewModel {
         chatRoomRepository.addMessageToChatRoom(chatRoomId, message, task -> {
             if (task.isSuccessful()) {
                 Log.d(TAG, "Message added successfully.");
-                 List< ChatMessage> list = chatMessages.getValue();
-                 list.add(message);
-                chatMessages.setValue(list);
             } else {
                 Log.d(TAG, "Error adding message: ", task.getException());
             }
@@ -170,6 +169,9 @@ public class ChatViewModel extends BaseViewModel {
                     switch (dc.getType()) {
                         case ADDED:
                             Log.d(TAG, "New message: " + dc.getDocument().getData());
+                            List<ChatMessage> list = chatMessages.getValue();
+                            list.add(dc.getDocument().toObject(ChatMessage.class));
+                            chatMessages.setValue(list);
                             break;
                         case MODIFIED:
                             Log.d(TAG, "Modified message: " + dc.getDocument().getData());
