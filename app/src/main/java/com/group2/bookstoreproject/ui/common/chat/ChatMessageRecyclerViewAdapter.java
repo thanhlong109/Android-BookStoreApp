@@ -27,7 +27,7 @@ public class ChatMessageRecyclerViewAdapter extends BaseAdapter<ChatMessage,Chat
     }
 
 
-    // dùng này để tự động update ui khi list data trong recycle view thay đổi thì tự động cập nhật ui không cần dùng adapter.notifyDataChange()
+    // dùng này để tối ưu list
     @Override
     protected DiffUtil.ItemCallback<ChatMessage> differCallBack() {
         return new DiffUtil.ItemCallback<ChatMessage>() {

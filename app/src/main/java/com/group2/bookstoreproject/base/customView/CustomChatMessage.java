@@ -31,8 +31,8 @@ public class CustomChatMessage extends ConstraintLayout {
         int avatar = attr.getResourceId(R.styleable.CustomChatMessage_android_src, R.drawable.default_user_avt);
         leftBackGround = attr.getColorStateList(R.styleable.CustomChatMessage_leftBackGroundColor);
         rightBackGround = attr.getColorStateList(R.styleable.CustomChatMessage_rightBackGroundColor);
-        int textLeftColor = attr.getColor(R.styleable.CustomChatMessage_textLeftColor, ContextCompat.getColor(context,R.color.white));
-        int textRightColor = attr.getColor(R.styleable.CustomChatMessage_textRightColor, ContextCompat.getColor(context,R.color.black));
+        int textLeftColor = attr.getColor(R.styleable.CustomChatMessage_textLeftColor, ContextCompat.getColor(context,R.color.black));
+        int textRightColor = attr.getColor(R.styleable.CustomChatMessage_textRightColor, ContextCompat.getColor(context,R.color.white));
         startDirection = attr.getBoolean(R.styleable.CustomChatMessage_startDirection, true);
 
         attr.recycle();
@@ -91,7 +91,7 @@ public class CustomChatMessage extends ConstraintLayout {
             binding.ivMessageLeft.setImageResource(resource);
         } else {
             binding.ivMessageRight.setImageResource(resource);
-            binding.ivMessageLeft.setVisibility(View.GONE);
+            binding.ivMessageRight.setVisibility(View.GONE);
         }
     }
 
