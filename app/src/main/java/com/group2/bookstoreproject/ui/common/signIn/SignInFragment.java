@@ -46,9 +46,9 @@ public class SignInFragment extends BaseFragment<FragmentSignInBinding, SignInVi
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
-        binding.btnClient.setOnClickListener(v -> goToActivity(CustomerActivity.class));
-        binding.btnAdmin.setOnClickListener(v -> goToActivity(AdminActivity.class));
-        binding.btnGoToShip.setOnClickListener(v -> goToActivity(ShipperActivity.class));
-        binding.btnGoSignUp.setOnClickListener(v -> navigateToPage(R.id.action_signInFragment_to_signUpFragment));
+        //binding.btnClient.setOnClickListener(v -> goToActivity(CustomerActivity.class));
+        //binding.btnAdmin.setOnClickListener(v -> goToActivity(AdminActivity.class));
+        //binding.btnGoToShip.setOnClickListener(v -> goToActivity(ShipperActivity.class));
+        //binding.btnGoSignUp.setOnClickListener(v -> navigateToPage(R.id.action_signInFragment_to_signUpFragment));
     }
 }
