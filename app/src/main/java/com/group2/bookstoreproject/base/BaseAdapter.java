@@ -12,6 +12,7 @@ public abstract class BaseAdapter<T, VH extends BaseItemViewHolder<T, ?>> extend
 
     private OnItemClickListener<T> onItemClickListener;
     private SetItemOrderBy<T> setItemOrderBy;
+    private RecyclerView recyclerView;
 
     protected abstract VH onCreateViewHolder(@NonNull LayoutInflater inflater, @NonNull ViewGroup parent, int viewType);
 
@@ -39,11 +40,33 @@ public abstract class BaseAdapter<T, VH extends BaseItemViewHolder<T, ?>> extend
         holder.bind(item);
     }
 
+    @Override
+    public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
+        this.recyclerView = recyclerView;
+    }
+
     public void submitList(List<T> list) {
         if (setItemOrderBy != null) {
             setItemOrderBy.setItemOrder(list);
         }
         differ.submitList(list);
+    }
+
+    public void submitList(List<T> list, boolean autoScrollToNewElement) {
+        if (setItemOrderBy != null) {
+            setItemOrderBy.setItemOrder(list);
+        }
+        if(autoScrollToNewElement){
+            differ.submitList(list, () -> {
+                if (recyclerView != null && getItemCount()>0) {
+                    recyclerView.smoothScrollToPosition(getItemCount() - 1);
+                }
+            });
+        }else{
+            differ.submitList(list);
+        }
+
     }
 
     public void setItemOrderBy(SetItemOrderBy<T> listener) {
