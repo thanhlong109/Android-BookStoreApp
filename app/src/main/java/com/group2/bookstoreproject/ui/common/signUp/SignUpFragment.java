@@ -15,7 +15,6 @@ import com.group2.bookstoreproject.base.BaseFragment;
 import com.group2.bookstoreproject.data.model.User;
 import com.group2.bookstoreproject.data.model.base.Resource;
 import com.group2.bookstoreproject.databinding.FragmentSignUpBinding;
-import com.group2.bookstoreproject.ui.activity.CustomerActivity;
 
 public class SignUpFragment extends BaseFragment<FragmentSignUpBinding, SignUpViewModel> {
 
@@ -39,7 +38,7 @@ public class SignUpFragment extends BaseFragment<FragmentSignUpBinding, SignUpVi
             public void onChanged(Resource<Void> resource) {
                 if (resource != null) {
                     if (resource.getStatus() == Resource.Status.SUCCESS) {
-                        navigateToPage(R.id.action_signUpFragment_to_otpFragment);
+                        // Sign up successful, OTP will be sent
                     } else if (resource.getStatus() == Resource.Status.ERROR) {
                         Toast.makeText(getContext(), resource.getMessage(), Toast.LENGTH_SHORT).show();
                     }
@@ -78,7 +77,7 @@ public class SignUpFragment extends BaseFragment<FragmentSignUpBinding, SignUpVi
                 user.setRole(2);
                 user.setPhone(phone);
                 viewModel.signUp(user);
-                viewModel.sendOtp(phone);
+                viewModel.sendOtp("+84"+phone, getActivity());
             } else {
                 Toast.makeText(getContext(), "Mật khẩu không khớp", Toast.LENGTH_SHORT).show();
             }

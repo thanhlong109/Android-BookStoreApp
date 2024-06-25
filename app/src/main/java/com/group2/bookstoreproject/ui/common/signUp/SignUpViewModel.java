@@ -7,7 +7,6 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.gms.tasks.TaskExecutors;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -64,12 +63,12 @@ public class SignUpViewModel extends BaseViewModel {
                 });
     }
 
-    public void sendOtp(String phoneNumber) {
+    public void sendOtp(String phoneNumber, Activity activity) {
         PhoneAuthProvider.getInstance().verifyPhoneNumber(
                 phoneNumber,
                 60L,
                 TimeUnit.SECONDS,
-                (Activity) TaskExecutors.MAIN_THREAD,
+                activity,
                 new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
                     @Override
                     public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) {

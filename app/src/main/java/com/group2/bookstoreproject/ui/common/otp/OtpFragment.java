@@ -51,9 +51,13 @@ public class OtpFragment extends BaseFragment<FragmentOtpBinding, OtpViewModel> 
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // Get the verification ID from the bundle
-        String verificationId = getArguments().getString("verificationId");
-        viewModel.setVerificationId(verificationId);
+        if (getArguments() != null) {
+            String verificationId = getArguments().getString("verificationId");
+            viewModel.setVerificationId(verificationId);
+        } else {
+            Toast.makeText(getContext(), "Verification ID is missing", Toast.LENGTH_SHORT).show();
+            // Handle the error as needed, possibly navigate back or show an error message
+        }
 
         binding.btnVerifyOtp.setOnClickListener(v -> {
             String otp = binding.txtOtp.getText().toString();

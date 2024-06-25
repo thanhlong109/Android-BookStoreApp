@@ -6,86 +6,48 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
-    android:layout_margin="20dp"
-    android:weightSum="100"
+    android:background="@color/white"
+    android:weightSum="30"
     tools:context=".ui.common.otp.OtpFragment">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_weight="20">
-        <RelativeLayout
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_margin="10dp"
-            android:background="@drawable/circular_bg"
-            android:backgroundTint="@color/error_color">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:textColor="@color/white"
-                android:textSize="18sp"
-                android:text="1"/>
-        </RelativeLayout>
-        <RelativeLayout
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_margin="10dp"
-            android:background="@drawable/circular_bg"
-            android:backgroundTint="@color/error_color">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:textColor="@color/white"
-                android:textSize="18sp"
-                android:text="2"/>
-        </RelativeLayout>
-        <RelativeLayout
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_margin="10dp"
-            android:background="@drawable/circular_bg"
-            android:backgroundTint="@color/error_color">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:textColor="@color/white"
-                android:textSize="18sp"
-                android:text="3"/>
-        </RelativeLayout>
-    </LinearLayout>
-
     <ImageView
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:src="@drawable/otp_icon"
-        app:tint="@color/red_light"
-        android:layout_weight="20"
-        />
+        android:id="@+id/logo"
+        android:layout_width="170dp"
+        android:layout_height="170dp"
+        android:background="@drawable/login_logo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Nhập mã OTP đã được gửi qua số điện thoại của bạn"
-        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="20dp"
+        android:gravity="left"
         android:letterSpacing="0.08"
-        android:textStyle="bold"
-        android:textSize="21dp"
-        android:layout_weight="5"
-        android:gravity="center"/>
+        android:text="Xác thực số điện thoại"
+        android:textSize="26dp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="256dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left"
+        android:layout_marginLeft="28dp"
+        android:gravity="left"
+        android:letterSpacing="0.08"
+        android:text="Chúng tôi đã gửi mã xác thực qua số điện thoại của bạn"
+        android:textSize="13dp"
+        android:textStyle="italic"
+        android:textColor="@color/i_body"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center"
+        android:layout_marginHorizontal="35dp"
         android:layout_weight="5">
 
         <EditText
@@ -95,6 +57,7 @@
             android:hint="OTP"
             android:inputType="number"
             android:maxLength="6"
+            android:textColor="@color/black"
             android:layout_margin="10dp"
             android:background="@drawable/edit_text_rounded_corner"
             android:elevation="5dp"
@@ -111,25 +74,38 @@
         android:orientation="vertical"
         android:layout_weight="10">
         <Button
+            android:id="@+id/btnSignUp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/btn_rounded_corner"
-            android:text="Hoàn thành"
-            android:id="@+id/btnVerifyOtp"/>
-        <ProgressBar
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:indeterminateTint="@color/black"
-            android:layout_gravity="center"
-            android:id="@+id/login_progress_bar"
-            android:visibility="gone"/>
+            android:layout_height="60dp"
+            android:layout_marginHorizontal="40dp"
+            android:backgroundTint="@color/black"
+            android:text="Hoàn thành đăng ký"
+            android:textColor="@color/bg_gray"
+            app:boxBackgroundMode="outline"
+            app:boxCornerRadiusBottomEnd="20dp"
+            app:boxCornerRadiusBottomStart="20dp"
+            app:boxCornerRadiusTopEnd="20dp"
+            app:boxCornerRadiusTopStart="20dp"/>
     </LinearLayout>
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="10"
         android:gravity="center"
-        android:text="Gửi lại mã OTP sau 30s"
-        android:id="@+id/resend_otp_textview"/>
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Không nhận được mã?"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
+            android:text="Gửi lại mã OTP"
+            android:textStyle="bold|italic"
+            android:id="@+id/resend_otp_textview"/>
+    </LinearLayout>
+
+
 </LinearLayout>

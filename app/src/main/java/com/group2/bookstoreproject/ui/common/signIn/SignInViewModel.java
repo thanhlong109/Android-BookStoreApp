@@ -54,11 +54,11 @@ public class SignInViewModel extends BaseViewModel {
                                             if (userTask.isSuccessful() && userTask.getResult() != null) {
                                                 userLiveData.setValue(Resource.success(userTask.getResult()));
                                                 // Log success message
-                                                Log.d("SignInViewModel", "User data fetched successfully for: " + email);
+                                                //Log.d("SignInViewModel", "User data fetched successfully for: " + email);
                                             } else {
                                                 setErrorMessage("Failed to fetch user data.");
                                                 // Log error message
-                                                Log.e("SignInViewModel", "Failed to fetch user data for: " + email);
+                                                //Log.e("SignInViewModel", "Failed to fetch user data for: " + email);
                                             }
                                         }
                                     });
