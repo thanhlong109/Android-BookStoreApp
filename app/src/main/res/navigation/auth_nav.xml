@@ -19,6 +19,7 @@
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
     </fragment>
+
     <fragment
         android:id="@+id/signUpFragment"
         android:name="com.group2.bookstoreproject.ui.common.signUp.SignUpFragment"
@@ -40,6 +41,7 @@
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"/>
     </fragment>
+
     <fragment
         android:id="@+id/otpFragment"
         android:name="com.group2.bookstoreproject.ui.common.otp.OtpFragment"
@@ -53,4 +55,5 @@
             app:popEnterAnim="@anim/slide_in_right"
             app:popExitAnim="@anim/slide_out_left"/>
     </fragment>
+
 </navigation>

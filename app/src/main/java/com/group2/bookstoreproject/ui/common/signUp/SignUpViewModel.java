@@ -1,29 +1,41 @@
 package com.group2.bookstoreproject.ui.common.signUp;
 
+import android.app.Activity;
+
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.PhoneAuthCredential;
+import com.google.firebase.auth.PhoneAuthProvider;
 import com.group2.bookstoreproject.base.BaseViewModel;
 import com.group2.bookstoreproject.data.model.User;
 import com.group2.bookstoreproject.data.model.base.Resource;
 import com.group2.bookstoreproject.data.repository.AuthRepository;
 import com.group2.bookstoreproject.data.repositoryImpl.AuthRepositoryImpl;
 
+import java.util.concurrent.TimeUnit;
+
 public class SignUpViewModel extends BaseViewModel {
     private MutableLiveData<Resource<Void>> signUpResult = new MutableLiveData<>();
+    private MutableLiveData<String> verificationId = new MutableLiveData<>();
     private AuthRepository authRepository = new AuthRepositoryImpl();
+    private FirebaseAuth auth = FirebaseAuth.getInstance();
 
     public MutableLiveData<Resource<Void>> getSignUpResult() {
         return signUpResult;
     }
 
+    public MutableLiveData<String> getVerificationId() {
+        return verificationId;
+    }
+
     public void signUp(User user){
         setLoading(true);
-        FirebaseAuth auth = FirebaseAuth.getInstance();
         auth.createUserWithEmailAndPassword(user.getEmail(), user.getPassword())
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
@@ -49,5 +61,31 @@ public class SignUpViewModel extends BaseViewModel {
                         }
                     }
                 });
+    }
+
+    public void sendOtp(String phoneNumber, Activity activity) {
+        PhoneAuthProvider.getInstance().verifyPhoneNumber(
+                phoneNumber,
+                60L,
+                TimeUnit.SECONDS,
+                activity,
+                new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+                    @Override
+                    public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) {
+                        // This callback will be invoked when the verification is automatically completed
+                        // You can directly sign in with this credential if needed
+                    }
+
+                    @Override
+                    public void onVerificationFailed(@NonNull FirebaseException e) {
+                        setErrorMessage(e.getMessage());
+                    }
+
+                    @Override
+                    public void onCodeSent(@NonNull String verificationId, @NonNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
+                        SignUpViewModel.this.verificationId.setValue(verificationId);
+                    }
+                }
+        );
     }
 }
