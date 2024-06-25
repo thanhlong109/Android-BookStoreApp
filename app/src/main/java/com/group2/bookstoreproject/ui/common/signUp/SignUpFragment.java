@@ -15,7 +15,6 @@ import com.group2.bookstoreproject.base.BaseFragment;
 import com.group2.bookstoreproject.data.model.User;
 import com.group2.bookstoreproject.data.model.base.Resource;
 import com.group2.bookstoreproject.databinding.FragmentSignUpBinding;
-import com.group2.bookstoreproject.ui.activity.AuthActivity;
 import com.group2.bookstoreproject.ui.activity.CustomerActivity;
 
 public class SignUpFragment extends BaseFragment<FragmentSignUpBinding, SignUpViewModel> {
@@ -40,10 +39,23 @@ public class SignUpFragment extends BaseFragment<FragmentSignUpBinding, SignUpVi
             public void onChanged(Resource<Void> resource) {
                 if (resource != null) {
                     if (resource.getStatus() == Resource.Status.SUCCESS) {
-                        goToActivity(CustomerActivity.class, true);
+                        navigateToPage(R.id.action_signUpFragment_to_otpFragment);
                     } else if (resource.getStatus() == Resource.Status.ERROR) {
                         Toast.makeText(getContext(), resource.getMessage(), Toast.LENGTH_SHORT).show();
                     }
+                }
+            }
+        });
+
+        viewModel.getVerificationId().observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(String verificationId) {
+                if (verificationId != null) {
+                    Bundle bundle = new Bundle();
+                    bundle.putString("verificationId", verificationId);
+                    navigateToPage(R.id.action_signUpFragment_to_otpFragment, bundle);
+                } else {
+                    Toast.makeText(getContext(), "Failed to send OTP", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -57,19 +69,21 @@ public class SignUpFragment extends BaseFragment<FragmentSignUpBinding, SignUpVi
             String email = binding.txtEmail.getText().toString();
             String password = binding.txtPassword.getText().toString();
             String confirmPassword = binding.txtPasswordConfirm.getText().toString();
+            String phone = binding.txtPhone.getText().toString();
 
             if (password.equals(confirmPassword)) {
                 User user = new User();
                 user.setEmail(email);
                 user.setPassword(password);
                 user.setRole(2);
+                user.setPhone(phone);
                 viewModel.signUp(user);
+                viewModel.sendOtp(phone);
             } else {
                 Toast.makeText(getContext(), "Mật khẩu không khớp", Toast.LENGTH_SHORT).show();
             }
         });
 
-        binding.btnGoSignIn.setOnClickListener(v -> navigateToPage(R.id.action_signInFragment_to_signUpFragment));
-        binding.btnOtp.setOnClickListener(v -> navigateToPage(R.id.action_signUpFragment_to_otpFragment));
+        binding.btnGoSignIn.setOnClickListener(v -> navigateToPage(R.id.action_signUpFragment_to_signInFragment));
     }
 }

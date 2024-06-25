@@ -48,14 +48,8 @@ public class SignInFragment extends BaseFragment<FragmentSignInBinding, SignInVi
                             sessionManager.saveUser(user);
                             navigateToActivity(user.getRole());
                         } else {
-                            Toast.makeText(getContext(), "User data is null", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), "Thông tin người dùng rỗng", Toast.LENGTH_SHORT).show();
                         }
-                        break;
-                    case ERROR:
-                        Toast.makeText(getContext(), resource.getMessage(), Toast.LENGTH_SHORT).show();
-                        break;
-                    case LOADING:
-                        // Show loading spinner if needed
                         break;
                 }
             }
@@ -72,7 +66,7 @@ public class SignInFragment extends BaseFragment<FragmentSignInBinding, SignInVi
             if (!email.isEmpty() && !password.isEmpty()) {
                 viewModel.signIn(getContext(), email, password);
             } else {
-                Toast.makeText(getContext(), "Please enter email and password", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Hãy điền đầy đủ email và password", Toast.LENGTH_SHORT).show();
             }
         });
 

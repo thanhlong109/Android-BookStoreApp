@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/bg_gray"
     tools:context=".ui.common.signUp.SignUpFragment">
 
     <TextView
@@ -59,10 +60,39 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/txtEmail"
             android:layout_width="match_parent"
+
+            android:layout_height="60dp"
+            android:backgroundTint="@color/white"
+            android:inputType="textEmailAddress"
+            android:gravity="center_vertical"
+            android:hint="Email" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tilPhone"
+        style="@style/Widget.Material3.TextInputLayout.FilledBox.Dense"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:paddingHorizontal="40dp"
+        app:boxBackgroundMode="outline"
+        app:boxCornerRadiusBottomEnd="20dp"
+        app:boxCornerRadiusBottomStart="20dp"
+        app:boxCornerRadiusTopEnd="20dp"
+        app:boxCornerRadiusTopStart="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tilEmail">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/txtPhone"
+            android:layout_width="match_parent"
             android:layout_height="60dp"
             android:backgroundTint="@color/white"
             android:gravity="center_vertical"
-            android:hint="Email" />
+            android:inputType="phone"
+            android:hint="Số điện thoại" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -81,7 +111,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tilEmail">
+        app:layout_constraintTop_toBottomOf="@+id/tilPhone">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/txtPassword"
@@ -136,18 +166,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.731" />
-
-    <Button
-        android:id="@+id/btnOtp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="goToOtp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnSignUp"
-        app:layout_constraintVertical_bias="0.212" />
+        app:layout_constraintVertical_bias="0.879" />
 
     <TextView
         android:id="@+id/textView3"
