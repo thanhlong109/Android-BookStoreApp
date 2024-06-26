@@ -1,5 +1,6 @@
 package com.group2.bookstoreproject.ui.common.signIn;
 
+import android.content.Intent;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -73,19 +74,28 @@ public class SignInFragment extends BaseFragment<FragmentSignInBinding, SignInVi
         binding.btnGoSignUp.setOnClickListener(v -> navigateToPage(R.id.action_signInFragment_to_signUpFragment));
     }
 
+    private void navigateToActivity(Class<?> activityClass) {
+        Intent intent = new Intent(getContext(), activityClass);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        requireActivity().finish(); // This ensures the current activity is finished
+    }
+
+
     private void navigateToActivity(int role) {
         switch (role) {
             case 1: // Admin
-                goToActivity(AdminActivity.class);
+                navigateToActivity(AdminActivity.class);
                 break;
             case 2: // Customer
-                goToActivity(CustomerActivity.class);
+                navigateToActivity(CustomerActivity.class);
                 break;
             case 3: // Shipper
-                goToActivity(ShipperActivity.class);
+                navigateToActivity(ShipperActivity.class);
                 break;
             default:
                 throw new IllegalStateException("Unexpected value: " + role);
         }
     }
+
 }

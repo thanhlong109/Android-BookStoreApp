@@ -38,7 +38,9 @@ public class SignUpFragment extends BaseFragment<FragmentSignUpBinding, SignUpVi
             public void onChanged(Resource<Void> resource) {
                 if (resource != null) {
                     if (resource.getStatus() == Resource.Status.SUCCESS) {
-                        // Sign up successful, OTP will be sent
+                        // Sign up successful, now send OTP
+                        String phone = binding.txtPhone.getText().toString();
+                        viewModel.sendOtp("+84" + phone, getActivity());
                     } else if (resource.getStatus() == Resource.Status.ERROR) {
                         Toast.makeText(getContext(), resource.getMessage(), Toast.LENGTH_SHORT).show();
                     }
@@ -52,6 +54,7 @@ public class SignUpFragment extends BaseFragment<FragmentSignUpBinding, SignUpVi
                 if (verificationId != null) {
                     Bundle bundle = new Bundle();
                     bundle.putString("verificationId", verificationId);
+                    bundle.putString("email", binding.txtEmail.getText().toString());
                     navigateToPage(R.id.action_signUpFragment_to_otpFragment, bundle);
                 } else {
                     Toast.makeText(getContext(), "Failed to send OTP", Toast.LENGTH_SHORT).show();
@@ -59,6 +62,7 @@ public class SignUpFragment extends BaseFragment<FragmentSignUpBinding, SignUpVi
             }
         });
     }
+
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -70,19 +74,26 @@ public class SignUpFragment extends BaseFragment<FragmentSignUpBinding, SignUpVi
             String confirmPassword = binding.txtPasswordConfirm.getText().toString();
             String phone = binding.txtPhone.getText().toString();
 
-            if (password.equals(confirmPassword)) {
+            if (!isValidEmail(email)) {
+                Toast.makeText(getContext(), "Email không hợp lệ", Toast.LENGTH_SHORT).show();
+            } else if (password.length() < 6) {
+                Toast.makeText(getContext(), "Mật khẩu phải có ít nhất 6 ký tự", Toast.LENGTH_SHORT).show();
+            } else if (!password.equals(confirmPassword)) {
+                Toast.makeText(getContext(), "Mật khẩu không khớp", Toast.LENGTH_SHORT).show();
+            } else {
                 User user = new User();
                 user.setEmail(email);
                 user.setPassword(password);
                 user.setRole(2);
                 user.setPhone(phone);
                 viewModel.signUp(user);
-                viewModel.sendOtp("+84"+phone, getActivity());
-            } else {
-                Toast.makeText(getContext(), "Mật khẩu không khớp", Toast.LENGTH_SHORT).show();
             }
         });
 
         binding.btnGoSignIn.setOnClickListener(v -> navigateToPage(R.id.action_signUpFragment_to_signInFragment));
+    }
+
+    private boolean isValidEmail(CharSequence email) {
+        return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
 }

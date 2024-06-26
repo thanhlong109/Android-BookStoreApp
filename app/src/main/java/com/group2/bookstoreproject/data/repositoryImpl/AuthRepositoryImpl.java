@@ -13,6 +13,8 @@ public class AuthRepositoryImpl extends BaseRepositoryImpl<User> implements Auth
 
     private static final String COLLECTION_PATH = "users";
 
+    private FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+
     @Override
     protected String getCollectionPath() {
         return COLLECTION_PATH;
@@ -34,5 +36,19 @@ public class AuthRepositoryImpl extends BaseRepositoryImpl<User> implements Auth
                     }
                 });
         return taskCompletionSource.getTask();
+    }
+
+    @Override
+    public Task<User> getUserByUid(String uid) {
+        return firestore.collection("users")
+                .document(uid)
+                .get()
+                .continueWith(task -> {
+                    if (task.isSuccessful() && task.getResult() != null) {
+                        return task.getResult().toObject(User.class);
+                    } else {
+                        throw task.getException();
+                    }
+                });
     }
 }
