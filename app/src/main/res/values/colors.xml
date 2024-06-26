@@ -3,6 +3,12 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="text_color">#333333</color>
+    <color name="border_color">#FF0000</color>
+    <color name="colorPrimary">#FFA500</color>
+    <color name="colorPrimaryDark">#FF8C00</color>
+    <color name="colorAccent">#FF4500</color>
+    <color name="textColorPrimary">#000000</color>
+    <color name="textColorSecondary">#FFFFFF</color>
 
     <color name="navigation_color">#8D8D8D</color>
     <color name="navigation_bg_color">#FFF</color>
@@ -57,4 +63,10 @@
     <color name="gray_600">#FF757575</color>
 
     <color name="zxing_transparent">#00000000</color>
+
+    <color name="ibg1">#7B50AC</color>
+    <color name="ibg2">#CA436B</color>
+    <color name="green_1">#18A686</color>
+    <color name="green_2">#32A3BF</color>
+    <color name="green_3">#3FC670</color>
 </resources>

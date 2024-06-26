@@ -1,0 +1,48 @@
+<!-- res/layout/custom_search_view.xml -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="48dp"
+    android:orientation="horizontal"
+    android:padding="8dp"
+    android:gravity="center_vertical"
+    android:layout_marginTop="8dp">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:background="@drawable/background_search_view"
+        android:padding="8dp"
+        android:gravity="center_vertical"
+        android:layout_marginEnd="8dp">
+
+        <ImageView
+            android:id="@+id/search_icon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_search" />
+
+        <EditText
+            android:id="@+id/search_src_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="Search title/author"
+            android:background="@android:color/transparent"
+            android:paddingStart="8dp"
+            android:fontFamily="@font/app_font_light_italic"
+            android:paddingEnd="8dp"
+            android:textColor="#000000"
+             />
+    </LinearLayout>
+
+<!--    <ImageView-->
+<!--        android:id="@+id/filter_icon"-->
+<!--        android:layout_width="40dp"-->
+<!--        android:layout_height="40dp"-->
+<!--        android:src="@drawable/ic_filter"-->
+<!--        android:background="@drawable/background_search_view"-->
+<!--        android:padding="8dp"-->
+<!--        android:layout_marginStart="8dp" />-->
+</LinearLayout>
