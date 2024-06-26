@@ -93,7 +93,9 @@ dependencies {
     //navigation
     implementation(libs.navigation.fragment)
     implementation(libs.navigation.ui)
-}
 
+    //implement firebase auth
+    implementation("com.google.firebase:firebase-auth")
+}
 
 

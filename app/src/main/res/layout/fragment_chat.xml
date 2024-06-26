@@ -1,14 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.common.chat.ChatFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" >
+        <RelativeLayout
+            android:id="@+id/rlChatHeader"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:paddingHorizontal="20dp"
+            android:background="@android:color/holo_blue_dark"
+            >
 
-</FrameLayout>
+            <TextView
+                android:id="@+id/tvReceiverName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+               android:textColor="@color/white"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_centerVertical="true"
+                android:text="Tên người nhận"
+                />
+
+        </RelativeLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvChatMessages"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/rlChatHeader"
+            android:layout_above="@+id/llChatFooter"/>
+        <LinearLayout
+            android:id="@+id/llChatFooter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@color/i_blue_light"
+            android:padding="10dp"
+            android:gravity="center_vertical"
+            android:layout_alignParentBottom="true"
+            >
+            <EditText
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:id="@+id/etInput"/>
+            <ImageButton
+                android:padding="10dp"
+                android:id="@+id/ibSend"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_send_24"
+                android:background="@android:color/transparent"/>
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,12 +2,15 @@ package com.group2.bookstoreproject.data.model;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.UUID;
 
 public class ChatRoom implements Serializable {
     private String chatRoomId;
     private boolean chatSeen;
     private long lastActiveTime;
     private List<String> members;
+
+    private String lastMessage;
 
     public ChatRoom() {
     }
@@ -17,6 +20,21 @@ public class ChatRoom implements Serializable {
         this.chatSeen = chatSeen;
         this.lastActiveTime = lastActiveTime;
         this.members = members;
+    }
+
+    public ChatRoom(boolean chatSeen, long lastActiveTime, List<String> members) {
+        this.chatRoomId = UUID.randomUUID().toString();
+        this.chatSeen = chatSeen;
+        this.lastActiveTime = lastActiveTime;
+        this.members = members;
+    }
+
+    public String getLastMessage() {
+        return lastMessage;
+    }
+
+    public void setLastMessage(String lastMessage) {
+        this.lastMessage = lastMessage;
     }
 
     public String getChatRoomId() {
