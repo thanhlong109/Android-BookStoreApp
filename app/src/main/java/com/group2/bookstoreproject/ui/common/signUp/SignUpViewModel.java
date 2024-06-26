@@ -1,6 +1,7 @@
 package com.group2.bookstoreproject.ui.common.signUp;
 
 import android.app.Activity;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
@@ -21,6 +22,7 @@ import com.group2.bookstoreproject.data.repositoryImpl.AuthRepositoryImpl;
 import java.util.concurrent.TimeUnit;
 
 public class SignUpViewModel extends BaseViewModel {
+    private static final String TAG = "SignUpViewModel";
     private MutableLiveData<Resource<Void>> signUpResult = new MutableLiveData<>();
     private MutableLiveData<String> verificationId = new MutableLiveData<>();
     private AuthRepository authRepository = new AuthRepositoryImpl();
