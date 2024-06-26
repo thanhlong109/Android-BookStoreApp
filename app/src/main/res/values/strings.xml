@@ -1,6 +1,16 @@
 <resources>
     <string name="app_name">BookStoreProject</string>
     <string name="default_notify_title">Thông báo</string>
+    <string-array name="category_array">
+
+    </string-array>
+
+    <string-array name="price_filter_array">
+        <item>Price increase</item>
+        <item>Price decrease</item>
+        <item>Sale increase</item>
+        <item>Sale decrease</item>
+    </string-array>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <!-- Strings used for fragments for navigation -->
@@ -8,6 +18,7 @@
     <string name="second_fragment_label">Second Fragment</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
+    <string name="book_cover">Book Cover</string>
     <string name="forgetpassword"><u>Quên mật khẩu?</u> </string>
 
     <string name="lorem_ipsum">

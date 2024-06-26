@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/filter_by_price_increase"
+        android:title="Giá tăng dần"/>
+    <item
+        android:id="@+id/filter_by_price_decrease"
+        android:title="Giá giảm dần"/>
+    <item
+        android:id="@+id/filter_by_sale_increase"
+        android:title="Sale tăng dần"/>
+    <item
+        android:id="@+id/filter_by_sale_decrease"
+        android:title="Sale giảm dần"/>
+</menu>
