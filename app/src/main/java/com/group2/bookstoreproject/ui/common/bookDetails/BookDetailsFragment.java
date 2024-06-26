@@ -4,26 +4,34 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.widget.NestedScrollView;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.group2.bookstoreproject.R;
 import com.group2.bookstoreproject.base.BaseFragment;
 import com.group2.bookstoreproject.data.model.Book;
+import com.group2.bookstoreproject.data.model.CartItem;
+import com.group2.bookstoreproject.data.repository.CartItemRepository;
 import com.group2.bookstoreproject.databinding.FragmentBookDetailsBinding;
 import com.group2.bookstoreproject.databinding.FragmentChatBinding;
 
 import java.util.Random;
+import java.util.UUID;
 
 
 public class BookDetailsFragment extends BaseFragment<FragmentBookDetailsBinding, BookDetailsViewModel> {
     private boolean isHeaderTitleSet = false;
+    private String accountId;
 
     private static final int[] backgroundImages = {
             R.drawable.imgb_background1,
@@ -32,6 +40,7 @@ public class BookDetailsFragment extends BaseFragment<FragmentBookDetailsBinding
             R.drawable.imgb_background4
             // Thêm các tài nguyên hình ảnh khác vào đây nếu cần
     };
+
     @NonNull
     @Override
     protected FragmentBookDetailsBinding inflateBinding(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, boolean attachToParent) {
@@ -54,6 +63,9 @@ public class BookDetailsFragment extends BaseFragment<FragmentBookDetailsBinding
                 displayBookDetails(book);
             }
         }
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
+        accountId = sharedPreferences.getString("accountId", null);
+
         binding.backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -83,9 +95,22 @@ public class BookDetailsFragment extends BaseFragment<FragmentBookDetailsBinding
         binding.backgroundImage.setImageResource(selectedBackground);
         binding.backgroundImage.setAlpha(alpha);
 
+        binding.addToCartButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CartItem item = new CartItem();
+                Book book = (Book) getArguments().getSerializable("book");
+
+                item.setCartItemId(UUID.randomUUID().toString());
+                item.setBookId(book.getBookId());
+                item.setAccountId(accountId);
+                item.setQuantity(1);
+                item.setPrice(book.getPrice());
+                viewModel.addToCart(item);
+                Toast.makeText(getContext(), "Added to cart success", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
-
-
 
     private void updateHeaderTitle() {
         int[] bookTitleLocation = new int[2];
@@ -110,6 +135,7 @@ public class BookDetailsFragment extends BaseFragment<FragmentBookDetailsBinding
             }
         }
     }
+
     private void displayBookDetails(Book book) {
         binding.bookTitle.setText(book.getTitle());
         binding.author.setText(book.getAuthor());

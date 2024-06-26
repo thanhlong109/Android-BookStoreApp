@@ -59,7 +59,7 @@ public class OtpFragment extends BaseFragment<FragmentOtpBinding, OtpViewModel> 
             // Handle the error as needed, possibly navigate back or show an error message
         }
 
-        binding.btnVerifyOtp.setOnClickListener(v -> {
+        binding.btnSignUp.setOnClickListener(v -> {
             String otp = binding.txtOtp.getText().toString();
             viewModel.verifyOtp(otp);
         });

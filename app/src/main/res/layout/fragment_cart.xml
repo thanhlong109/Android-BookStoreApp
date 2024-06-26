@@ -6,10 +6,15 @@
     tools:context=".ui.customer.cart.CartFragment">
 
     <!-- TODO: Update blank fragment layout -->
+    <include
+        android:id="@+id/emptyCartLayout"
+        layout="@layout/fragment_cart_empty"
+        android:visibility="gone" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:id="@+id/mainCartContentLayout"
         android:orientation="vertical"
         android:padding="16dp">
         

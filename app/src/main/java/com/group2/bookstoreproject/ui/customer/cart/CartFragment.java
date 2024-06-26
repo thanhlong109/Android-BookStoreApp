@@ -6,8 +6,11 @@ import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import com.group2.bookstoreproject.base.BaseFragment;
@@ -24,7 +27,7 @@ public class CartFragment extends BaseFragment<FragmentCartBinding, CartViewMode
     @NonNull
     @Override
     protected FragmentCartBinding inflateBinding(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, boolean attachToParent) {
-        return FragmentCartBinding.inflate(inflater, container,attachToParent);
+        return FragmentCartBinding.inflate(inflater, container, attachToParent);
     }
 
     @NonNull
@@ -36,10 +39,15 @@ public class CartFragment extends BaseFragment<FragmentCartBinding, CartViewMode
     @Override
     protected void observeViewModel() {
         super.observeViewModel();
-        viewModel.getCartItems(accountId).observe(getViewLifecycleOwner(), new Observer<List<CartItem>>() {
+        viewModel.getCartItems().observe(getViewLifecycleOwner(), new Observer<List<CartItem>>() {
             @Override
             public void onChanged(List<CartItem> cartItems) {
-                cartItemAdapter.submitList(cartItems);
+                if (cartItems.isEmpty()) {
+                    showEmptyCartLayout();
+                } else {
+
+                    showCartItems(cartItems);
+                }
             }
         });
     }
@@ -47,17 +55,35 @@ public class CartFragment extends BaseFragment<FragmentCartBinding, CartViewMode
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        accountId = getArguments().getString("accountId");
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
+        accountId = sharedPreferences.getString("accountId", null);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        setUpRecyclerView();
+        viewModel.loadCartItems(accountId);
+    }
+
+    private void setUpRecyclerView() {
         RecyclerView recyclerView = binding.recyclerViewCartItems;
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         cartItemAdapter = new CartItemAdapter(viewModel);
         recyclerView.setAdapter(cartItemAdapter);
-
-        observeViewModel();
     }
+
+    private void showEmptyCartLayout() {
+        binding.recyclerViewCartItems.setVisibility(View.GONE);
+        binding.mainCartContentLayout.setVisibility(View.GONE);
+        binding.emptyCartLayout.getRoot().setVisibility(View.VISIBLE);
+    }
+
+    private void showCartItems(List<CartItem> cartItems) {
+        binding.recyclerViewCartItems.setVisibility(View.VISIBLE);
+        binding.mainCartContentLayout.setVisibility(View.VISIBLE);
+        binding.emptyCartLayout.getRoot().setVisibility(View.GONE);
+        cartItemAdapter.submitList(cartItems);
+    }
+
 }

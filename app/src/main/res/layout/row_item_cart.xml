@@ -26,13 +26,13 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/textViewCategory"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Adult Narrative"
-                android:textColor="#757575"
-                android:textSize="12sp" />
+                android:text=""
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="#757575" />
 
             <ImageButton
                 android:id="@+id/buttonRemoveItem"

@@ -16,6 +16,7 @@ public class CartItemAdapter extends BaseAdapter<CartItem, CartItemViewHolder> {
     public CartItemAdapter(CartViewModel viewModel) {
         this.viewModel = viewModel;
     }
+
     @Override
     protected CartItemViewHolder onCreateViewHolder(@NonNull LayoutInflater inflater, @NonNull ViewGroup parent, int viewType) {
         return new CartItemViewHolder(RowItemCartBinding.inflate(inflater, parent, false), viewModel);
