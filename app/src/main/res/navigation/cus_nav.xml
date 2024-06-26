@@ -70,4 +70,13 @@
             android:id="@+id/action_orderDetailsFragment2_to_orderListFragment2"
             app:destination="@id/orderListFragment2" />
     </fragment>
+    <fragment
+        android:id="@+id/navigation_category"
+        android:name="com.group2.bookstoreproject.ui.customer.category.CategoryFragment"
+        android:label="fragment_category"
+        tools:layout="@layout/fragment_category" >
+        <action
+            android:id="@+id/action_navigation_category_to_bookDetailsFragment2"
+            app:destination="@id/bookDetailsFragment2" />
+    </fragment>
 </navigation>
