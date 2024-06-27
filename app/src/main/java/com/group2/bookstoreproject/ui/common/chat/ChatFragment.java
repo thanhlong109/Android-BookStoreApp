@@ -82,9 +82,11 @@ public class ChatFragment extends BaseFragment<FragmentChatBinding,ChatViewModel
     protected void observeViewModel() {
         super.observeViewModel();
         // khi message list thay đổi thì cập nhật lại adapter
+
         viewModel.getChatMessages().observe(getViewLifecycleOwner(), new Observer<List<ChatMessage>>() {
             @Override
             public void onChanged(List<ChatMessage> chatMessages) {
+                Log.d("test",""+chatMessages.size());
                 chatMessageRecyclerViewAdapter.submitList(chatMessages, true);
             }
         });

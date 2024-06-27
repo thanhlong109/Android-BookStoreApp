@@ -57,15 +57,13 @@ public class ChatViewModel extends BaseViewModel {
 
     public ChatViewModel() {
         chatRoomRepository = new ChatRoomRepositoryImpl();
-        chatMessages = new MutableLiveData<>(new ArrayList<>());
+        chatMessages = new MutableLiveData<>();
         currentChatRoom = new MutableLiveData<>();
         if(sessionManager.getLoggedInUser().getRole() == 2){
             sender = sessionManager.getLoggedInUser();
             receiver = sessionManager.getAdmin();
             getMyChatRooms();
         }
-
-
     }
 
     public void addChatRoom() {
@@ -100,11 +98,9 @@ public class ChatViewModel extends BaseViewModel {
                     setLoading(false);
                     return;
                 }
-                for (QueryDocumentSnapshot documentSnapshot : querySnapshot) {
-                    ChatRoom chatRoom = documentSnapshot.toObject(ChatRoom.class);
+                    ChatRoom chatRoom = querySnapshot.getDocuments().get(0).toObject(ChatRoom.class);
                     Log.d(TAG, "ChatRoom ID: " + chatRoom.getChatRoomId());
                     currentChatRoom.setValue(Resource.success(chatRoom));
-                }
                 setLoading(false);
             }else {
                 Log.d(TAG, "Error getting documents: ", task.getException());
@@ -182,28 +178,37 @@ public class ChatViewModel extends BaseViewModel {
     }
 
     public void listenToMessagesInChatRoom(String chatRoomId) {
+        Log.d(TAG, "add message: "+chatRoomId);
         listenToMessagesInChatRoom = chatRoomRepository.listenToMessages(chatRoomId, (querySnapshot, e) -> {
             if (e != null) {
                 Log.d(TAG, "Listen failed.", e);
                 return;
             }
             if (querySnapshot != null) {
-                List<ChatMessage> currentMessages = chatMessages.getValue();
                 for (DocumentChange dc : querySnapshot.getDocumentChanges()) {
                     switch (dc.getType()) {
                         case ADDED:
 
                             ChatMessage newMessage = dc.getDocument().toObject(ChatMessage.class);
-                            boolean exists = false;
-                            for (ChatMessage message : currentMessages) {
-                                if (message.getSendTime() == newMessage.getSendTime()) {
-                                    exists = true;
-                                    break;
+                            if(chatMessages.getValue() == null){
+                                List<ChatMessage> list = new ArrayList<>();
+                                list.add(newMessage);
+                                chatMessages.setValue(list);
+                            }else{
+                                boolean exists = false;
+                                for (ChatMessage message : chatMessages.getValue()) {
+                                    if (message.getSendTime() == newMessage.getSendTime()) {
+                                        exists = true;
+                                        break;
+                                    }
+                                }
+                                if (!exists) {
+                                    List<ChatMessage> list = chatMessages.getValue();
+                                    list.add(newMessage);
+                                    chatMessages.setValue(list);
                                 }
                             }
-                            if (!exists) {
-                                currentMessages.add(newMessage);
-                            }
+
                             break;
                         case MODIFIED:
                             Log.d(TAG, "Modified message: " + dc.getDocument().getData());
