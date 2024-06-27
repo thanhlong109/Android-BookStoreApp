@@ -85,11 +85,12 @@ public class SignUpFragment extends BaseFragment<FragmentSignUpBinding, SignUpVi
                 user.setEmail(email);
                 user.setPassword(password);
                 user.setRole(2);
+                user.setStatus(1);
                 user.setPhone(phone);
+                user.setUserId(email);
                 viewModel.signUp(user);
             }
         });
-
         binding.btnGoSignIn.setOnClickListener(v -> navigateToPage(R.id.action_signUpFragment_to_signInFragment));
     }
 

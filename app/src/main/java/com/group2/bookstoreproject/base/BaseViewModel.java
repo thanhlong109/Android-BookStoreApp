@@ -3,12 +3,13 @@ package com.group2.bookstoreproject.base;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+
+import com.group2.bookstoreproject.data.sharePreference.AppSharePreference;
 import com.group2.bookstoreproject.util.session.SessionManager;
 
 import javax.inject.Inject;
 public abstract class BaseViewModel extends ViewModel {
 
-    @Inject
     protected SessionManager sessionManager;
 
     // LiveData to track loading state
@@ -19,6 +20,7 @@ public abstract class BaseViewModel extends ViewModel {
 
     public BaseViewModel() {
         // Constructor to inject the dependencies if needed
+        sessionManager = SessionManager.getInstance();
     }
 
     // Getter for loading state

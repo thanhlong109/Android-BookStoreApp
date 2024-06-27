@@ -61,6 +61,8 @@ public class SignInFragment extends BaseFragment<FragmentSignInBinding, SignInVi
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        checkAutoLogin();
+
         binding.button.setOnClickListener(v -> {
             String email = binding.txtUsername.getText().toString();
             String password = binding.txtPassword.getText().toString();
@@ -74,13 +76,21 @@ public class SignInFragment extends BaseFragment<FragmentSignInBinding, SignInVi
         binding.btnGoSignUp.setOnClickListener(v -> navigateToPage(R.id.action_signInFragment_to_signUpFragment));
     }
 
+    private void checkAutoLogin() {
+        SessionManager sessionManager = new SessionManager(new AppSharePreference(getContext()));
+        User loggedInUser = sessionManager.getLoggedInUser();
+        if (loggedInUser != null) {
+            // User is already logged in, navigate to the appropriate activity
+            navigateToActivity(loggedInUser.getRole());
+        }
+    }
+
     private void navigateToActivity(Class<?> activityClass) {
         Intent intent = new Intent(getContext(), activityClass);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         requireActivity().finish(); // This ensures the current activity is finished
     }
-
 
     private void navigateToActivity(int role) {
         switch (role) {
@@ -97,5 +107,4 @@ public class SignInFragment extends BaseFragment<FragmentSignInBinding, SignInVi
                 throw new IllegalStateException("Unexpected value: " + role);
         }
     }
-
 }

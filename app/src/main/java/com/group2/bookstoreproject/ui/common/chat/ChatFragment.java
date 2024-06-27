@@ -46,17 +46,9 @@ public class ChatFragment extends BaseFragment<FragmentChatBinding,ChatViewModel
         super.onViewCreated(view, savedInstanceState);
         binding.ibSend.setOnClickListener(v -> onSendMessage());
         setUpDialog();
-        //fake user
-        User user = new User();
-        user.setUserId("thisiSenderId");
-        user.setAvatar("https://firebasestorage.googleapis.com/v0/b/bookstore-832c5.appspot.com/o/mi_quang.jpg?alt=media&token=c23a5a34-8048-4685-9bda-8df2943cb4fa");
-        User receiver = new User();
-        receiver.setUserId("reciverId");
-        receiver.setAvatar("https://firebasestorage.googleapis.com/v0/b/bookstore-832c5.appspot.com/o/tiger.jpg?alt=media&token=630c1c03-e576-4bb6-84cc-85b24081e9db");
-        //setup chat
         RecyclerView recyclerView = binding.rvChatMessages;
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        chatMessageRecyclerViewAdapter = new ChatMessageRecyclerViewAdapter(user, receiver);
+        chatMessageRecyclerViewAdapter = new ChatMessageRecyclerViewAdapter(viewModel.sender, viewModel.receiver);
         recyclerView.setAdapter(chatMessageRecyclerViewAdapter);
     }
 
@@ -90,33 +82,37 @@ public class ChatFragment extends BaseFragment<FragmentChatBinding,ChatViewModel
     protected void observeViewModel() {
         super.observeViewModel();
         // khi message list thay đổi thì cập nhật lại adapter
+
         viewModel.getChatMessages().observe(getViewLifecycleOwner(), new Observer<List<ChatMessage>>() {
             @Override
             public void onChanged(List<ChatMessage> chatMessages) {
+                Log.d("test",""+chatMessages.size());
                 chatMessageRecyclerViewAdapter.submitList(chatMessages, true);
             }
         });
 
         //khi phòng chat thay đổi thì tiến hành xóa listen cũ và request lên firebase lắng nghe messgae trong phòng chat mới
-        viewModel.getCurrentChatRoom().observe(getViewLifecycleOwner(), new Observer<Resource<ChatRoom>>() {
-            @Override
-            public void onChanged(Resource<ChatRoom> chatRoomResource) {
-                switch (chatRoomResource.getStatus()){
-                    case SUCCESS:
-                        viewModel.removeListener();
-                        viewModel.listenToMessagesInChatRoom(chatRoomResource.getData().getChatRoomId());
-                        break;
-                    case ERROR:
-                        startChatDialog.show();
-                        break;
+
+            viewModel.getCurrentChatRoom().observe(getViewLifecycleOwner(), new Observer<Resource<ChatRoom>>() {
+                @Override
+                public void onChanged(Resource<ChatRoom> chatRoomResource) {
+                    switch (chatRoomResource.getStatus()){
+                        case SUCCESS:
+                            viewModel.removeListener();
+                            viewModel.listenToMessagesInChatRoom(chatRoomResource.getData().getChatRoomId());
+                            break;
+                        case ERROR:
+                            startChatDialog.show();
+                            break;
+                    }
                 }
-            }
-        });
+            });
+
     }
 
     @Override // hủy listener cho nhẹ máy
     public void onDestroy() {
         super.onDestroy();
-        //viewModel.removeListener();
+        viewModel.removeListener();
     }
 }
