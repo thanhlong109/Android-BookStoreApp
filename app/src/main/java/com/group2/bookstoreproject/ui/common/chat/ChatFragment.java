@@ -117,6 +117,6 @@ public class ChatFragment extends BaseFragment<FragmentChatBinding,ChatViewModel
     @Override // hủy listener cho nhẹ máy
     public void onDestroy() {
         super.onDestroy();
-        viewModel.removeListener();
+        //viewModel.removeListener();
     }
 }

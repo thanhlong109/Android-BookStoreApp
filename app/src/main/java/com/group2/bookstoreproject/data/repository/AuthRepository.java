@@ -8,4 +8,6 @@ import com.group2.bookstoreproject.data.model.base.Resource;
 
 public interface AuthRepository extends BaseRepository<User> {
     public Task<User> getUserByEmail(String email);
+    public Task<User> getUserByUid(String uid);
+
 }
