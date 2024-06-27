@@ -17,13 +17,19 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.group2.bookstoreproject.base.BaseViewModel;
 import com.group2.bookstoreproject.data.model.ChatMessage;
 import com.group2.bookstoreproject.data.model.ChatRoom;
+import com.group2.bookstoreproject.data.model.User;
 import com.group2.bookstoreproject.data.model.base.Resource;
 import com.group2.bookstoreproject.data.repository.ChatRoomRepository;
 import com.group2.bookstoreproject.data.repositoryImpl.ChatRoomRepositoryImpl;
+import com.group2.bookstoreproject.util.session.SessionManager;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+
+import javax.inject.Inject;
+
+import dagger.hilt.android.lifecycle.HiltViewModel;
 
 public class ChatViewModel extends BaseViewModel {
     public static final String TAG = "Chat view model";
@@ -37,8 +43,8 @@ public class ChatViewModel extends BaseViewModel {
         return chatMessages;
     }
 
-    String senderId = "thisiSenderId";
-    String receiverID2 = "reciverId";
+    User sender;
+    User receiver;
 
     public MutableLiveData<Resource<ChatRoom>> getCurrentChatRoom() {
         return currentChatRoom;
@@ -48,18 +54,25 @@ public class ChatViewModel extends BaseViewModel {
         this.currentChatRoom = currentChatRoom;
     }
 
+
     public ChatViewModel() {
         chatRoomRepository = new ChatRoomRepositoryImpl();
         chatMessages = new MutableLiveData<>(new ArrayList<>());
         currentChatRoom = new MutableLiveData<>();
-       getMyChatRooms();
+        if(sessionManager.getLoggedInUser().getRole() == 2){
+            sender = sessionManager.getLoggedInUser();
+            receiver = sessionManager.getAdmin();
+            getMyChatRooms();
+        }
+
+
     }
 
     public void addChatRoom() {
         setLoading(true);
         List<String> memeberList = new ArrayList<>();
-        memeberList.add(senderId);
-        memeberList.add(receiverID2);
+        memeberList.add(sender.getUserId());
+        memeberList.add(receiver.getUserId());
         String roomId = UUID.randomUUID().toString();
         ChatRoom cr = new ChatRoom(roomId,false,System.currentTimeMillis(),memeberList);
 
@@ -78,7 +91,7 @@ public class ChatViewModel extends BaseViewModel {
 
     private void getMyChatRooms(){
         setLoading(true);
-        chatRoomRepository.getChatRoomsByMember(senderId,task -> {
+        chatRoomRepository.getChatRoomsByMember(sender.getUserId(),task -> {
             if(task.isSuccessful()){
                 QuerySnapshot querySnapshot = task.getResult();
                 if(querySnapshot.size()==0){
@@ -154,8 +167,8 @@ public class ChatViewModel extends BaseViewModel {
         message.setMessageContent(text);
         message.setChatRoomId(chatRoomId);
         message.setSeen(false);
-        message.setSenderId(senderId);
-        message.setReceiverId(receiverID2);
+        message.setSenderId(sender.getUserId());
+        message.setReceiverId(receiver.getUserId());
 
         chatRoomRepository.addMessageToChatRoom(chatRoomId, message, task -> {
             if (task.isSuccessful()) {
@@ -175,13 +188,22 @@ public class ChatViewModel extends BaseViewModel {
                 return;
             }
             if (querySnapshot != null) {
+                List<ChatMessage> currentMessages = chatMessages.getValue();
                 for (DocumentChange dc : querySnapshot.getDocumentChanges()) {
                     switch (dc.getType()) {
                         case ADDED:
-                            Log.d(TAG, "New message: " + dc.getDocument().getData());
-                            List<ChatMessage> list = chatMessages.getValue();
-                            list.add(dc.getDocument().toObject(ChatMessage.class));
-                            chatMessages.setValue(list);
+
+                            ChatMessage newMessage = dc.getDocument().toObject(ChatMessage.class);
+                            boolean exists = false;
+                            for (ChatMessage message : currentMessages) {
+                                if (message.getSendTime() == newMessage.getSendTime()) {
+                                    exists = true;
+                                    break;
+                                }
+                            }
+                            if (!exists) {
+                                currentMessages.add(newMessage);
+                            }
                             break;
                         case MODIFIED:
                             Log.d(TAG, "Modified message: " + dc.getDocument().getData());
