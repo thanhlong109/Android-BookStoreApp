@@ -1,5 +1,7 @@
 package com.group2.bookstoreproject.data.repositoryImpl;
 
+import android.util.Log;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.TaskCompletionSource;
@@ -41,6 +43,7 @@ public class ProfileRepositoryImpl extends BaseRepositoryImpl<User> implements P
     public Task<User> updateUser(User user) {
         TaskCompletionSource<User> taskCompletionSource = new TaskCompletionSource<>();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
+        Log.d("userUD", user+"");
         db.collection(COLLECTION_PATH)
                 .document(user.getUserId())
                 .set(user)

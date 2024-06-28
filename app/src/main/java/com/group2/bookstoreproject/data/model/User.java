@@ -36,7 +36,8 @@ public class User implements Serializable {
         this.deviceToken = deviceToken;
     }
 
-    public User(String fullName, long dateOfBirth) {
+    public User(String userId, String fullName, long dateOfBirth) {
+        this.userId = userId;
         this.fullName = fullName;
         this.dateOfBirth = dateOfBirth;
     }

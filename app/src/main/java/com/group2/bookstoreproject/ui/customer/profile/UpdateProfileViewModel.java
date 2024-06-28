@@ -1,11 +1,11 @@
 package com.group2.bookstoreproject.ui.customer.profile;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.group2.bookstoreproject.base.BaseViewModel;
 import com.group2.bookstoreproject.data.model.User;
 import com.group2.bookstoreproject.data.repository.ProfileRepository;
@@ -13,9 +13,9 @@ import com.group2.bookstoreproject.data.repositoryImpl.ProfileRepositoryImpl;
 
 public class UpdateProfileViewModel extends BaseViewModel {
 
-    private ProfileRepository profileRepository;
-    private MutableLiveData<User> userLiveData = new MutableLiveData<>();
-    private MutableLiveData<String> errorLiveData = new MutableLiveData<>();
+    private final ProfileRepository profileRepository;
+    private final MutableLiveData<User> userLiveData = new MutableLiveData<>();
+    private final MutableLiveData<String> errorLiveData = new MutableLiveData<>();
 
     public UpdateProfileViewModel() {
         this.profileRepository = new ProfileRepositoryImpl();
@@ -30,20 +30,22 @@ public class UpdateProfileViewModel extends BaseViewModel {
     }
 
     public void updateUserProfile(String fullName, long birthdate) {
-        // Construct or update User object
-        User user = new User(fullName, birthdate); // Assuming other fields like email are not updated here
+        User currentUser = userLiveData.getValue();
+        if (currentUser != null) {
+            User updatedUser = new User(currentUser.getUserId(), fullName, birthdate);
+            Log.d("User", "Updating profile for: " + updatedUser.getFullName());
 
-        profileRepository.upsert(user.getUserId(), user, new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
+            profileRepository.updateUser(updatedUser).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
-                    userLiveData.setValue(user); // Update LiveData with the new user data
+                    userLiveData.setValue(updatedUser);
                 } else {
                     errorLiveData.setValue(task.getException().getMessage());
                 }
-                setLoading(false); // Optional: Update loading state
-            }
-        });
+                setLoading(false);
+            });
+        } else {
+            Log.e("UpdateProfileViewModel", "Current user is null");
+            errorLiveData.setValue("User data is not available");
+        }
     }
 }
-

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,7 +23,10 @@ import com.group2.bookstoreproject.databinding.FragmentProfileBinding;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.group2.bookstoreproject.util.DateUtils;
+
 import java.io.ByteArrayOutputStream;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -62,9 +66,8 @@ public class ProfileFragment extends BaseFragment<FragmentProfileBinding, Profil
                     binding.tvEmail.setText(user.getEmail());
                     binding.tvPhone.setText(user.getPhone());
 
-                    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-                    String birthDateString = sdf.format(new Date(user.getDateOfBirth()));
-                    binding.tvBirthdate.setText(birthDateString);
+
+                    binding.tvBirthdate.setText(DateUtils.formatDate(user.getDateOfBirth(), "dd/MM/yyyy"));
 
                     // Load user avatar image if available
                     if (user.getAvatar() != null) {
@@ -101,12 +104,26 @@ public class ProfileFragment extends BaseFragment<FragmentProfileBinding, Profil
     }
 
     private void openUpdateProfileFragment() {
-        FragmentManager fragmentManager = getParentFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, new UpdateProfileFragment())
-                .addToBackStack(null)  // Nếu bạn muốn quay lại fragment trước đó khi nhấn nút Back
-                .commit();
+        User currentUser = viewModel.getUserLiveData().getValue(); // Get current user
+        if (currentUser != null) {
+            FragmentManager fragmentManager = getParentFragmentManager();
+            UpdateProfileFragment fragment = new UpdateProfileFragment();
+
+            // Pass user data to UpdateProfileFragment using Bundle
+            Bundle args = new Bundle();
+            args.putSerializable("UserUD", currentUser);
+            fragment.setArguments(args);
+
+            fragmentManager.beginTransaction()
+                    .replace(R.id.fragment_container, fragment)
+                    .addToBackStack(null)
+                    .commit();
+        } else {
+            Log.e(TAG, "Current user is null");
+        }
     }
+
+
 
 
     @Override
