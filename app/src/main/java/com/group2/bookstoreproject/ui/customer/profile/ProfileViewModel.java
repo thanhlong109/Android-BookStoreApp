@@ -13,8 +13,8 @@ import com.group2.bookstoreproject.data.model.base.Resource;
 import com.group2.bookstoreproject.data.repository.ProfileRepository;
 import com.group2.bookstoreproject.data.repositoryImpl.ProfileRepositoryImpl;
 import com.group2.bookstoreproject.util.session.SessionManager;
-
 public class ProfileViewModel extends BaseViewModel {
+
     private final ProfileRepository profileRepository;
     private final MutableLiveData<User> userLiveData = new MutableLiveData<>();
     private final MutableLiveData<String> errorLiveData = new MutableLiveData<>();
@@ -50,21 +50,23 @@ public class ProfileViewModel extends BaseViewModel {
         }
     }
 
+    public void updateUserProfile(User updatedUser) {
+        profileRepository.updateUser(updatedUser).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                userLiveData.setValue(updatedUser); // Update LiveData with the new user data
+            } else {
+                errorLiveData.setValue(task.getException().getMessage());
+            }
+            setLoading(false); // Optional: Update loading state
+        });
+    }
+
     public void updateUserAvatar(String imageUrl) {
-        User user = userLiveData.getValue();
-        if (user != null) {
-            user.setAvatar(imageUrl);
-            profileRepository.upsert(user.getUserId(), user, new OnCompleteListener<Void>() {
-                @Override
-                public void onComplete(@NonNull Task<Void> task) {
-                    if(task.isSuccessful()){
-                        userLiveData.setValue(user);
-                    }else{
-                        setErrorMessage(task.getException().getMessage());
-                    }
-                    setLoading(false);
-                }
-            });
+        User currentUser = userLiveData.getValue();
+        if (currentUser != null) {
+            currentUser.setAvatar(imageUrl);
+            updateUserProfile(currentUser);
         }
     }
 }
+

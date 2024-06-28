@@ -40,7 +40,6 @@ public class UpdateProfileFragment extends BaseFragment<FragmentUpdateProfileBin
         if (args != null && args.containsKey("UserUD")) {
             User user = (User) args.getSerializable("UserUD");
             if (user != null) {
-                // Populate UI fields with user data
                 binding.etUsername.setText(user.getFullName());
                 binding.etBirthdate.setText(DateUtils.formatDate(user.getDateOfBirth(), "dd/MM/yyyy"));
             }
@@ -49,26 +48,28 @@ public class UpdateProfileFragment extends BaseFragment<FragmentUpdateProfileBin
         binding.etBirthdate.setOnClickListener(v -> showDatePickerDialog());
 
         binding.btnUpdate.setOnClickListener(v -> {
-            // Get updated values from UI
             String fullName = binding.etUsername.getText().toString().trim();
             String birthdateString = binding.etBirthdate.getText().toString().trim();
-            Log.d("date",birthdateString);
+            User user = (User) args.getSerializable("UserUD");
+
             if (!birthdateString.isEmpty()) {
-                long birthdate = 0;
                 try {
-                    birthdate = DateUtils.parseDateWithDefaultTime(birthdateString, "dd/MM/yyyy");
-                } catch (ParseException e) {
-                    throw new RuntimeException(e);
+                    long birthdate = DateUtils.parseDateWithDefaultTime(birthdateString, "dd/MM/yyyy");
+                    viewModel.updateUserProfile(user.getUserId(), fullName, birthdate);
+                    getParentFragmentManager().popBackStack();
+                } catch (Exception e) {
+                    Toast.makeText(getContext(), "Invalid date format", Toast.LENGTH_SHORT).show();
                 }
-                User user = (User) args.getSerializable("UserUD");
-                viewModel.updateUserProfile(fullName, birthdate);
-
-
             } else {
-                Toast.makeText(getContext(), "Birthdate cannot be empty", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Please enter a birthdate", Toast.LENGTH_SHORT).show();
             }
         });
+
+        binding.btnCancel.setOnClickListener(v -> {
+            getParentFragmentManager().popBackStack();
+        });
     }
+
 
     private void showDatePickerDialog() {
         final Calendar calendar = Calendar.getInstance();
@@ -86,4 +87,6 @@ public class UpdateProfileFragment extends BaseFragment<FragmentUpdateProfileBin
         );
         datePickerDialog.show();
     }
+
+
 }

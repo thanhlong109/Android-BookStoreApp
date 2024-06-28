@@ -12,6 +12,9 @@ import com.group2.bookstoreproject.data.model.User;
 import com.group2.bookstoreproject.data.repository.ProfileRepository;
 import com.group2.bookstoreproject.data.repositoryImpl.BaseRepositoryImpl;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class ProfileRepositoryImpl extends BaseRepositoryImpl<User> implements ProfileRepository {
     private static final String COLLECTION_PATH = "users";
 
@@ -43,10 +46,15 @@ public class ProfileRepositoryImpl extends BaseRepositoryImpl<User> implements P
     public Task<User> updateUser(User user) {
         TaskCompletionSource<User> taskCompletionSource = new TaskCompletionSource<>();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        Log.d("userUD", user+"");
+
+        // Create a map of fields to update
+        Map<String, Object> updates = new HashMap<>();
+        updates.put("fullName", user.getFullName());
+        updates.put("dateOfBirth", user.getDateOfBirth());
+
         db.collection(COLLECTION_PATH)
                 .document(user.getUserId())
-                .set(user)
+                .update(updates)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         taskCompletionSource.setResult(null);
@@ -54,6 +62,10 @@ public class ProfileRepositoryImpl extends BaseRepositoryImpl<User> implements P
                         taskCompletionSource.setException(task.getException());
                     }
                 });
+
         return taskCompletionSource.getTask();
     }
+
+
+
 }

@@ -4,17 +4,17 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Observer;
-import androidx.fragment.app.FragmentTransaction;
+
 import com.bumptech.glide.Glide;
 import com.group2.bookstoreproject.R;
 import com.group2.bookstoreproject.base.BaseFragment;
@@ -24,12 +24,9 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.group2.bookstoreproject.util.DateUtils;
+import com.group2.bookstoreproject.util.session.SessionManager;
 
 import java.io.ByteArrayOutputStream;
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -65,8 +62,6 @@ public class ProfileFragment extends BaseFragment<FragmentProfileBinding, Profil
                     binding.tvFullName.setText(user.getFullName());
                     binding.tvEmail.setText(user.getEmail());
                     binding.tvPhone.setText(user.getPhone());
-
-
                     binding.tvBirthdate.setText(DateUtils.formatDate(user.getDateOfBirth(), "dd/MM/yyyy"));
 
                     // Load user avatar image if available
@@ -84,7 +79,10 @@ public class ProfileFragment extends BaseFragment<FragmentProfileBinding, Profil
         viewModel.getErrorLiveData().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(String error) {
-                hideLoading();
+                hideLoading(); // Hide loading on error
+                if (error != null) {
+                    Log.e(TAG, error);
+                }
             }
         });
 
@@ -122,9 +120,6 @@ public class ProfileFragment extends BaseFragment<FragmentProfileBinding, Profil
             Log.e(TAG, "Current user is null");
         }
     }
-
-
-
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {

@@ -29,15 +29,14 @@ public class UpdateProfileViewModel extends BaseViewModel {
         return errorLiveData;
     }
 
-    public void updateUserProfile(String fullName, long birthdate) {
-        User currentUser = userLiveData.getValue();
-        if (currentUser != null) {
-            User updatedUser = new User(currentUser.getUserId(), fullName, birthdate);
+    public void updateUserProfile(String userId, String fullName, long birthdate) {
+        if (userId != null) {
+            User updatedUser = new User(userId, fullName, birthdate);
             Log.d("User", "Updating profile for: " + updatedUser.getFullName());
 
             profileRepository.updateUser(updatedUser).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
-                    userLiveData.setValue(updatedUser);
+                    userLiveData.setValue(updatedUser); // Update LiveData with the new user data
                 } else {
                     errorLiveData.setValue(task.getException().getMessage());
                 }
@@ -48,4 +47,5 @@ public class UpdateProfileViewModel extends BaseViewModel {
             errorLiveData.setValue("User data is not available");
         }
     }
+
 }
