@@ -21,7 +21,7 @@ public class AdminActivity extends BaseActivity<ActivityAdminBinding> {
 
     @Override
     protected void setUpUI() {
-        NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment_activity_cus);
+        NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment_activity_admin);
         if (navHostFragment != null) {
             NavController navController = navHostFragment.getNavController();
             NavigationUI.setupWithNavController(binding.adminBottomNavigation, navController);
