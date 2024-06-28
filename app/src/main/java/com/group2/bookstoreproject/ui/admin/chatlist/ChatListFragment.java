@@ -58,6 +58,11 @@ public class ChatListFragment extends BaseFragment<FragmentChatListBinding, Chat
 
         //chat list
         chatListRecyclerViewAdapter = new ChatListRecyclerViewAdapter();
+        chatListRecyclerViewAdapter.setItemOnClickListener(chatItem -> {
+            Bundle bundle =  new Bundle();
+            bundle.putSerializable("ChatRoomData",chatItem);
+            navigateToPage(R.id.action_chatListFragment_to_chatFragment,bundle);
+        });
         binding.rvChatList.setAdapter(chatListRecyclerViewAdapter);
         binding.rvChatList.setLayoutManager(new LinearLayoutManager(getContext()));
     }

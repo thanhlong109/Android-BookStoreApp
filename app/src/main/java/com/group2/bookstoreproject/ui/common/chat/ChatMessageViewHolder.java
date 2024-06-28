@@ -16,11 +16,13 @@ import com.group2.bookstoreproject.databinding.RowItemChatMessageBinding;
 public class ChatMessageViewHolder extends BaseItemViewHolder<ChatMessage, RowItemChatMessageBinding> {
     private User currentUser;
     private User receiverUser;
+    private ChatMessageRecyclerViewAdapter.OnItemDisplayListener onItemDisplayListener;
 
-    public ChatMessageViewHolder(@NonNull RowItemChatMessageBinding binding, User currentUser, User receiverUser) {
+    public ChatMessageViewHolder(@NonNull RowItemChatMessageBinding binding, User currentUser, User receiverUser, ChatMessageRecyclerViewAdapter.OnItemDisplayListener onItemDisplayListener) {
         super(binding);
         this.currentUser = currentUser;
         this.receiverUser = receiverUser;
+        this.onItemDisplayListener = onItemDisplayListener;
     }
 
     @Override
