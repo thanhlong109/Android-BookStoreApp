@@ -14,16 +14,18 @@ import com.group2.bookstoreproject.databinding.RowItemChatMessageBinding;
 public class ChatMessageRecyclerViewAdapter extends BaseAdapter<ChatMessage,ChatMessageViewHolder> {
     private User currentUser;
     private User receiverUser;
+    private OnItemDisplayListener onItemDisplayListener;
 
-    public ChatMessageRecyclerViewAdapter(User currentUser, User receiverUser) {
+    public ChatMessageRecyclerViewAdapter(User currentUser, User receiverUser, OnItemDisplayListener onItemDisplayListener) {
         this.currentUser = currentUser;
         this.receiverUser = receiverUser;
+        this.onItemDisplayListener = onItemDisplayListener;
     }
 
     // khởi tạo binding cho ChatMessageViewHolder
     @Override
     protected ChatMessageViewHolder onCreateViewHolder(@NonNull LayoutInflater inflater, @NonNull ViewGroup parent, int viewType) {
-        return new ChatMessageViewHolder(RowItemChatMessageBinding.inflate(LayoutInflater.from(parent.getContext()),parent,false), currentUser,receiverUser);
+        return new ChatMessageViewHolder(RowItemChatMessageBinding.inflate(LayoutInflater.from(parent.getContext()),parent,false), currentUser,receiverUser, onItemDisplayListener);
     }
 
 
@@ -42,5 +44,8 @@ public class ChatMessageRecyclerViewAdapter extends BaseAdapter<ChatMessage,Chat
                 return oldItem.equals(newItem);
             }
         };
+    }
+    public interface OnItemDisplayListener {
+        void OnItemDisplay(ChatMessage message);
     }
 }

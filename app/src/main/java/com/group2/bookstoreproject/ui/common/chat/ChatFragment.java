@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import com.group2.bookstoreproject.base.BaseDialog;
 import com.group2.bookstoreproject.base.BaseFragment;
+import com.group2.bookstoreproject.data.model.ChatListItem;
 import com.group2.bookstoreproject.data.model.ChatMessage;
 import com.group2.bookstoreproject.data.model.ChatRoom;
 import com.group2.bookstoreproject.data.model.User;
@@ -44,12 +45,23 @@ public class ChatFragment extends BaseFragment<FragmentChatBinding,ChatViewModel
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        Bundle bundle =  getArguments();
+        if(bundle !=null && bundle.containsKey("ChatRoomData")){
+            Log.d("test", "have data");
+            ChatListItem chatListItem = (ChatListItem) bundle.getSerializable("ChatRoomData");
+            viewModel.setReceiver(chatListItem.getPartner());
+            viewModel.setCurrentChatRoom(chatListItem.getChatRoom());
+        }
         binding.ibSend.setOnClickListener(v -> onSendMessage());
         setUpDialog();
         RecyclerView recyclerView = binding.rvChatMessages;
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        chatMessageRecyclerViewAdapter = new ChatMessageRecyclerViewAdapter(viewModel.sender, viewModel.receiver);
+        chatMessageRecyclerViewAdapter = new ChatMessageRecyclerViewAdapter(viewModel.sender, viewModel.receiver, (message) -> {
+           viewModel.setSeen(message);
+        });
         recyclerView.setAdapter(chatMessageRecyclerViewAdapter);
+
+
     }
 
     private void setUpDialog () {
@@ -81,7 +93,7 @@ public class ChatFragment extends BaseFragment<FragmentChatBinding,ChatViewModel
     @Override//lắng nghe
     protected void observeViewModel() {
         super.observeViewModel();
-        // khi message list thay đổi thì cập nhật lại adapter
+
 
         viewModel.getChatMessages().observe(getViewLifecycleOwner(), new Observer<List<ChatMessage>>() {
             @Override

@@ -4,10 +4,13 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.TaskCompletionSource;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.group2.bookstoreproject.data.model.User;
 import com.group2.bookstoreproject.data.repository.AuthRepository;
+
+import java.util.List;
 
 public class AuthRepositoryImpl extends BaseRepositoryImpl<User> implements AuthRepository {
 
@@ -50,5 +53,12 @@ public class AuthRepositoryImpl extends BaseRepositoryImpl<User> implements Auth
                         throw task.getException();
                     }
                 });
+    }
+
+    @Override
+    public void loadUserDetails(List<String> userIds,OnCompleteListener<DocumentSnapshot> onCompleteListener) {
+        for(String userId : userIds){
+            getById(userId, onCompleteListener);
+        }
     }
 }
