@@ -1,5 +1,7 @@
 package com.group2.bookstoreproject.data.model;
 
+import androidx.annotation.Nullable;
+
 import java.io.Serializable;
 
 public class User implements Serializable {
@@ -36,6 +38,16 @@ public class User implements Serializable {
 
     public String getUserId() {
         return userId;
+    }
+
+    @Override
+    public boolean equals(@Nullable Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        User that = (User) obj;
+        return userId == that.getUserId() && userName == that.userName && password == that.password && email == that.getEmail() && fullName == that.getFullName() &&
+                dateOfBirth == that.getDateOfBirth() && phone == that.getPhone() && avatar == that.getAvatar() && role == that.getRole() && joinedAt == that.joinedAt
+                && status == that.status && deviceToken == that.deviceToken;
     }
 
     public void setUserId(String userId) {

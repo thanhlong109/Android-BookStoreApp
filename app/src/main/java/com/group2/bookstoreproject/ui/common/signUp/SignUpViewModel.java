@@ -44,7 +44,7 @@ public class SignUpViewModel extends BaseViewModel {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // User successfully created with Firebase Authentication
-                            user.setUserId(auth.getCurrentUser().getUid()); // Setting Firebase user ID
+                            //user.setUserId(auth.getCurrentUser().getUid()); // Setting Firebase user ID
                             // Now save the user data to Firestore
                             authRepository.upsert(user.getEmail(), user, new OnCompleteListener<Void>() {
                                 @Override
