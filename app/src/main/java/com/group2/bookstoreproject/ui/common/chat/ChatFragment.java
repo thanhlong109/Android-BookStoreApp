@@ -46,7 +46,7 @@ public class ChatFragment extends BaseFragment<FragmentChatBinding,ChatViewModel
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Bundle bundle =  getArguments();
-        if(bundle.containsKey("ChatRoomData")){
+        if(bundle !=null && bundle.containsKey("ChatRoomData")){
             Log.d("test", "have data");
             ChatListItem chatListItem = (ChatListItem) bundle.getSerializable("ChatRoomData");
             viewModel.setReceiver(chatListItem.getPartner());

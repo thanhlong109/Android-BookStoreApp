@@ -47,12 +47,11 @@ public class ChatListViewModel extends BaseViewModel {
             if (querySnapshot!=null){
                 for (DocumentChange dc : querySnapshot.getDocumentChanges()){
                     switch (dc.getType()){
-                        case ADDED:
+                        case ADDED:{
                             ChatRoom chatRoom = dc.getDocument().toObject(ChatRoom.class);
                             Log.d(TAG, "New chat room: " + chatRoom);
                             for(String id : chatRoom.getMembers()){
                                 if(!id.equals(admin.getUserId())){
-
                                     authRepository.getById(id, task -> {
                                         if(task.isComplete()){
                                             User user = task.getResult().toObject(User.class);
@@ -65,9 +64,26 @@ public class ChatListViewModel extends BaseViewModel {
                                 }
                             }
                             break;
-                        case MODIFIED:
-                            Log.d(TAG, "Modified chat room: " + dc.getDocument().getData());
+                        }
+
+                        case MODIFIED:{
+                            ChatRoom chatRoom = dc.getDocument().toObject(ChatRoom.class);
+                            Log.d(TAG, "update chat room: " + chatRoom);
+                            for(String id : chatRoom.getMembers()){
+                                if(!id.equals(admin.getUserId())){
+                                    authRepository.getById(id, task -> {
+                                        if(task.isComplete()){
+                                            User user = task.getResult().toObject(User.class);
+                                            List<ChatListItem> list = chatRooms.getValue();
+                                            list.set(list.size()-1, new ChatListItem(user,chatRoom));
+                                            chatRooms.setValue(list);
+                                            Log.d(TAG, "New chat item: " +id);
+                                        }
+                                    });
+                                }
+                            }
                             break;
+                        }
                     }
                 }
             }else{

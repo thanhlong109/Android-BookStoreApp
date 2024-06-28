@@ -31,7 +31,7 @@ public class ChatMessageViewHolder extends BaseItemViewHolder<ChatMessage, RowIt
         chatMessage.refreshContent();
         chatMessage.setContent(item.getMessageContent());
 
-        if(item.getSenderId().equals(currentUser.getUserId())){
+        if(!item.getReceiverId().equals(currentUser.getUserId())){
             chatMessage.setStartDirection(false);
         }else{
             chatMessage.setStartDirection(true);
