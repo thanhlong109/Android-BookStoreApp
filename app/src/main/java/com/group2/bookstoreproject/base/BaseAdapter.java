@@ -50,7 +50,7 @@ public abstract class BaseAdapter<T, VH extends BaseItemViewHolder<T, ?>> extend
         if (setItemOrderBy != null) {
             setItemOrderBy.setItemOrder(list);
         }
-//        differ.submitList(list);
+        differ.submitList(list);
         notifyDataSetChanged();
     }
 
