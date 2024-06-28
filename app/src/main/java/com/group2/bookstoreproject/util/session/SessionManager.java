@@ -55,8 +55,8 @@ public class SessionManager {
         if(AdminInstance == null){
             AdminInstance = new User();
             AdminInstance.setAvatar("");
-            AdminInstance.setEmail("admin1@gmail.com");
-            AdminInstance.setUserId("admin1@gmail.com");
+            AdminInstance.setEmail("admin@gmail.com");
+            AdminInstance.setUserId("admin@gmail.com");
         }
         return AdminInstance;
     }

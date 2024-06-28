@@ -31,6 +31,11 @@ public class ChatListViewModel extends BaseViewModel {
        chatRoomRepository = new ChatRoomRepositoryImpl();
        authRepository = new AuthRepositoryImpl();
        admin = sessionManager.getAdmin();
+        loadChatRooms();
+    }
+
+    public MutableLiveData<List<ChatListItem>> getChatRooms() {
+        return chatRooms;
     }
 
     private  void loadChatRooms(){
@@ -46,14 +51,15 @@ public class ChatListViewModel extends BaseViewModel {
                             ChatRoom chatRoom = dc.getDocument().toObject(ChatRoom.class);
                             Log.d(TAG, "New chat room: " + chatRoom);
                             for(String id : chatRoom.getMembers()){
-                                if(id!= admin.getUserId()){
+                                if(!id.equals(admin.getUserId())){
+
                                     authRepository.getById(id, task -> {
                                         if(task.isComplete()){
                                             User user = task.getResult().toObject(User.class);
                                             List<ChatListItem> list = chatRooms.getValue();
                                             list.add(new ChatListItem(user,chatRoom));
                                             chatRooms.setValue(list);
-                                            Log.d(TAG, "New chat item: " +user);
+                                            Log.d(TAG, "New chat item: " +id);
                                         }
                                     });
                                 }
