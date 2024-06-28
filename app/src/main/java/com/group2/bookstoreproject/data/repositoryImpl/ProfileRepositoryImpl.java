@@ -36,4 +36,21 @@ public class ProfileRepositoryImpl extends BaseRepositoryImpl<User> implements P
                 });
         return taskCompletionSource.getTask();
     }
+
+    @Override
+    public Task<User> updateUser(User user) {
+        TaskCompletionSource<User> taskCompletionSource = new TaskCompletionSource<>();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection(COLLECTION_PATH)
+                .document(user.getUserId())
+                .set(user)
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        taskCompletionSource.setResult(null);
+                    } else {
+                        taskCompletionSource.setException(task.getException());
+                    }
+                });
+        return taskCompletionSource.getTask();
+    }
 }

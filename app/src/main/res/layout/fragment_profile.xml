@@ -19,6 +19,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
+            android:id="@+id/img_Setting"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_margin="10dp"
@@ -26,17 +27,18 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/imgAvatar"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:layout_marginTop="40dp"
-            android:src="@drawable/default_user_avt"
-            app:civ_border_color="@color/i_stroke"
-            app:civ_border_width="1dp"
+            android:layout_width="170dp"
+            android:layout_height="170dp"
+            android:src="@drawable/ic_account_circle_24px"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.625"
+            tools:src="@tools:sample/avatars" />
 
         <FrameLayout
             android:id="@+id/frameAddAvatar"
@@ -57,6 +59,8 @@
                 android:layout_gravity="center"
                 android:src="@drawable/ic_add_avatar" />
         </FrameLayout>
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
@@ -201,4 +205,8 @@
             app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+    <FrameLayout
+        android:id="@+id/fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

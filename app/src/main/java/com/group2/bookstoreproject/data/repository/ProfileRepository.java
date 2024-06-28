@@ -9,4 +9,5 @@ import com.group2.bookstoreproject.data.model.User;
 
 public interface ProfileRepository extends BaseRepository<User>{
     public Task<User> getUserByEmail(String email);
+    public Task<User> updateUser(User user);
 }

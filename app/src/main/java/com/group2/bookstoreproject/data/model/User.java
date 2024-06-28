@@ -34,6 +34,11 @@ public class User implements Serializable {
         this.deviceToken = deviceToken;
     }
 
+    public User(String fullName, long dateOfBirth) {
+        this.fullName = fullName;
+        this.dateOfBirth = dateOfBirth;
+    }
+
     public String getUserId() {
         return userId;
     }
