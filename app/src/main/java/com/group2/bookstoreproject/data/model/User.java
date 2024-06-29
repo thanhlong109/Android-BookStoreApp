@@ -50,6 +50,23 @@ public class User implements Serializable {
                 && status == that.status && deviceToken == that.deviceToken;
     }
 
+    @Override
+    public String toString() {
+        return "User{" +
+                "userId='" + userId + '\'' +
+                ", userName='" + userName + '\'' +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                ", fullName='" + fullName + '\'' +
+                ", dateOfBirth=" + dateOfBirth +
+                ", phone='" + phone + '\'' +
+                ", avatar='" + avatar + '\'' +
+                ", role=" + role +
+                ", joinedAt=" + joinedAt +
+                ", status=" + status +
+                ", deviceToken='" + deviceToken + '\'' +
+                '}';
+    }
     public void setUserId(String userId) {
         this.userId = userId;
     }

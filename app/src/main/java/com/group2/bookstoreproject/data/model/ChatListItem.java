@@ -2,7 +2,9 @@ package com.group2.bookstoreproject.data.model;
 
 import androidx.annotation.Nullable;
 
-public class ChatListItem {
+import java.io.Serializable;
+
+public class ChatListItem implements Serializable {
     private  User partner;
     private  ChatRoom chatRoom;
 
