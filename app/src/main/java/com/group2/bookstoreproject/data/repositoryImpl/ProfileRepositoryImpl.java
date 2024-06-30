@@ -3,26 +3,22 @@ package com.group2.bookstoreproject.data.repositoryImpl;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.TaskCompletionSource;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.Query;
 import com.group2.bookstoreproject.data.model.User;
-import com.group2.bookstoreproject.data.repository.AuthRepository;
+import com.group2.bookstoreproject.data.repository.ProfileRepository;
+import com.group2.bookstoreproject.data.repositoryImpl.BaseRepositoryImpl;
 
-import java.util.List;
-
-public class AuthRepositoryImpl extends BaseRepositoryImpl<User> implements AuthRepository {
-
+public class ProfileRepositoryImpl extends BaseRepositoryImpl<User> implements ProfileRepository {
     private static final String COLLECTION_PATH = "users";
-
-    private FirebaseFirestore firestore = FirebaseFirestore.getInstance();
 
     @Override
     protected String getCollectionPath() {
         return COLLECTION_PATH;
     }
 
+    // Method to get user by email
     @Override
     public Task<User> getUserByEmail(String email) {
         TaskCompletionSource<User> taskCompletionSource = new TaskCompletionSource<>();
@@ -39,26 +35,5 @@ public class AuthRepositoryImpl extends BaseRepositoryImpl<User> implements Auth
                     }
                 });
         return taskCompletionSource.getTask();
-    }
-
-    @Override
-    public Task<User> getUserByUid(String uid) {
-        return firestore.collection("users")
-                .document(uid)
-                .get()
-                .continueWith(task -> {
-                    if (task.isSuccessful() && task.getResult() != null) {
-                        return task.getResult().toObject(User.class);
-                    } else {
-                        throw task.getException();
-                    }
-                });
-    }
-
-    @Override
-    public void loadUserDetails(List<String> userIds,OnCompleteListener<DocumentSnapshot> onCompleteListener) {
-        for(String userId : userIds){
-            getById(userId, onCompleteListener);
-        }
     }
 }

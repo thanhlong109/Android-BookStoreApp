@@ -17,13 +17,19 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.group2.bookstoreproject.base.BaseViewModel;
 import com.group2.bookstoreproject.data.model.ChatMessage;
 import com.group2.bookstoreproject.data.model.ChatRoom;
+import com.group2.bookstoreproject.data.model.User;
 import com.group2.bookstoreproject.data.model.base.Resource;
 import com.group2.bookstoreproject.data.repository.ChatRoomRepository;
 import com.group2.bookstoreproject.data.repositoryImpl.ChatRoomRepositoryImpl;
+import com.group2.bookstoreproject.util.session.SessionManager;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+
+import javax.inject.Inject;
+
+import dagger.hilt.android.lifecycle.HiltViewModel;
 
 public class ChatViewModel extends BaseViewModel {
     public static final String TAG = "Chat view model";
@@ -37,29 +43,41 @@ public class ChatViewModel extends BaseViewModel {
         return chatMessages;
     }
 
-    String senderId = "thisiSenderId";
-    String receiverID2 = "reciverId";
+    User sender;
+    User receiver;
 
     public MutableLiveData<Resource<ChatRoom>> getCurrentChatRoom() {
         return currentChatRoom;
     }
 
-    public void setCurrentChatRoom(MutableLiveData<Resource<ChatRoom>> currentChatRoom) {
-        this.currentChatRoom = currentChatRoom;
+    public void setCurrentChatRoom(ChatRoom chatRoom) {
+        currentChatRoom.setValue(Resource.success(chatRoom));
+    }
+
+    public void setReceiver(User receiver) {
+        this.receiver = receiver;
+    }
+
+    public User getReceiver() {
+        return receiver;
     }
 
     public ChatViewModel() {
         chatRoomRepository = new ChatRoomRepositoryImpl();
-        chatMessages = new MutableLiveData<>(new ArrayList<>());
+        chatMessages = new MutableLiveData<>();
         currentChatRoom = new MutableLiveData<>();
-       getMyChatRooms();
+        sender = sessionManager.getLoggedInUser();
+        if(sessionManager.getLoggedInUser().getRole() == 2){
+            receiver = sessionManager.getAdmin();
+            getMyChatRooms();
+        }
     }
 
     public void addChatRoom() {
         setLoading(true);
         List<String> memeberList = new ArrayList<>();
-        memeberList.add(senderId);
-        memeberList.add(receiverID2);
+        memeberList.add(sender.getUserId());
+        memeberList.add(receiver.getUserId());
         String roomId = UUID.randomUUID().toString();
         ChatRoom cr = new ChatRoom(roomId,false,System.currentTimeMillis(),memeberList);
 
@@ -78,7 +96,7 @@ public class ChatViewModel extends BaseViewModel {
 
     private void getMyChatRooms(){
         setLoading(true);
-        chatRoomRepository.getChatRoomsByMember(senderId,task -> {
+        chatRoomRepository.getChatRoomsByMember(sender.getUserId(),task -> {
             if(task.isSuccessful()){
                 QuerySnapshot querySnapshot = task.getResult();
                 if(querySnapshot.size()==0){
@@ -87,11 +105,9 @@ public class ChatViewModel extends BaseViewModel {
                     setLoading(false);
                     return;
                 }
-                for (QueryDocumentSnapshot documentSnapshot : querySnapshot) {
-                    ChatRoom chatRoom = documentSnapshot.toObject(ChatRoom.class);
+                    ChatRoom chatRoom = querySnapshot.getDocuments().get(0).toObject(ChatRoom.class);
                     Log.d(TAG, "ChatRoom ID: " + chatRoom.getChatRoomId());
                     currentChatRoom.setValue(Resource.success(chatRoom));
-                }
                 setLoading(false);
             }else {
                 Log.d(TAG, "Error getting documents: ", task.getException());
@@ -101,50 +117,6 @@ public class ChatViewModel extends BaseViewModel {
         });
     }
 
-    private void addListener(){
-        //listen all
-//        chatRoomRepository.listenAll((querySnapshot,e) ->{
-//            if (e != null) {
-//                Log.d(TAG, "Listen failed.", e);
-//                return;
-//            }
-//            if (querySnapshot!=null){
-//                for (DocumentChange dc : querySnapshot.getDocumentChanges()){
-//                    switch (dc.getType()){
-//                        case ADDED:
-//                            Log.d(TAG, "New chat room: " + dc.getDocument().getData());
-//                            break;
-//                        case MODIFIED:
-//                            Log.d(TAG, "Modified chat room: " + dc.getDocument().getData());
-//                            break;
-//                    }
-//                }
-//            }else{
-//                Log.d(TAG, "Current data: null");
-//            }
-//        });
-        //
-//        chatRoomRepository.listenToChatRoomsByMember(senderId,(querySnapshot, e) -> {
-//            if (e != null) {
-//                Log.d(TAG, "Listen failed.", e);
-//                return;
-//            }
-//            if (querySnapshot != null) {
-//                for (DocumentChange dc : querySnapshot.getDocumentChanges()) {
-//                    switch (dc.getType()) {
-//                        case ADDED:
-//                            Log.d(TAG, "New chat room: " + dc.getDocument().getData());
-//                            break;
-//                        case MODIFIED:
-//                            Log.d(TAG, "Modified chat room: " + dc.getDocument().getData());
-//                            break;
-//                    }
-//                }
-//            } else {
-//                Log.d(TAG, "Current data: null");
-//            }
-//        });
-    }
 
     public void addMessageToChatRoom( String text) {
         String chatRoomId = currentChatRoom.getValue().getData().getChatRoomId();
@@ -154,8 +126,8 @@ public class ChatViewModel extends BaseViewModel {
         message.setMessageContent(text);
         message.setChatRoomId(chatRoomId);
         message.setSeen(false);
-        message.setSenderId(senderId);
-        message.setReceiverId(receiverID2);
+        message.setSenderId(sender.getUserId());
+        message.setReceiverId(receiver.getUserId());
 
         chatRoomRepository.addMessageToChatRoom(chatRoomId, message, task -> {
             if (task.isSuccessful()) {
@@ -167,8 +139,26 @@ public class ChatViewModel extends BaseViewModel {
             setLoading(false);
         });
     }
+    public void setSeen( ChatMessage chatMessage) {
+       if(chatMessage.getReceiverId() == sender.getUserId() && !chatMessage.isSeen()){
+           chatMessage.setSeen(true);
+           updateMessage(chatMessage);
+       }
+    }
+    public void updateMessage( ChatMessage chatMessage) {
+        chatRoomRepository.addMessageToChatRoom(chatMessage.getChatRoomId(), chatMessage, task -> {
+            if (task.isSuccessful()) {
+                Log.d(TAG, "Message update successfully.");
+            } else {
+                Log.d(TAG, "Error adding message: ", task.getException());
+                setErrorMessage(task.getException().getMessage());
+            }
+            setLoading(false);
+        });
+    }
 
     public void listenToMessagesInChatRoom(String chatRoomId) {
+        Log.d(TAG, "add message: "+chatRoomId);
         listenToMessagesInChatRoom = chatRoomRepository.listenToMessages(chatRoomId, (querySnapshot, e) -> {
             if (e != null) {
                 Log.d(TAG, "Listen failed.", e);
@@ -178,10 +168,27 @@ public class ChatViewModel extends BaseViewModel {
                 for (DocumentChange dc : querySnapshot.getDocumentChanges()) {
                     switch (dc.getType()) {
                         case ADDED:
-                            Log.d(TAG, "New message: " + dc.getDocument().getData());
-                            List<ChatMessage> list = chatMessages.getValue();
-                            list.add(dc.getDocument().toObject(ChatMessage.class));
-                            chatMessages.setValue(list);
+
+                            ChatMessage newMessage = dc.getDocument().toObject(ChatMessage.class);
+                            if(chatMessages.getValue() == null){
+                                List<ChatMessage> list = new ArrayList<>();
+                                list.add(newMessage);
+                                chatMessages.setValue(list);
+                            }else{
+                                boolean exists = false;
+                                for (ChatMessage message : chatMessages.getValue()) {
+                                    if (message.getSendTime() == newMessage.getSendTime()) {
+                                        exists = true;
+                                        break;
+                                    }
+                                }
+                                if (!exists) {
+                                    List<ChatMessage> list = chatMessages.getValue();
+                                    list.add(newMessage);
+                                    chatMessages.setValue(list);
+                                }
+                            }
+
                             break;
                         case MODIFIED:
                             Log.d(TAG, "Modified message: " + dc.getDocument().getData());

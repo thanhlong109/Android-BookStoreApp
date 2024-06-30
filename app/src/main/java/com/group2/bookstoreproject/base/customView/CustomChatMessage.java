@@ -72,9 +72,9 @@ public class CustomChatMessage extends ConstraintLayout {
 
     public void setMessageSeen(boolean isSeen) {
         if (startDirection && !isSeen) {
-            binding.ivSendStatusLeft.setVisibility(View.VISIBLE);
+            binding.ivSendStatusRight.setVisibility(View.VISIBLE);
         } else {
-            binding.ivSendStatusLeft.setVisibility(View.GONE);
+            binding.ivSendStatusRight.setVisibility(View.GONE);
         }
     }
 
