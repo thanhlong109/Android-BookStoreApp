@@ -3,26 +3,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
     tools:context=".ui.admin.chatlist.ChatListFragment">
-    <LinearLayout
+
+    <com.group2.bookstoreproject.base.customView.CustomToolbar
+        android:id="@+id/chatListToolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingHorizontal="20dp"
-        android:paddingVertical="20dp"
-        android:id="@+id/llChatListHeader"
-        >
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:text="Danh sách tin nhắn"
-            android:textSize="16dp"
-            />
-    </LinearLayout>
+        app:showStartIcon="false"
+        app:showStartText="false"
+        app:showShadow="true"
+        app:titleStart="true"
+        android:title="Danh sách tin nhắn"/>
    <androidx.recyclerview.widget.RecyclerView
        android:layout_width="match_parent"
        android:layout_height="match_parent"
        android:id="@+id/rvChatList"
-       android:layout_below="@+id/llChatListHeader"/>
+       android:layout_below="@+id/chatListToolbar"/>
 
 </RelativeLayout>
