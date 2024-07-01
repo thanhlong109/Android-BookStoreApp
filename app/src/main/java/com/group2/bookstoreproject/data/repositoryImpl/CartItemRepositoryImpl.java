@@ -48,19 +48,24 @@ public class CartItemRepositoryImpl extends BaseRepositoryImpl<CartItem> impleme
 
     @Override
     public void updateQuantity(CartItem item, int quantity, OnCompleteListener<Void> onCompleteListener) {
-        Map<String, Object> data = new HashMap<>();
-
         bookRepository.getById(item.getBookId(), task -> {
             if (task.isSuccessful()) {
-                book = task.getResult().toObject(Book.class);
-                data.put("price", book.getPrice()*quantity);
+                Book book = task.getResult().toObject(Book.class);
+                if (book != null) {
+                    Map<String, Object> data = new HashMap<>();
+                    data.put("quantity", quantity);
+                    data.put("price", book.getPrice() * quantity);
+
+                    getDocument(getCollectionPath(), item.getCartItemId())
+                            .update(data)
+                            .addOnCompleteListener(onCompleteListener);
+                } else {
+                    Log.e(TAG, "updateQuantity: book is null");
+                }
+            } else {
+                Log.e(TAG, "updateQuantity: task failed");
             }
         });
-        data.put("quantity", quantity);
-
-        getDocument(getCollectionPath(), item.getCartItemId())
-                .update(data)
-                .addOnCompleteListener(onCompleteListener);
     }
 
     @Override

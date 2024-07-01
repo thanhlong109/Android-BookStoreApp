@@ -100,7 +100,7 @@ public class OtpFragment extends BaseFragment<FragmentOtpBinding, OtpViewModel> 
             Log.e(TAG, "Verification ID is missing");
         }
 
-        binding.btnSignUp.setOnClickListener(v -> {
+        binding.btnVerifyOtp.setOnClickListener(v -> {
             String otp = binding.txtOtp.getText().toString();
             Log.d(TAG, "OTP entered: " + otp);
             viewModel.verifyOtp(otp);
