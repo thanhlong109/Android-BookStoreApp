@@ -13,6 +13,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.group2.bookstoreproject.R;
 import com.group2.bookstoreproject.base.BaseDialog;
 import com.group2.bookstoreproject.base.BaseFragment;
 import com.group2.bookstoreproject.data.model.ChatListItem;
@@ -47,10 +49,18 @@ public class ChatFragment extends BaseFragment<FragmentChatBinding,ChatViewModel
         super.onViewCreated(view, savedInstanceState);
         Bundle bundle =  getArguments();
         if(bundle !=null && bundle.containsKey("ChatRoomData")){
-            Log.d("test", "have data");
             ChatListItem chatListItem = (ChatListItem) bundle.getSerializable("ChatRoomData");
             viewModel.setReceiver(chatListItem.getPartner());
             viewModel.setCurrentChatRoom(chatListItem.getChatRoom());
+            binding.chatToolbar.isShowStartIcon(true);
+            binding.chatToolbar.isShowStartText(true);
+            binding.chatToolbar.setTitle(viewModel.getReceiver().getFullName());
+            binding.chatToolbar.setOnStartIconClick(() -> {
+                navigateToPage(R.id.action_chatFragment_to_chatListFragment);
+            });
+        }else {
+            binding.chatToolbar.setTitleStart(true);
+            binding.chatToolbar.setTitle("Hỗ trợ");
         }
         binding.ibSend.setOnClickListener(v -> onSendMessage());
         setUpDialog();

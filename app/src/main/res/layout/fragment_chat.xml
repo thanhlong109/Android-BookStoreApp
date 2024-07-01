@@ -21,6 +21,8 @@
             android:title="Name"
             app:showShadow="true"
             app:textStart="Quay lại"
+            app:showStartText="false"
+            app:showStartIcon="false"
             />
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvChatMessages"
