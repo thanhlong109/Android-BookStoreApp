@@ -2,6 +2,7 @@ package com.group2.bookstoreproject.base.customView;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -25,6 +26,7 @@ public class CustomToolbar extends ConstraintLayout {
         boolean showStartIcon = attr.getBoolean(R.styleable.CustomToolbar_showStartIcon, true);
         boolean showEndIcon = attr.getBoolean(R.styleable.CustomToolbar_showEndIcon, false);
         boolean showTextStart = attr.getBoolean(R.styleable.CustomToolbar_showStartText, true);
+        boolean titleStart = attr.getBoolean(R.styleable.CustomToolbar_titleStart, false);
         String textStart = attr.getString(R.styleable.CustomToolbar_textStart);
         boolean showShadow = attr.getBoolean(R.styleable.CustomToolbar_showShadow, false);
 
@@ -41,7 +43,7 @@ public class CustomToolbar extends ConstraintLayout {
         isShowStartIcon(showStartIcon);
         isShowStartText(showTextStart);
         isShowShadow(showShadow);
-
+        setTitleStart(titleStart);
         binding.llStartIcon.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -75,6 +77,13 @@ public class CustomToolbar extends ConstraintLayout {
 
     public void setTextStart(String text) {
         binding.tvStartText.setText(text);
+    }
+
+    public void setTitleStart(boolean isStart){
+        if(isStart){
+            binding.tvTitle.setGravity(Gravity.CENTER_VERTICAL);
+            binding.tvTitle.setPadding(50, 0,0,0);
+        }
     }
 
     public void setStartIconResource(int icon) {

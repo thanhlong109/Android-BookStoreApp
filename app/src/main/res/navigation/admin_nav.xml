@@ -29,7 +29,13 @@
         tools:layout="@layout/fragment_chat_list" >
         <action
             android:id="@+id/action_chatListFragment_to_chatFragment"
-            app:destination="@id/chat_fragment" />
+            app:destination="@id/chat_fragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:launchSingleTop="false"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/navigation_account"
@@ -64,7 +70,12 @@
         tools:layout="@layout/fragment_chat" >
         <action
             android:id="@+id/action_chatFragment_to_chatListFragment"
-            app:destination="@id/navigation_chatlist" />
+            app:destination="@id/navigation_chatlist"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"
+            app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/navigation_order"
