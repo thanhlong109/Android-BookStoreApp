@@ -4,8 +4,10 @@ import android.graphics.Typeface;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
+import com.group2.bookstoreproject.R;
 import com.group2.bookstoreproject.base.BaseItemViewHolder;
 import com.group2.bookstoreproject.data.model.ChatListItem;
 import com.group2.bookstoreproject.data.model.ChatRoom;
@@ -32,6 +34,7 @@ public class ChatListViewHolder extends BaseItemViewHolder<ChatListItem, RowItem
             if(chatRoom.isChatSeen()){
                 binding.tvChatItemTime.setTypeface(Typeface.DEFAULT);
                 binding.tvChatItemContent.setTypeface(Typeface.DEFAULT);
+                //binding.tvChatItemContent.setTextColor(ContextCompat.getColor(itemContext,R.color.border_color));
             }else{
                 binding.tvChatItemTime.setTypeface(Typeface.DEFAULT_BOLD);
                 binding.tvChatItemContent.setTypeface(Typeface.DEFAULT_BOLD);
