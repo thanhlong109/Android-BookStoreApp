@@ -1,14 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
     tools:context=".ui.admin.chatlist.ChatListFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <com.group2.bookstoreproject.base.customView.CustomToolbar
+        android:id="@+id/chatListToolbar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        app:showStartIcon="false"
+        app:showStartText="false"
+        app:showShadow="true"
+        app:titleStart="true"
+        android:title="Danh sách tin nhắn"/>
+   <androidx.recyclerview.widget.RecyclerView
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       android:id="@+id/rvChatList"
+       android:layout_below="@+id/chatListToolbar"/>
 
-</FrameLayout>
+</RelativeLayout>

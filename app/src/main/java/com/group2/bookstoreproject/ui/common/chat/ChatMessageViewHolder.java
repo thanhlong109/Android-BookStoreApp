@@ -16,11 +16,13 @@ import com.group2.bookstoreproject.databinding.RowItemChatMessageBinding;
 public class ChatMessageViewHolder extends BaseItemViewHolder<ChatMessage, RowItemChatMessageBinding> {
     private User currentUser;
     private User receiverUser;
+    private ChatMessageRecyclerViewAdapter.OnItemDisplayListener onItemDisplayListener;
 
-    public ChatMessageViewHolder(@NonNull RowItemChatMessageBinding binding, User currentUser, User receiverUser) {
+    public ChatMessageViewHolder(@NonNull RowItemChatMessageBinding binding, User currentUser, User receiverUser, ChatMessageRecyclerViewAdapter.OnItemDisplayListener onItemDisplayListener) {
         super(binding);
         this.currentUser = currentUser;
         this.receiverUser = receiverUser;
+        this.onItemDisplayListener = onItemDisplayListener;
     }
 
     @Override
@@ -29,7 +31,7 @@ public class ChatMessageViewHolder extends BaseItemViewHolder<ChatMessage, RowIt
         chatMessage.refreshContent();
         chatMessage.setContent(item.getMessageContent());
 
-        if(item.getSenderId().equals(currentUser.getUserId())){
+        if(!item.getReceiverId().equals(currentUser.getUserId())){
             chatMessage.setStartDirection(false);
         }else{
             chatMessage.setStartDirection(true);
