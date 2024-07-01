@@ -24,6 +24,7 @@ import com.group2.bookstoreproject.data.model.User;
 import com.group2.bookstoreproject.data.model.base.Resource;
 import com.group2.bookstoreproject.databinding.DialogStartChatBinding;
 import com.group2.bookstoreproject.databinding.FragmentChatBinding;
+import com.group2.bookstoreproject.util.KeyboardUtils;
 
 import java.util.List;
 
@@ -96,6 +97,8 @@ public class ChatFragment extends BaseFragment<FragmentChatBinding,ChatViewModel
         if(message.length()>0){
             viewModel.addMessageToChatRoom(message);
             binding.etInput.setText("");
+            binding.etInput.clearFocus();
+            KeyboardUtils.hideKeyboard(getActivity());
         }
     }
 
