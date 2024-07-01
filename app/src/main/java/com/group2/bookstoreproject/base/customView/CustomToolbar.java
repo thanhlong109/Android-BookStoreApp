@@ -71,6 +71,7 @@ public class CustomToolbar extends ConstraintLayout {
         this.onEndIconClick = onEndIconClick;
     }
 
+
     public void setTitle(String title) {
         binding.tvTitle.setText(title);
     }
