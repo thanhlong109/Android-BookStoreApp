@@ -21,9 +21,11 @@ import com.group2.bookstoreproject.R;
 import com.group2.bookstoreproject.base.BaseFragment;
 import com.group2.bookstoreproject.data.model.Book;
 import com.group2.bookstoreproject.data.model.CartItem;
+import com.group2.bookstoreproject.data.model.User;
 import com.group2.bookstoreproject.data.repository.CartItemRepository;
 import com.group2.bookstoreproject.databinding.FragmentBookDetailsBinding;
 import com.group2.bookstoreproject.databinding.FragmentChatBinding;
+import com.group2.bookstoreproject.util.session.SessionManager;
 
 import java.util.Random;
 import java.util.UUID;
@@ -63,9 +65,6 @@ public class BookDetailsFragment extends BaseFragment<FragmentBookDetailsBinding
                 displayBookDetails(book);
             }
         }
-        SharedPreferences sharedPreferences = getContext().getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
-        accountId = sharedPreferences.getString("accountId", null);
-
         binding.backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -98,16 +97,33 @@ public class BookDetailsFragment extends BaseFragment<FragmentBookDetailsBinding
         binding.addToCartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CartItem item = new CartItem();
-                Book book = (Book) getArguments().getSerializable("book");
+                SessionManager sessionManager = SessionManager.getInstance();
+                User loggedInUser = sessionManager.getLoggedInUser();
+                if (loggedInUser != null) {
+                    // Get the account ID from the logged-in user
+                    String accountId = loggedInUser.getUserId();
 
-                item.setCartItemId(UUID.randomUUID().toString());
-                item.setBookId(book.getBookId());
-                item.setAccountId(accountId);
-                item.setQuantity(1);
-                item.setPrice(book.getPrice());
-                viewModel.addToCart(item);
-                Toast.makeText(getContext(), "Added to cart success", Toast.LENGTH_SHORT).show();
+                    // Check if accountId is not null or empty
+                    if (accountId != null && !accountId.isEmpty()) {
+                        // Create a new CartItem
+                        CartItem item = new CartItem();
+                        Book book = (Book) getArguments().getSerializable("book");
+
+                        item.setCartItemId(UUID.randomUUID().toString());
+                        item.setBookId(book.getBookId());
+                        item.setAccountId(accountId);
+                        item.setQuantity(1);
+                        item.setPrice(book.getPrice());
+
+                        // Add item to cart using ViewModel
+                        viewModel.addToCart(item);
+                        Toast.makeText(getContext(), "Added to cart success", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getContext(), "Account ID is missing. Please login again.", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(getContext(), "User is not logged in. Please login to add items to cart.", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }

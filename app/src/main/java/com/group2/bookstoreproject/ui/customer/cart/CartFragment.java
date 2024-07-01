@@ -6,8 +6,6 @@ import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +13,9 @@ import android.view.ViewGroup;
 
 import com.group2.bookstoreproject.base.BaseFragment;
 import com.group2.bookstoreproject.data.model.CartItem;
+import com.group2.bookstoreproject.data.model.User;
 import com.group2.bookstoreproject.databinding.FragmentCartBinding;
+import com.group2.bookstoreproject.util.session.SessionManager;
 
 import java.util.List;
 
@@ -45,7 +45,6 @@ public class CartFragment extends BaseFragment<FragmentCartBinding, CartViewMode
                 if (cartItems.isEmpty()) {
                     showEmptyCartLayout();
                 } else {
-
                     showCartItems(cartItems);
                 }
             }
@@ -55,15 +54,20 @@ public class CartFragment extends BaseFragment<FragmentCartBinding, CartViewMode
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        SharedPreferences sharedPreferences = getContext().getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
-        accountId = sharedPreferences.getString("accountId", null);
+        SessionManager sessionManager = SessionManager.getInstance();
+        User loggedInUser = sessionManager.getLoggedInUser();
+        if (loggedInUser != null) {
+            accountId = loggedInUser.getUserId();
+        }
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setUpRecyclerView();
-        viewModel.loadCartItems(accountId);
+        if (accountId != null) {
+            viewModel.loadCartItems(accountId);
+        }
     }
 
     private void setUpRecyclerView() {

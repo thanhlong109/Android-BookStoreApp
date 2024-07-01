@@ -38,6 +38,7 @@ public class CartViewModel extends BaseViewModel {
     }
 
     public void loadCartItems(String accountId) {
+        setLoading(true);
         stopListeningToCartItems();
         cartRepository.getCartItems(accountId, task -> {
             if (task.isSuccessful()) {
@@ -47,6 +48,7 @@ public class CartViewModel extends BaseViewModel {
             }
         });
         startListeningToCartItems(accountId);
+        setLoading(false);
     }
 
     public void increaseQuantity(CartItem item) {

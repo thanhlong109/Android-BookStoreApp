@@ -58,13 +58,6 @@ public class SignInViewModel extends BaseViewModel {
                                                 userLiveData.setValue(Resource.success(userTask.getResult()));
                                                 // Log success message
                                                 // Log.d("SignInViewModel", "User data fetched successfully for: " + email);
-                                                // Store account ID in SharedPreferences
-                                                User user = userTask.getResult();
-                                                SharedPreferences sharedPreferences = context.getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
-                                                SharedPreferences.Editor editor = sharedPreferences.edit();
-                                                editor.putString("accountId", user.getUserId());
-                                                editor.apply();
-
                                             } else {
                                                 setErrorMessage("Failed to fetch user data.");
                                                 // Log error message
