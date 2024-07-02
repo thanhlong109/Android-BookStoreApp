@@ -71,7 +71,7 @@ public class ProfileFragment extends BaseFragment<FragmentProfileBinding, Profil
                                 .into(binding.imgAvatar);
                     }
                 } else {
-                    Log.d(TAG, "User not found");
+                    Log.d(TAG, "User not found.");
                 }
             }
         });
