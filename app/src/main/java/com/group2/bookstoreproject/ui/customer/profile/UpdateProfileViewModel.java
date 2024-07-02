@@ -10,6 +10,7 @@ import com.group2.bookstoreproject.base.BaseViewModel;
 import com.group2.bookstoreproject.data.model.User;
 import com.group2.bookstoreproject.data.repository.ProfileRepository;
 import com.group2.bookstoreproject.data.repositoryImpl.ProfileRepositoryImpl;
+import com.group2.bookstoreproject.util.session.SessionManager;
 
 public class UpdateProfileViewModel extends BaseViewModel {
 
@@ -48,4 +49,22 @@ public class UpdateProfileViewModel extends BaseViewModel {
         }
     }
 
+    public void loadUserProfile() {
+        SessionManager sessionManager = SessionManager.getInstance();
+        User loggedInUser = sessionManager.getLoggedInUser();
+
+        if (loggedInUser != null) {
+            String email = loggedInUser.getEmail();
+            profileRepository.getUserByEmail(email).addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    User user = task.getResult();
+                    userLiveData.setValue(user);
+                } else {
+                    errorLiveData.setValue(task.getException().getMessage());
+                }
+            });
+        } else {
+            errorLiveData.setValue("No user session found");
+        }
+    }
 }

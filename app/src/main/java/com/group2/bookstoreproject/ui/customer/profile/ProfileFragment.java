@@ -87,7 +87,7 @@ public class ProfileFragment extends BaseFragment<FragmentProfileBinding, Profil
         });
 
         showLoading(true); // Show loading before starting to load the user profile
-        viewModel.loadUserProfile();
+        viewModel.loadUserProfileUD();
 
         binding.imageViewAdd.setOnClickListener(v -> openImagePicker());
 

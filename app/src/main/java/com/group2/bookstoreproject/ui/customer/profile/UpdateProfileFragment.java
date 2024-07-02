@@ -47,6 +47,12 @@ public class UpdateProfileFragment extends BaseFragment<FragmentUpdateProfileBin
 
         binding.etBirthdate.setOnClickListener(v -> showDatePickerDialog());
 
+        binding.etBirthdate.setOnFocusChangeListener((v, hasFocus) -> {
+            if (hasFocus) {
+                showDatePickerDialog();
+            }
+        });
+
         binding.btnUpdate.setOnClickListener(v -> {
             String fullName = binding.etUsername.getText().toString().trim();
             String birthdateString = binding.etBirthdate.getText().toString().trim();
@@ -56,6 +62,7 @@ public class UpdateProfileFragment extends BaseFragment<FragmentUpdateProfileBin
                 try {
                     long birthdate = DateUtils.parseDateWithDefaultTime(birthdateString, "dd/MM/yyyy");
                     viewModel.updateUserProfile(user.getUserId(), fullName, birthdate);
+                    viewModel.loadUserProfile();
                     getParentFragmentManager().popBackStack();
                 } catch (Exception e) {
                     Toast.makeText(getContext(), "Invalid date format", Toast.LENGTH_SHORT).show();

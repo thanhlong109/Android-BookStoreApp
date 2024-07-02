@@ -6,6 +6,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.TaskCompletionSource;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.group2.bookstoreproject.data.model.User;
@@ -17,11 +18,16 @@ import java.util.Map;
 
 public class ProfileRepositoryImpl extends BaseRepositoryImpl<User> implements ProfileRepository {
     private static final String COLLECTION_PATH = "users";
+    private final FirebaseFirestore firestore;
 
+    public ProfileRepositoryImpl() {
+        this.firestore = FirebaseFirestore.getInstance();
+    }
     @Override
     protected String getCollectionPath() {
         return COLLECTION_PATH;
     }
+
 
     // Method to get user by email
     @Override
@@ -66,6 +72,17 @@ public class ProfileRepositoryImpl extends BaseRepositoryImpl<User> implements P
         return taskCompletionSource.getTask();
     }
 
+    @Override
+    public void listenToUserChanges(String userId, EventListener<DocumentSnapshot> listener) {
+        firestore.collection("users").document(userId)
+                .addSnapshotListener(listener);
+    }
 
+
+//    @Override
+//    public void listenToUserChanges(String userId, EventListener<DocumentSnapshot> listener) {
+//        firestore.collection("users").document(userId)
+//                .addSnapshotListener(listener);
+//    }
 
 }

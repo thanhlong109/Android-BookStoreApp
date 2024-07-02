@@ -7,6 +7,8 @@ import androidx.lifecycle.ViewModel;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.group2.bookstoreproject.base.BaseViewModel;
 import com.group2.bookstoreproject.data.model.User;
 import com.group2.bookstoreproject.data.model.base.Resource;
@@ -43,6 +45,29 @@ public class ProfileViewModel extends BaseViewModel {
                     userLiveData.setValue(user);
                 } else {
                     errorLiveData.setValue(task.getException().getMessage());
+                }
+            });
+        } else {
+            errorLiveData.setValue("No user session found");
+        }
+    }
+
+    public void loadUserProfileUD() {
+        SessionManager sessionManager = SessionManager.getInstance();
+        User loggedInUser = sessionManager.getLoggedInUser();
+
+        if (loggedInUser != null) {
+            String userId = loggedInUser.getUserId();
+            profileRepository.listenToUserChanges(userId, (snapshot, error) -> {
+                if (error != null) {
+                    errorLiveData.setValue(error.getMessage());
+                    return;
+                }
+                if (snapshot != null && snapshot.exists()) {
+                    User updatedUser = snapshot.toObject(User.class);
+                    userLiveData.setValue(updatedUser);
+                } else {
+                    errorLiveData.setValue("User data not found");
                 }
             });
         } else {
