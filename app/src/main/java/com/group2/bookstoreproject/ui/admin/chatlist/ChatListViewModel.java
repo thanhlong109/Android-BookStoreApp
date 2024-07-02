@@ -1,5 +1,7 @@
 package com.group2.bookstoreproject.ui.admin.chatlist;
 
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
@@ -39,9 +41,11 @@ public class ChatListViewModel extends BaseViewModel {
     }
 
     private  void loadChatRooms(){
+        setLoading(true);
         chatRoomRepository.listenAll((querySnapshot,e) ->{
             if (e != null) {
                 Log.d(TAG, "Listen failed.", e);
+                setLoading(false);
                 return;
             }
             if (querySnapshot!=null){
@@ -89,6 +93,18 @@ public class ChatListViewModel extends BaseViewModel {
             }else{
                 Log.d(TAG, "Current data: null");
             }
+            new Handler(Looper.getMainLooper()).postDelayed(() -> setLoading(false), 500);
         });
+    }
+
+    public void setChatRoomSeen(ChatRoom chatRoom) {
+        chatRoomRepository.setChatRoomSeen(chatRoom.getChatRoomId(), true, task -> {
+            if(task.isSuccessful()){
+                Log.d(TAG, "update chat seen: " + chatRoom);
+            }else{
+                Log.d(TAG, "error update chat seen: " + task.getException());
+            }
+        });
+
     }
 }

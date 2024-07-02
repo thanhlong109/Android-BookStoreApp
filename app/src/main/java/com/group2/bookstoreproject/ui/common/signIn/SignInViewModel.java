@@ -1,6 +1,8 @@
 package com.group2.bookstoreproject.ui.common.signIn;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -19,6 +21,7 @@ import com.group2.bookstoreproject.data.model.User;
 import com.group2.bookstoreproject.data.model.base.Resource;
 import com.group2.bookstoreproject.data.repository.AuthRepository;
 import com.group2.bookstoreproject.data.repositoryImpl.AuthRepositoryImpl;
+import com.group2.bookstoreproject.ui.customer.cart.CartFragment;
 
 public class SignInViewModel extends BaseViewModel {
     private MutableLiveData<Resource<Void>> signInResult = new MutableLiveData<>();
@@ -54,7 +57,7 @@ public class SignInViewModel extends BaseViewModel {
                                             if (userTask.isSuccessful() && userTask.getResult() != null) {
                                                 userLiveData.setValue(Resource.success(userTask.getResult()));
                                                 // Log success message
-                                                //Log.d("SignInViewModel", "User data fetched successfully for: " + email);
+                                                // Log.d("SignInViewModel", "User data fetched successfully for: " + email);
                                             } else {
                                                 setErrorMessage("Failed to fetch user data.");
                                                 // Log error message

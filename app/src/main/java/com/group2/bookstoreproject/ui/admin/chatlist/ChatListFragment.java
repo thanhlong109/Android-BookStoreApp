@@ -59,6 +59,7 @@ public class ChatListFragment extends BaseFragment<FragmentChatListBinding, Chat
         //chat list
         chatListRecyclerViewAdapter = new ChatListRecyclerViewAdapter();
         chatListRecyclerViewAdapter.setItemOnClickListener(chatItem -> {
+            viewModel.setChatRoomSeen(chatItem.getChatRoom());
             Bundle bundle =  new Bundle();
             bundle.putSerializable("ChatRoomData",chatItem);
             navigateToPage(R.id.action_chatListFragment_to_chatFragment,bundle);

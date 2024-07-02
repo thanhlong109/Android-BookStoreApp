@@ -45,6 +45,13 @@ public class ChatRoomRepositoryImpl extends BaseRepositoryImpl<ChatRoom> impleme
     }
 
     @Override
+    public void setChatRoomSeen(String chatRoomId, boolean isSeen, OnCompleteListener<DocumentReference> onCompleteListener) {
+        getCollection(getCollectionPath())
+                .document(chatRoomId)
+                .update("chatSeen", isSeen);
+    }
+
+    @Override
     public ListenerRegistration listenToMessages(String chatRoomId, EventListener<QuerySnapshot> eventListener) {
         return getCollection(getCollectionPath())
                 .document(chatRoomId)

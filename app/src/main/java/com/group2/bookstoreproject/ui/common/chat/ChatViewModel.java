@@ -1,6 +1,7 @@
 package com.group2.bookstoreproject.ui.common.chat;
 
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 
@@ -159,9 +160,11 @@ public class ChatViewModel extends BaseViewModel {
 
     public void listenToMessagesInChatRoom(String chatRoomId) {
         Log.d(TAG, "add message: "+chatRoomId);
+        setLoading(true);
         listenToMessagesInChatRoom = chatRoomRepository.listenToMessages(chatRoomId, (querySnapshot, e) -> {
             if (e != null) {
                 Log.d(TAG, "Listen failed.", e);
+                setLoading(false);
                 return;
             }
             if (querySnapshot != null) {
@@ -198,6 +201,7 @@ public class ChatViewModel extends BaseViewModel {
             } else {
                 Log.d(TAG, "Current data: null");
             }
+            new Handler(Looper.getMainLooper()).postDelayed(() -> setLoading(false), 500);
         });
     }
 

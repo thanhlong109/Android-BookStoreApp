@@ -12,6 +12,7 @@ public class DateUtils {
     // Định dạng ngày giờ mặc định
     public static final String DEFAULT_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
     public static final String HH_MM_SS_FORMAT = "HH:mm:ss";
+    public static final String HH_MM_A_FORMAT = "HH:mm a";
     public static final String HH_MM_FORMAT = "HH:mm";
     public static final String YYYY_MM_DD_FORMAT = "yyyy-MM-dd";
     public static final String YYYY_MM_DD_HH_MM_FORMAT = "yyyy-MM-dd HH:mm";
