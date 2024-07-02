@@ -18,7 +18,11 @@
         android:id="@+id/navigation_chat"
         android:name="com.group2.bookstoreproject.ui.common.chat.ChatFragment"
         android:label="fragment_chat"
-        tools:layout="@layout/fragment_chat" />
+        tools:layout="@layout/fragment_chat" >
+        <action
+            android:id="@+id/action_navigation_chat_to_mapFragment2"
+            app:destination="@id/mapFragment" />
+    </fragment>
     <fragment
         android:id="@+id/navigation_cus_cart"
         android:name="com.group2.bookstoreproject.ui.customer.cart.CartFragment"
@@ -79,4 +83,9 @@
             android:id="@+id/action_navigation_category_to_bookDetailsFragment2"
             app:destination="@id/bookDetailsFragment2" />
     </fragment>
+    <fragment
+        android:id="@+id/mapFragment"
+        android:name="com.group2.bookstoreproject.ui.common.map.MapFragment"
+        android:label="fragment_map"
+        tools:layout="@layout/fragment_map" />
 </navigation>

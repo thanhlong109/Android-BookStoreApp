@@ -96,6 +96,9 @@ dependencies {
 
     //implement firebase auth
     implementation("com.google.firebase:firebase-auth")
+
+    //mapbox
+    implementation(libs.mapbox.android)
 }
 
 
