@@ -16,4 +16,6 @@ public interface CartItemRepository extends BaseRepository<CartItem> {
     void removeItem(CartItem item, OnCompleteListener<Void> onCompleteListener);
     ListenerRegistration listenToCartItems(String accountId, EventListener<QuerySnapshot> eventListener);
     ListenerRegistration listenToAllCartItems(EventListener<QuerySnapshot> listener);
+    void getCartItemByBookAndAccountId(String accountId, String bookId, OnCompleteListener<QuerySnapshot> onCompleteListener);
+
 }
