@@ -37,8 +37,6 @@ public class CategoryFragment extends BaseFragment<FragmentCategoryBinding,Categ
     private BookAdapter bookAdapter = new BookAdapter(book -> {
         Bundle bundle = new Bundle();
         bundle.putSerializable("book", book);
-       // bundle.putInt("scroll_position", ((GridLayoutManager) binding.recyclerView.getLayoutManager()).findFirstVisibleItemPosition());
-       // bundle.putInt("selected_category", binding.categorySpinner.getSelectedItemPosition());
         NavController navController = NavHostFragment.findNavController(CategoryFragment.this);
         navController.navigate(R.id.action_navigation_category_to_bookDetailsFragment2, bundle);
     });
@@ -54,15 +52,9 @@ public class CategoryFragment extends BaseFragment<FragmentCategoryBinding,Categ
         return CategoryViewModel.class;
     }
 
-    private int selectedCategoryPosition = 0;
-    private int scrollPosition = 0;
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        if (savedInstanceState != null) {
-            selectedCategoryPosition = savedInstanceState.getInt("selected_category_position", 0);
-        }
 
         binding.recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
         binding.recyclerView.setAdapter(bookAdapter);
@@ -72,6 +64,7 @@ public class CategoryFragment extends BaseFragment<FragmentCategoryBinding,Categ
 
         viewModel.getCategories().observe(getViewLifecycleOwner(), categories -> {
             List<String> categoryNames = new ArrayList<>();
+            categoryNames.add("ALL");
             for (Category category : categories) {
                 categoryNames.add(category.getName());
             }
@@ -79,34 +72,10 @@ public class CategoryFragment extends BaseFragment<FragmentCategoryBinding,Categ
             ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, categoryNames);
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             binding.categorySpinner.setAdapter(adapter);
-            // Kiểm tra và thiết lập lại vị trí đã lưu
-            if (selectedCategoryPosition < categoryNames.size()) {
-                binding.categorySpinner.setSelection(selectedCategoryPosition);
-            }
-
-            binding.categorySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    String categoryName = parent.getItemAtPosition(position).toString();
-                    viewModel.filterByCategory(categoryName);
-                    selectedCategoryPosition = position;
-                }
-
-                @Override
-                public void onNothingSelected(AdapterView<?> parent) {
-                    // Handle nothing selected if needed
-                }
-            });
-           // binding.categorySpinner.setSelection(selectedCategory);
         });
+
         viewModel.fetchCategories();
 
-        if (savedInstanceState == null) {
-            viewModel.fetchCategories();
-        }
-        if (savedInstanceState != null) {
-            scrollPosition = savedInstanceState.getInt("scroll_position", 0);
-        }
         EditText searchEditText = binding.searchView.searchSrcText.findViewById(R.id.search_src_text);
         searchEditText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -157,12 +126,22 @@ public class CategoryFragment extends BaseFragment<FragmentCategoryBinding,Categ
         binding.priceFilterSpinner.setSelection(0);
         viewModel.filterByPriceIncrease();
 
-//        binding.categorySpinner.setSelection(0);
-//        viewModel.filterByCategory("a");
+        binding.categorySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String categoryName = parent.getItemAtPosition(position).toString();
+                if (categoryName == "ALL" ){
+                    viewModel.fetchBooks();
+                }else {
+                    viewModel.filterByCategory(categoryName);
+                }
+            }
+            public void onNothingSelected(AdapterView<?> parent) {
 
-        binding.recyclerView.post(() -> {
-            binding.recyclerView.scrollToPosition(scrollPosition);
+            }
         });
+
+
 
 //        binding.btnAdd.setOnClickListener(v -> {
 ////            Category category = new Category();
@@ -187,11 +166,6 @@ public class CategoryFragment extends BaseFragment<FragmentCategoryBinding,Categ
 
 
     }
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putInt("selected_category_position", selectedCategoryPosition);
-        outState.putInt("scroll_position", ((GridLayoutManager) binding.recyclerView.getLayoutManager()).findFirstVisibleItemPosition());
-    }
+
 
 }

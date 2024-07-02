@@ -8,7 +8,10 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
+import com.group2.bookstoreproject.R;
 import com.group2.bookstoreproject.base.BaseFragment;
 import com.group2.bookstoreproject.data.model.User;
 import com.group2.bookstoreproject.data.repository.ProfileRepository;
@@ -44,6 +47,7 @@ public class ProfileFragment extends BaseFragment<FragmentProfileBinding, Profil
 
         profileRepository = new ProfileRepositoryImpl();
         loadUserProfile();
+        binding.imageToListOrder.setOnClickListener(v -> navigateToOrderList());
     }
 
     private void loadUserProfile() {
@@ -74,5 +78,10 @@ public class ProfileFragment extends BaseFragment<FragmentProfileBinding, Profil
         } else {
             Log.d(TAG, "No user session found");
         }
+    }
+    private void navigateToOrderList() {
+        NavController navController = Navigation.findNavController(requireView());
+        navController.navigate(R.id.action_navigation_cus_profile_to_orderListFragment2);
+
     }
 }
