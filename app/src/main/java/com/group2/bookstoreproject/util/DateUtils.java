@@ -1,5 +1,7 @@
 package com.group2.bookstoreproject.util;
 
+import android.util.Log;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -14,6 +16,8 @@ public class DateUtils {
     public static final String HH_MM_FORMAT = "HH:mm";
     public static final String YYYY_MM_DD_FORMAT = "yyyy-MM-dd";
     public static final String YYYY_MM_DD_HH_MM_FORMAT = "yyyy-MM-dd HH:mm";
+
+    public static final String DD_MM_YYYY_FORMAT = "dd/MM/yyyy";
     private static final Locale DEFAULT_LOCALE = Locale.getDefault();
 
 
@@ -47,8 +51,24 @@ public class DateUtils {
         return sdf.parse(dateString);
     }
 
-
     public static long toMilliseconds(Date date) {
         return date.getTime();
     }
+
+    // Method to parse custom date format
+    public static long parseDateToMilliseconds(String dateString, String pattern) throws ParseException {
+        SimpleDateFormat sdf = new SimpleDateFormat(pattern, DEFAULT_LOCALE);
+        sdf.setLenient(false);
+        Date date = sdf.parse(dateString);
+        Log.d("date date", date.toString());
+        return date.getTime();
+    }
+
+    public static long parseDateWithDefaultTime(String dateString, String pattern) throws ParseException {
+        String fullDateString = dateString + " 00:00:00";
+        Log.d("fullDate", fullDateString);
+        return parseDateToMilliseconds(fullDateString, pattern + " HH:mm:ss");
+    }
+
+
 }

@@ -70,9 +70,9 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="537dp"
+            android:layout_height="530dp"
             android:layout_marginTop="8dp"
-            android:layout_marginBottom="80dp"
+
             android:layout_weight="1" />
 
 
