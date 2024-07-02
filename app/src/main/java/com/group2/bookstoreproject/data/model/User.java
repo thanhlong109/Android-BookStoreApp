@@ -17,11 +17,20 @@ public class User implements Serializable {
     private long joinedAt;
     private int status;
     private String deviceToken;
+    private Address address;
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
 
     public User() {
     }
 
-    public User(String userId, String userName, String password, String email, String fullName, long dateOfBirth, String phone, String avatar, int role, long joinedAt, int status, String deviceToken) {
+    public User(String userId, String userName, String password, String email, String fullName, long dateOfBirth, String phone, String avatar, int role, long joinedAt, int status, String deviceToken, Address address) {
         this.userId = userId;
         this.userName = userName;
         this.password = password;
@@ -34,6 +43,7 @@ public class User implements Serializable {
         this.joinedAt = joinedAt;
         this.status = status;
         this.deviceToken = deviceToken;
+        this.address = address;
     }
 
     public User(String userId, String fullName, long dateOfBirth) {

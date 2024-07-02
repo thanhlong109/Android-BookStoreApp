@@ -73,16 +73,32 @@ public class ProfileRepositoryImpl extends BaseRepositoryImpl<User> implements P
     }
 
     @Override
+    public Task<User> updateImgUser(User user) {
+        TaskCompletionSource<User> taskCompletionSource = new TaskCompletionSource<>();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        // Create a map of fields to update
+        Map<String, Object> updates = new HashMap<>();
+        updates.put("avatar", user.getAvatar());
+
+        db.collection(COLLECTION_PATH)
+                .document(user.getUserId())
+                .update(updates)
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        taskCompletionSource.setResult(null);
+                    } else {
+                        taskCompletionSource.setException(task.getException());
+                    }
+                });
+
+        return taskCompletionSource.getTask();
+    }
+
+    @Override
     public void listenToUserChanges(String userId, EventListener<DocumentSnapshot> listener) {
         firestore.collection("users").document(userId)
                 .addSnapshotListener(listener);
     }
-
-
-//    @Override
-//    public void listenToUserChanges(String userId, EventListener<DocumentSnapshot> listener) {
-//        firestore.collection("users").document(userId)
-//                .addSnapshotListener(listener);
-//    }
 
 }

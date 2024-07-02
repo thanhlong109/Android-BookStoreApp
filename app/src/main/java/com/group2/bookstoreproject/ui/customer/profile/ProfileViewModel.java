@@ -76,7 +76,7 @@ public class ProfileViewModel extends BaseViewModel {
     }
 
     public void updateUserProfile(User updatedUser) {
-        profileRepository.updateUser(updatedUser).addOnCompleteListener(task -> {
+        profileRepository.updateImgUser(updatedUser).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 userLiveData.setValue(updatedUser); // Update LiveData with the new user data
             } else {
