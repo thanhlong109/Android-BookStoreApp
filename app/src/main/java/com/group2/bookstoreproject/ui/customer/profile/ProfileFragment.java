@@ -14,6 +14,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Observer;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import com.bumptech.glide.Glide;
 import com.group2.bookstoreproject.R;
@@ -53,7 +55,8 @@ public class ProfileFragment extends BaseFragment<FragmentProfileBinding, Profil
         super.onViewCreated(view, savedInstanceState);
 
         firebaseStorage = FirebaseStorage.getInstance();
-
+        
+        binding.imageToListOrder.setOnClickListener(v -> navigateToOrderList());
         viewModel.getUserLiveData().observe(getViewLifecycleOwner(), new Observer<User>() {
             @Override
             public void onChanged(User user) {
@@ -94,6 +97,10 @@ public class ProfileFragment extends BaseFragment<FragmentProfileBinding, Profil
         binding.imgSetting.setOnClickListener(v -> openUpdateProfileFragment());
     }
 
+    private void navigateToOrderList() {
+        NavController navController = Navigation.findNavController(requireView());
+        navController.navigate(R.id.action_navigation_cus_profile_to_orderListFragment2);
+    }
     private void openImagePicker() {
         Intent intent = new Intent();
         intent.setType("image/*");
