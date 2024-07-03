@@ -7,9 +7,11 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 
 import android.transition.TransitionManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,6 +57,7 @@ public class OrderListFragment extends BaseFragment<FragmentOrderListBinding, Or
            role = loggedInUser.getRole();
         }
 
+
     }
 
     @Override
@@ -72,6 +75,21 @@ public class OrderListFragment extends BaseFragment<FragmentOrderListBinding, Or
 //            viewModel.addOrder(order);
 //        });
         orderListAdapter = new OrderListAdapter(role);
+        orderListAdapter.setOnOrderDetailClickListener(position -> {
+            Order order = orderListAdapter.getOrders().get(position);
+            if (order != null && order.getOrderId() != null) {
+                Bundle bundle = new Bundle();
+                bundle.putString("userId", order.getUserId());
+                bundle.putString("orderId", order.getOrderId());
+                try {
+                    Navigation.findNavController(view).navigate(R.id.action_orderListFragment2_to_orderDetailsFragment2, bundle);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } else {
+                Log.e("OrderListFragment", "Order or Order ID is null");
+            }
+        });
         binding.recyclerViewOrder.setLayoutManager(new GridLayoutManager(getContext(),1));
         binding.recyclerViewOrder.setAdapter(orderListAdapter);
 
@@ -143,6 +161,11 @@ public class OrderListFragment extends BaseFragment<FragmentOrderListBinding, Or
             });
         }
 
+
+//        orderListAdapter.setOnOrderItemClickListener(((position, newStatus) -> {
+//            Order order = orderListAdapter.getOrders().get(position);
+//            navigateToOrderDetails(order);
+//        }));
     }
     private void setTabIndicatorAndTextColor(boolean dangDoiGiao, boolean daHoanThanh, boolean huyDonHang, boolean danhSachDonHang) {
         binding.indicatorDangDoiGiao.setVisibility(dangDoiGiao ? View.VISIBLE : View.GONE);
@@ -156,5 +179,14 @@ public class OrderListFragment extends BaseFragment<FragmentOrderListBinding, Or
         binding.tabAllDonHang.setTextColor(danhSachDonHang ? getResources().getColor(R.color.colorPrimary) : getResources().getColor(R.color.black));
     }
 
+//    private void navigateToOrderDetails(Order order) {
+//        Bundle bundle = new Bundle();
+//        bundle.putString("orderId", order.getOrderId());
+//
+//        Navigation.findNavController(requireView()).navigate(
+//                R.id.action_orderListFragment_to_orderDetailsFragment,
+//                bundle
+//        );
+//    }
 
 }
