@@ -26,16 +26,19 @@ public class CartViewModel extends BaseViewModel {
     private final MutableLiveData<List<CartItem>> cartItems;
     private final CartItemRepository cartRepository;
     private ListenerRegistration cartItemsListener;
+    private final MutableLiveData<Boolean> cartChangedLiveData;
     private static final String TAG = "CartViewModel";
 
     public CartViewModel() {
         cartRepository = new CartItemRepositoryImpl();
         cartItems = new MutableLiveData<>();
+        cartChangedLiveData = (MutableLiveData<Boolean>) ((CartItemRepositoryImpl) cartRepository).getCartChangedLiveData();
     }
 
     public LiveData<List<CartItem>> getCartItems() {
         return cartItems;
     }
+    public LiveData<Boolean> getCartChangedLiveData() {return cartChangedLiveData;}
 
     public void loadCartItems(String accountId) {
         setLoading(true);

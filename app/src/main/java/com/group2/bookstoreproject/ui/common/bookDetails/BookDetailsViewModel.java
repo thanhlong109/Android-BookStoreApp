@@ -20,11 +20,23 @@ public class BookDetailsViewModel extends BaseViewModel {
 
 
     public void addToCart(CartItem item) {
-        cartItemRepository.upsert(item.getCartItemId(), item, task -> {
-            if (task.isSuccessful()) {
-                Log.d(TAG, "cart item added successfully");
+        cartItemRepository.getCartItemByBookAndAccountId(item.getAccountId(), item.getBookId(), task -> {
+            if (task.isSuccessful() && task.getResult() != null && !task.getResult().isEmpty()) {
+                // Item exists, update the quantity
+                CartItem existingItem = task.getResult().getDocuments().get(0).toObject(CartItem.class);
+                int newQuantity = existingItem.getQuantity() + 1;
+                cartItemRepository.updateQuantity(existingItem, newQuantity, task1 -> {
+                    if (!task1.isSuccessful()) {
+                        Log.e(TAG, "Error updating cart item", task1.getException());
+                    }
+                });
             } else {
-                Log.e(TAG, "Error adding cart item", task.getException());
+                // Item does not exist, add a new item
+                cartItemRepository.upsert(item.getCartItemId(), item, task1 -> {
+                    if (!task1.isSuccessful()) {
+                        Log.e(TAG, "Error adding cart item", task1.getException());
+                    }
+                });
             }
         });
     }
