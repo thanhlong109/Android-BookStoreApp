@@ -74,6 +74,14 @@ public class OrderListFragment extends BaseFragment<FragmentOrderListBinding, Or
 //            order.setAddress("Quan 9 ");
 //            viewModel.addOrder(order);
 //        });
+
+        binding.backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Navigation.findNavController(view).navigateUp();
+            }
+        });
+
         orderListAdapter = new OrderListAdapter(role);
         orderListAdapter.setOnOrderDetailClickListener(position -> {
             Order order = orderListAdapter.getOrders().get(position);
@@ -82,7 +90,14 @@ public class OrderListFragment extends BaseFragment<FragmentOrderListBinding, Or
                 bundle.putString("userId", order.getUserId());
                 bundle.putString("orderId", order.getOrderId());
                 try {
-                    Navigation.findNavController(view).navigate(R.id.action_orderListFragment2_to_orderDetailsFragment2, bundle);
+                    if(role==2){
+                        Navigation.findNavController(view).navigate(R.id.action_orderListFragment2_to_orderDetailsFragment2, bundle);
+                    } else if (role==1) {
+                        Navigation.findNavController(view).navigate(R.id.action_orderListFragment3_to_orderDetailsFragment3, bundle);
+                    } else if (role==3) {
+                        Navigation.findNavController(view).navigate(R.id.action_orderListFragment_to_orderDetailsFragment, bundle);
+                    }
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -93,7 +108,11 @@ public class OrderListFragment extends BaseFragment<FragmentOrderListBinding, Or
         binding.recyclerViewOrder.setLayoutManager(new GridLayoutManager(getContext(),1));
         binding.recyclerViewOrder.setAdapter(orderListAdapter);
 
-        viewModel.getOrders().observe(getViewLifecycleOwner(),orderListAdapter::setOrders);
+     //   viewModel.getOrders().observe(getViewLifecycleOwner(),orderListAdapter::setOrders);
+        viewModel.getOrders().observe(getViewLifecycleOwner(), orders -> {
+            orderListAdapter.setOrders(orders);
+            updateEmptyView(orders);
+        });
 
         if(role==1 || role==3){
             viewModel.fetchOrders();
@@ -189,4 +208,13 @@ public class OrderListFragment extends BaseFragment<FragmentOrderListBinding, Or
 //        );
 //    }
 
+    private void updateEmptyView(List<Order> orders) {
+        if (orders == null || orders.isEmpty()) {
+            binding.recyclerViewOrder.setVisibility(View.GONE);
+            binding.emptyOrderLayout.emptyOrderListLayout.setVisibility(View.VISIBLE);
+        } else {
+            binding.recyclerViewOrder.setVisibility(View.VISIBLE);
+            binding.emptyOrderLayout.emptyOrderListLayout.setVisibility(View.GONE);
+        }
+    }
 }

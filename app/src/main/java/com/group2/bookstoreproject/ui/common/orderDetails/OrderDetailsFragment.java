@@ -8,6 +8,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -24,6 +25,7 @@ import com.group2.bookstoreproject.data.model.OrderItem;
 import com.group2.bookstoreproject.data.model.User;
 import com.group2.bookstoreproject.databinding.FragmentOrderDetailsBinding;
 import com.group2.bookstoreproject.ui.adapter.OrderDetailAdapter;
+import com.group2.bookstoreproject.util.session.SessionManager;
 
 import java.util.List;
 
@@ -31,6 +33,8 @@ import java.util.List;
 public class OrderDetailsFragment extends BaseFragment<FragmentOrderDetailsBinding, OrderDetailsViewModel> {
 
     private OrderDetailAdapter orderDetailAdapter;
+    private String accountId ;
+    private int role;
 
     @NonNull
     @Override
@@ -45,10 +49,32 @@ public class OrderDetailsFragment extends BaseFragment<FragmentOrderDetailsBindi
     }
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        SessionManager sessionManager = SessionManager.getInstance();
+        User loggedInUser = sessionManager.getLoggedInUser();
+        if (loggedInUser!=null){
+            accountId = loggedInUser.getUserId();
+            role = loggedInUser.getRole();
+        }
+    }
+
+    @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-
+        binding.backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (role ==3 ){
+                    Navigation.findNavController(view).navigate(R.id.action_orderDetailsFragment_to_orderListFragment);
+                } else if (role ==2){
+                    Navigation.findNavController(view).navigate(R.id.action_orderDetailsFragment2_to_orderListFragment2);
+                } else if (role==1) {
+                    Navigation.findNavController(view).navigate(R.id.action_orderDetailsFragment3_to_orderListFragment3);
+                }
+            }
+        });
 
         if (getArguments() != null) {
             String orderId = getArguments().getString("orderId", "");
@@ -60,6 +86,7 @@ public class OrderDetailsFragment extends BaseFragment<FragmentOrderDetailsBindi
             if (!userId.isEmpty()){
                 viewModel.getUserbyUserId(userId);
             }
+
         }
 
         viewModel.getOrder().observe(getViewLifecycleOwner(), this::displayOrderDetails);
