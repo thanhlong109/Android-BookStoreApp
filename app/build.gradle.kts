@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.dagger.hilt)
@@ -11,6 +13,15 @@ android {
     buildFeatures {
         dataBinding = true
         viewBinding = true
+        buildConfig = true
+    }
+
+    val localProperties = Properties()
+    val localPropertiesFile = rootProject.file("local.properties")
+    if (localPropertiesFile.exists()) {
+        localPropertiesFile.inputStream().use { inputStream ->
+            localProperties.load(inputStream)
+        }
     }
 
     defaultConfig {
@@ -21,6 +32,9 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField("String", "MAPBOX_DOWNLOADS_TOKEN", "\"${localProperties["MAPBOX_DOWNLOADS_TOKEN"]}\"")
+        buildConfigField("String", "MAPBOX_ACCESS_TOKEN", "\"${localProperties["MAPBOX_ACCESS_TOKEN"]}\"")
     }
 
     buildTypes {
@@ -99,6 +113,7 @@ dependencies {
 
     //mapbox
     implementation(libs.mapbox.android)
+    implementation(libs.mapbox.search)
 }
 
 

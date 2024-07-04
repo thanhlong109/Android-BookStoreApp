@@ -1,3 +1,15 @@
+import java.util.Properties
+
+// Đọc local.properties
+val localProperties = Properties()
+val localPropertiesFile = rootDir.resolve("local.properties")
+if (localPropertiesFile.exists()) {
+    localPropertiesFile.inputStream().use { localProperties.load(it) }
+}
+
+// Lấy MAPBOX_DOWNLOADS_TOKEN từ local.properties
+val mapboxDownloadsToken: String? = localProperties.getProperty("MAPBOX_DOWNLOADS_TOKEN")
+
 pluginManagement {
     repositories {
         google {
@@ -22,7 +34,7 @@ dependencyResolutionManagement {
             // Do not change the username below. It should always be "mapbox" (not your username).
             credentials.username = "mapbox"
             // Use the secret token stored in gradle.properties as the password
-            credentials.password = providers.gradleProperty("MAPBOX_DOWNLOADS_TOKEN").get()
+            credentials.password = mapboxDownloadsToken ?: error("MAPBOX_DOWNLOADS_TOKEN not found in local.properties")
             authentication.create<BasicAuthentication>("basic")
         }
     }

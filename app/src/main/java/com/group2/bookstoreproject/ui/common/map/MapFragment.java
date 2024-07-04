@@ -2,54 +2,121 @@ package com.group2.bookstoreproject.ui.common.map;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.content.res.AppCompatResources;
 import androidx.core.app.ActivityCompat;
-import androidx.fragment.app.Fragment;
 
+
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.group2.bookstoreproject.BuildConfig;
 import com.group2.bookstoreproject.R;
 import com.group2.bookstoreproject.base.BaseFragment;
 import com.group2.bookstoreproject.databinding.FragmentMapBinding;
+import com.mapbox.android.core.location.LocationEngineProvider;
 import com.mapbox.android.core.permissions.PermissionsListener;
 import com.mapbox.android.core.permissions.PermissionsManager;
+import com.mapbox.android.gestures.MoveGestureDetector;
 import com.mapbox.geojson.Point;
+import com.mapbox.maps.CameraOptions;
+import com.mapbox.maps.MapInitOptions;
+import com.mapbox.maps.MapView;
 import com.mapbox.maps.MapboxMap;
+import com.mapbox.maps.ResourceOptions;
 import com.mapbox.maps.Style;
+import com.mapbox.maps.plugin.LocationPuck2D;
 import com.mapbox.maps.plugin.Plugin;
+import com.mapbox.maps.plugin.gestures.OnMoveListener;
 import com.mapbox.maps.plugin.locationcomponent.LocationComponentPlugin;
+import com.mapbox.maps.plugin.locationcomponent.OnIndicatorBearingChangedListener;
+import com.mapbox.maps.plugin.locationcomponent.OnIndicatorPositionChangedListener;
+import com.mapbox.search.autocomplete.PlaceAutocomplete;
+import com.mapbox.search.autocomplete.PlaceAutocompleteSuggestion;
+import com.mapbox.search.ui.adapter.autocomplete.PlaceAutocompleteUiAdapter;
+import com.mapbox.search.ui.view.CommonSearchViewConfiguration;
+import com.mapbox.search.ui.view.SearchResultsView;
+
+import static com.mapbox.maps.plugin.gestures.GesturesUtils.getGestures;
+import static com.mapbox.maps.plugin.locationcomponent.LocationComponentUtils.getLocationComponent;
 
 import java.util.List;
+
+import kotlin.Unit;
+import kotlin.coroutines.Continuation;
+import kotlin.coroutines.CoroutineContext;
+import kotlin.coroutines.EmptyCoroutineContext;
 
 
 public class MapFragment extends BaseFragment<FragmentMapBinding, MapViewModel> {
     private PermissionsManager permissionsManager;
+
     private MapboxMap mapboxMap;
-    private Point originPoint; // Vị trí cố định
-    private Point destinationPoint; // Vị trí đã chọn
+    private MapView mapView;
+    private PlaceAutocomplete placeAutocomplete;
+    private SearchResultsView searchResultsView;
+    private PlaceAutocompleteUiAdapter placeAutocompleteUiAdapter;
+    private boolean ignoreNextQueryUpdate = false;
+    private boolean focusLocation;
 
-    private PermissionsListener permissionsListener = new PermissionsListener() {
+    private final ActivityResultLauncher<String> activityResultLauncher  = registerForActivityResult(new ActivityResultContracts.RequestPermission(), new ActivityResultCallback<Boolean>() {
         @Override
-        public void onExplanationNeeded(@NonNull List<String> list) {
-            // Giải thích với người dùng tại sao cần quyền này, nếu cần.
-        }
-
-        @Override
-        public void onPermissionResult(boolean granted) {
-            if (granted) {
-                // Kích hoạt LocationComponent khi quyền được cấp
-                //enableLocationComponent();
-            } else {
-                // Người dùng từ chối quyền
-                // Xử lý trường hợp người dùng từ chối quyền ở đây
+        public void onActivityResult(Boolean result) {
+            if(result ){
+                Toast.makeText(getActivity(), "Permission gainted", Toast.LENGTH_SHORT).show();
+            }else{
+                Toast.makeText(getActivity(), "Permisson not granted", Toast.LENGTH_SHORT).show();
             }
         }
+    });
+
+    private final OnIndicatorBearingChangedListener onIndicatorBearingChangedListener = new OnIndicatorBearingChangedListener() {
+        @Override
+        public void onIndicatorBearingChanged(double v) {
+            mapView.getMapboxMap().setCamera(new CameraOptions.Builder().bearing(v).build());
+        }
     };
+
+    private final OnIndicatorPositionChangedListener onIndicatorPositionChangedListener = new OnIndicatorPositionChangedListener() {
+        @Override
+        public void onIndicatorPositionChanged(@NonNull Point point) {
+            mapView.getMapboxMap().setCamera(new CameraOptions.Builder().center(point).zoom(20.0).build());
+            getGestures(mapView).setFocalPoint(mapView.getMapboxMap().pixelForCoordinate(point));
+        }
+    };
+
+    private final OnMoveListener onMoveListener = new OnMoveListener() {
+        @Override
+        public void onMoveBegin(@NonNull MoveGestureDetector moveGestureDetector) {
+            getLocationComponent(mapView).removeOnIndicatorPositionChangedListener(onIndicatorPositionChangedListener);
+            getLocationComponent(mapView).removeOnIndicatorBearingChangedListener(onIndicatorBearingChangedListener);
+            getGestures(mapView).removeOnMoveListener(onMoveListener);
+            binding.fabMyLocation.show();
+        }
+
+        @Override
+        public boolean onMove(@NonNull MoveGestureDetector moveGestureDetector) {
+            return false;
+        }
+
+        @Override
+        public void onMoveEnd(@NonNull MoveGestureDetector moveGestureDetector) {
+
+        }
+    };
+
+
 
     @NonNull
     @Override
@@ -66,76 +133,103 @@ public class MapFragment extends BaseFragment<FragmentMapBinding, MapViewModel> 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        binding.mapView.getMapboxMap().loadStyle(Style.MAPBOX_STREETS, style -> {
-            mapboxMap = binding.mapView.getMapboxMap();
-            //setupMapClickListener();
+        MapInitOptions mapInitOptions = new MapInitOptions(requireContext(), new ResourceOptions.Builder().accessToken(BuildConfig.MAPBOX_ACCESS_TOKEN).build());
+        mapView = new MapView(requireContext(), mapInitOptions);
+        binding.rlContainer.addView(mapView);
+        binding.fabMyLocation.hide();
+        if(ActivityCompat.checkSelfPermission( getContext(), Manifest.permission.ACCESS_FINE_LOCATION)!= PackageManager.PERMISSION_GRANTED){
+            activityResultLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION);
+        }
+        mapView.getMapboxMap().loadStyleUri(Style.MAPBOX_STREETS, new Style.OnStyleLoaded() {
+            @Override
+            public void onStyleLoaded(@NonNull Style style) {
+                mapView.getMapboxMap().setCamera(new CameraOptions.Builder().zoom(20.0).build());
+                LocationComponentPlugin locationComponentPlugin = getLocationComponent(mapView);
+                locationComponentPlugin.setEnabled(true);
+                Drawable bearingImage = AppCompatResources.getDrawable(requireContext(), R.drawable.home_pin);
+                LocationPuck2D locationPuck2D = new LocationPuck2D();
+                locationPuck2D.setBearingImage(bearingImage);
+                locationPuck2D.setScaleExpression("0.2");
+
+                locationComponentPlugin.setLocationPuck(locationPuck2D);
+                locationComponentPlugin.addOnIndicatorBearingChangedListener(onIndicatorBearingChangedListener);
+                locationComponentPlugin.addOnIndicatorPositionChangedListener(onIndicatorPositionChangedListener);
+                getGestures(mapView).addOnMoveListener(onMoveListener);
+
+                binding.fabMyLocation.setOnClickListener(v -> {
+                    locationComponentPlugin.addOnIndicatorBearingChangedListener(onIndicatorBearingChangedListener);
+                    locationComponentPlugin.addOnIndicatorPositionChangedListener(onIndicatorPositionChangedListener);
+                    getGestures(mapView).addOnMoveListener(onMoveListener);
+                    binding.fabMyLocation.hide();
+                });
+            }
         });
 
-        if(PermissionsManager.areLocationPermissionsGranted(getContext())){
-            //enableLocationComponent();
-        } else {
-            permissionsManager = new  PermissionsManager(permissionsListener);
-            permissionsManager.requestLocationPermissions(getActivity());
-        }
+        placeAutocomplete = PlaceAutocomplete.create(BuildConfig.MAPBOX_ACCESS_TOKEN);
+        binding.searchResultView.initialize(new SearchResultsView.Configuration(new CommonSearchViewConfiguration()));
+        placeAutocompleteUiAdapter = new PlaceAutocompleteUiAdapter(binding.searchResultView, placeAutocomplete, LocationEngineProvider.getBestLocationEngine(getContext()));
+
+        binding.etSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(ignoreNextQueryUpdate){
+                    ignoreNextQueryUpdate = false;
+                }else{
+                    placeAutocompleteUiAdapter.search(s.toString(), new Continuation<Unit>() {
+                        @NonNull
+                        @Override
+                        public CoroutineContext getContext() {
+                            return EmptyCoroutineContext.INSTANCE;
+                        }
+
+                        @Override
+                        public void resumeWith(@NonNull Object o) {
+                            getActivity().runOnUiThread(() -> {
+                                searchResultsView.setVisibility(View.VISIBLE);
+                            });
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        placeAutocompleteUiAdapter.addSearchListener(new PlaceAutocompleteUiAdapter.SearchListener() {
+            @Override
+            public void onSuggestionsShown(@NonNull List<PlaceAutocompleteSuggestion> list) {
+
+            }
+
+            @Override
+            public void onSuggestionSelected(@NonNull PlaceAutocompleteSuggestion placeAutocompleteSuggestion) {
+                ignoreNextQueryUpdate = true;
+                focusLocation = false;
+                binding.etSearch.setText(placeAutocompleteSuggestion.getName());
+                searchResultsView.setVisibility(View.GONE);
+
+
+            }
+
+            @Override
+            public void onPopulateQueryClick(@NonNull PlaceAutocompleteSuggestion placeAutocompleteSuggestion) {
+
+            }
+
+            @Override
+            public void onError(@NonNull Exception e) {
+
+            }
+        });
     }
 
-//    private void enableLocationComponent() {
-//        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-//            return;
-//        }
-//
-//        LocationComponentPlugin locationComponent = binding.mapView.getPlugin(Plugin.MAPBOX_LOCATION_COMPONENT_PLUGIN_ID);
-//        LocationComponentActivationOptions locationComponentActivationOptions = LocationComponentActivationOptions.builder(getContext(), mapboxMap.getStyle())
-//                .useDefaultLocationEngine(true)
-//                .locationComponentOptions(LocationComponentOptions.builder(getContext())
-//                        .trackingGesturesManagement(true)
-//                        .accuracyColor(Color.RED)
-//                        .build())
-//                .build();
-//        locationComponent.activateLocationComponent(locationComponentActivationOptions);
-//        locationComponent.setLocationComponentEnabled(true);
-//        locationComponent.setCameraMode(CameraMode.TRACKING);
-//        locationComponent.setRenderMode(RenderMode.COMPASS);
-//    }
-
-
-//    private void setupMapClickListener() {
-//        mapboxMap. (point -> {
-//            if (destinationPoint == null) {
-//                destinationPoint = Point.fromLngLat(point.getLongitude(), point.getLatitude());
-//                addMarker(destinationPoint);
-//                calculateRoute();
-//            } else {
-//                destinationPoint = null;
-//                mapboxMap.getStyle(style -> style.removeLayer("route-layer"));
-//            }
-//            return true;
-//        });
-//    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        binding.mapView.onStart();
-    }
-
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        binding.mapView.onStop();
-    }
-
-    @Override
-    public void onLowMemory() {
-        super.onLowMemory();
-        binding.mapView.onLowMemory();
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        binding.mapView.onDestroy();
-    }
 
 }
