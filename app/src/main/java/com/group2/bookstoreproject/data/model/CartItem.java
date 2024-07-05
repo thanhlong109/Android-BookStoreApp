@@ -1,8 +1,10 @@
 package com.group2.bookstoreproject.data.model;
 
+import java.util.Objects;
+
 public class CartItem {
     private String cartItemId;
-    private  String shoppingCartId;
+    private String accountId;
     private String bookId;
     private int quantity;
     private double price;
@@ -10,9 +12,9 @@ public class CartItem {
     public CartItem() {
     }
 
-    public CartItem(String cartItemId, String shoppingCartId, String bookId, int quantity, double price) {
+    public CartItem(String cartItemId, String accountId, String bookId, int quantity, double price) {
         this.cartItemId = cartItemId;
-        this.shoppingCartId = shoppingCartId;
+        this.accountId = accountId;
         this.bookId = bookId;
         this.quantity = quantity;
         this.price = price;
@@ -26,12 +28,12 @@ public class CartItem {
         this.cartItemId = cartItemId;
     }
 
-    public String getShoppingCartId() {
-        return shoppingCartId;
+    public String getAccountId() {
+        return accountId;
     }
 
-    public void setShoppingCartId(String shoppingCartId) {
-        this.shoppingCartId = shoppingCartId;
+    public void setAccountId(String accountId) {
+        this.accountId = accountId;
     }
 
     public String getBookId() {
@@ -56,5 +58,18 @@ public class CartItem {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        CartItem cartItem = (CartItem) obj;
+        return cartItemId.equals(cartItem.cartItemId);
+    }
+
+    @Override
+    public int hashCode() {
+        return cartItemId.hashCode();
     }
 }

@@ -151,7 +151,7 @@ public class MapFragment extends BaseFragment<FragmentMapBinding, MapViewModel> 
         mapView.getMapboxMap().loadStyleUri(Style.MAPBOX_STREETS, new Style.OnStyleLoaded() {
             @Override
             public void onStyleLoaded(@NonNull Style style) {
-                mapView.getMapboxMap().setCamera(new CameraOptions.Builder().zoom(20.0).build());
+                mapView.getMapboxMap().setCamera(new CameraOptions.Builder().zoom(16.0).build());
                 LocationComponentPlugin locationComponentPlugin = getLocationComponent(mapView);
                 locationComponentPlugin.setEnabled(true);
                 Drawable bearingImage = AppCompatResources.getDrawable(requireContext(), R.drawable.home_pin);

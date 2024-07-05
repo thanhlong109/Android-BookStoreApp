@@ -40,6 +40,9 @@
         <action
             android:id="@+id/action_navigation_cus_profile_to_orderListFragment2"
             app:destination="@id/orderListFragment2" />
+        <action
+            android:id="@+id/action_navigation_cus_profile_to_update_profile"
+            app:destination="@id/update_profile" />
     </fragment>
     <fragment
         android:id="@+id/bookDetailsFragment2"
@@ -88,4 +91,13 @@
         android:name="com.group2.bookstoreproject.ui.common.map.MapFragment"
         android:label="fragment_map"
         tools:layout="@layout/fragment_map" />
+    <fragment
+        android:id="@+id/update_profile"
+        android:name="com.group2.bookstoreproject.ui.customer.profile.UpdateProfileFragment"
+        android:label="fragment_update_profile"
+        tools:layout="@layout/fragment_update_profile" >
+        <action
+            android:id="@+id/action_update_profile_to_navigation_cus_profile"
+            app:destination="@id/navigation_cus_profile" />
+    </fragment>
 </navigation>

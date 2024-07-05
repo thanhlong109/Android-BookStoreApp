@@ -108,6 +108,9 @@ dependencies {
     implementation(libs.navigation.fragment)
     implementation(libs.navigation.ui)
 
+    //storage
+    implementation(libs.firebase.storage)
+
     //implement firebase auth
     implementation("com.google.firebase:firebase-auth")
 
