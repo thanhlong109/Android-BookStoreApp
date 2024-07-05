@@ -2,6 +2,8 @@ package com.group2.bookstoreproject.ui.common.map;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
@@ -26,18 +28,26 @@ import com.group2.bookstoreproject.R;
 import com.group2.bookstoreproject.base.BaseFragment;
 import com.group2.bookstoreproject.databinding.FragmentMapBinding;
 import com.mapbox.android.core.location.LocationEngineProvider;
-import com.mapbox.android.core.permissions.PermissionsListener;
 import com.mapbox.android.core.permissions.PermissionsManager;
 import com.mapbox.android.gestures.MoveGestureDetector;
 import com.mapbox.geojson.Point;
 import com.mapbox.maps.CameraOptions;
+import com.mapbox.maps.EdgeInsets;
 import com.mapbox.maps.MapInitOptions;
+import com.mapbox.maps.MapOptions;
 import com.mapbox.maps.MapView;
 import com.mapbox.maps.MapboxMap;
 import com.mapbox.maps.ResourceOptions;
 import com.mapbox.maps.Style;
+import com.mapbox.maps.extension.style.layers.properties.generated.TextAnchor;
 import com.mapbox.maps.plugin.LocationPuck2D;
-import com.mapbox.maps.plugin.Plugin;
+import com.mapbox.maps.plugin.animation.MapAnimationOptions;
+import com.mapbox.maps.plugin.annotation.AnnotationPlugin;
+import com.mapbox.maps.plugin.annotation.AnnotationPluginImplKt;
+import com.mapbox.maps.plugin.annotation.generated.PointAnnotationManager;
+import com.mapbox.maps.plugin.annotation.generated.PointAnnotationManagerKt;
+import com.mapbox.maps.plugin.annotation.generated.PointAnnotationOptions;
+import com.mapbox.maps.plugin.gestures.OnMapClickListener;
 import com.mapbox.maps.plugin.gestures.OnMoveListener;
 import com.mapbox.maps.plugin.locationcomponent.LocationComponentPlugin;
 import com.mapbox.maps.plugin.locationcomponent.OnIndicatorBearingChangedListener;
@@ -48,6 +58,8 @@ import com.mapbox.search.ui.adapter.autocomplete.PlaceAutocompleteUiAdapter;
 import com.mapbox.search.ui.view.CommonSearchViewConfiguration;
 import com.mapbox.search.ui.view.SearchResultsView;
 
+import static com.mapbox.maps.plugin.animation.CameraAnimationsUtils.getCamera;
+import static com.mapbox.maps.plugin.gestures.GesturesUtils.addOnMapClickListener;
 import static com.mapbox.maps.plugin.gestures.GesturesUtils.getGestures;
 import static com.mapbox.maps.plugin.locationcomponent.LocationComponentUtils.getLocationComponent;
 
@@ -60,15 +72,11 @@ import kotlin.coroutines.EmptyCoroutineContext;
 
 
 public class MapFragment extends BaseFragment<FragmentMapBinding, MapViewModel> {
-    private PermissionsManager permissionsManager;
 
-    private MapboxMap mapboxMap;
     private MapView mapView;
     private PlaceAutocomplete placeAutocomplete;
-    private SearchResultsView searchResultsView;
     private PlaceAutocompleteUiAdapter placeAutocompleteUiAdapter;
     private boolean ignoreNextQueryUpdate = false;
-    private boolean focusLocation;
 
     private final ActivityResultLauncher<String> activityResultLauncher  = registerForActivityResult(new ActivityResultContracts.RequestPermission(), new ActivityResultCallback<Boolean>() {
         @Override
@@ -156,6 +164,22 @@ public class MapFragment extends BaseFragment<FragmentMapBinding, MapViewModel> 
                 locationComponentPlugin.addOnIndicatorPositionChangedListener(onIndicatorPositionChangedListener);
                 getGestures(mapView).addOnMoveListener(onMoveListener);
 
+//                Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_location_on_24);
+//                AnnotationPlugin annotationPlugin = AnnotationPluginImplKt.getAnnotations(mapView);
+//                PointAnnotationManager pointAnnotationManager = PointAnnotationManagerKt.createPointAnnotationManager(annotationPlugin, mapView);
+//
+//                addOnMapClickListener(mapView.getMapboxMap(), new OnMapClickListener() {
+//                    @Override
+//                    public boolean onMapClick(@NonNull Point point) {
+//                        pointAnnotationManager.deleteAll();
+//                        PointAnnotationOptions pointAnnotationOptions = new PointAnnotationOptions().withTextAnchor(TextAnchor.CENTER).withIconImage(bitmap)
+//                                .withPoint(point);
+//                        pointAnnotationManager.create(pointAnnotationOptions);
+//                        updateCamera(point, 0.0);
+//                        return true;
+//                    }
+//                });
+
                 binding.fabMyLocation.setOnClickListener(v -> {
                     locationComponentPlugin.addOnIndicatorBearingChangedListener(onIndicatorBearingChangedListener);
                     locationComponentPlugin.addOnIndicatorPositionChangedListener(onIndicatorPositionChangedListener);
@@ -190,7 +214,7 @@ public class MapFragment extends BaseFragment<FragmentMapBinding, MapViewModel> 
                         @Override
                         public void resumeWith(@NonNull Object o) {
                             getActivity().runOnUiThread(() -> {
-                                searchResultsView.setVisibility(View.VISIBLE);
+                                binding.searchResultView.setVisibility(View.VISIBLE);
                             });
                         }
                     });
@@ -212,9 +236,8 @@ public class MapFragment extends BaseFragment<FragmentMapBinding, MapViewModel> 
             @Override
             public void onSuggestionSelected(@NonNull PlaceAutocompleteSuggestion placeAutocompleteSuggestion) {
                 ignoreNextQueryUpdate = true;
-                focusLocation = false;
                 binding.etSearch.setText(placeAutocompleteSuggestion.getName());
-                searchResultsView.setVisibility(View.GONE);
+                binding.searchResultView.setVisibility(View.GONE);
 
 
             }
@@ -229,6 +252,14 @@ public class MapFragment extends BaseFragment<FragmentMapBinding, MapViewModel> 
 
             }
         });
+    }
+
+    private void updateCamera(Point point, Double bearing) {
+        MapAnimationOptions animationOptions = new MapAnimationOptions.Builder().duration(1500L).build();
+        CameraOptions cameraOptions = new CameraOptions.Builder().center(point).zoom(18.0).bearing(bearing).pitch(45.0)
+                .padding(new EdgeInsets(1000.0, 0.0, 0.0, 0.0)).build();
+
+        getCamera(mapView).easeTo(cameraOptions, animationOptions);
     }
 
 
