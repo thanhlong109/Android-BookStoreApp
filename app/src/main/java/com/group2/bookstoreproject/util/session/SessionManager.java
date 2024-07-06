@@ -1,5 +1,7 @@
 package com.group2.bookstoreproject.util.session;
 
+import android.util.Log;
+
 import com.group2.bookstoreproject.data.model.User;
 import com.group2.bookstoreproject.data.sharePreference.AppSharePreference;
 import com.squareup.moshi.JsonAdapter;
@@ -33,17 +35,18 @@ public class SessionManager {
     }
 
     public void saveUser(User user) {
+        Log.d("test",""+user.toString());
         if (user != null) {
-            String userJson = jsonAdapter.toJson(user);
-            appSharePreference.putString(KEY_USER, userJson);
+            String userJson = Instance.jsonAdapter.toJson(user);
+            Instance.appSharePreference.putString(KEY_USER, userJson);
         }
     }
 
     public User getLoggedInUser() {
-        String userJson = appSharePreference.getString(KEY_USER, null);
+        String userJson = Instance.appSharePreference.getString(KEY_USER, null);
         if (userJson != null) {
             try {
-                return jsonAdapter.fromJson(userJson);
+                return Instance.jsonAdapter.fromJson(userJson);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -54,15 +57,15 @@ public class SessionManager {
     public User getAdmin(){
         if(AdminInstance == null){
             AdminInstance = new User();
-            AdminInstance.setAvatar("");
-            AdminInstance.setEmail("admin1@gmail.com");
-            AdminInstance.setUserId("admin1@gmail.com");
+            AdminInstance.setAvatar("https://firebasestorage.googleapis.com/v0/b/bookstore-832c5.appspot.com/o/images%2Fuser-4.jpg?alt=media&token=f43cb1a5-3359-4f15-a9d3-dc8f8ac0befa");
+            AdminInstance.setEmail("admin@gmail.com");
+            AdminInstance.setUserId("admin@gmail.com");
         }
         return AdminInstance;
     }
 
 
     public void clearUser() {
-        appSharePreference.putString(KEY_USER, null);
+        appSharePreference.remove(KEY_USER); // Remove the key from SharedPreferences
     }
 }

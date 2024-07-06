@@ -1,5 +1,7 @@
 package com.group2.bookstoreproject.data.model;
 
+import androidx.annotation.Nullable;
+
 import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;
@@ -67,5 +69,13 @@ public class ChatRoom implements Serializable {
 
     public void setMembers(List<String> members) {
         this.members = members;
+    }
+
+    @Override
+    public boolean equals(@Nullable Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        ChatRoom that = (ChatRoom) obj;
+        return chatRoomId == that.getChatRoomId() && chatSeen == that.isChatSeen() && lastActiveTime == that.getLastActiveTime() && members == that.getMembers() && lastMessage == that.getLastMessage() ;
     }
 }

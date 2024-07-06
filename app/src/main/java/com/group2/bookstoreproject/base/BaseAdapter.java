@@ -51,6 +51,7 @@ public abstract class BaseAdapter<T, VH extends BaseItemViewHolder<T, ?>> extend
             setItemOrderBy.setItemOrder(list);
         }
         differ.submitList(list);
+        notifyDataSetChanged();
     }
 
     public void submitList(List<T> list, boolean autoScrollToNewElement) {
@@ -66,7 +67,7 @@ public abstract class BaseAdapter<T, VH extends BaseItemViewHolder<T, ?>> extend
         }else{
             differ.submitList(list);
         }
-
+        notifyDataSetChanged();
     }
 
     public void setItemOrderBy(SetItemOrderBy<T> listener) {

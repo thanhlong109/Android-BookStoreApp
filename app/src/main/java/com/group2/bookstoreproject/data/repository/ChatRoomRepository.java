@@ -13,5 +13,6 @@ public interface ChatRoomRepository extends BaseRepository<ChatRoom>{
     ListenerRegistration listenToChatRoomsByMember(String memberId, EventListener<QuerySnapshot> eventListener);
 
     void addMessageToChatRoom(String chatRoomId, ChatMessage message, OnCompleteListener<DocumentReference> onCompleteListener);
+    void setChatRoomSeen(String chatRoomId, boolean isSeen, OnCompleteListener<DocumentReference> onCompleteListener);
     ListenerRegistration listenToMessages(String chatRoomId, EventListener<QuerySnapshot> eventListener);
 }

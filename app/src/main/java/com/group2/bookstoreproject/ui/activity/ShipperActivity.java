@@ -27,7 +27,7 @@ public class ShipperActivity extends BaseActivity<ActivityShipperBinding> {
 
     @Override
     protected void setUpUI() {
-        NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment_activity_cus);
+        NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment_activity_shipper);
         if (navHostFragment != null) {
             NavController navController = navHostFragment.getNavController();
             NavigationUI.setupWithNavController(binding.shipperBottomNavigation, navController);

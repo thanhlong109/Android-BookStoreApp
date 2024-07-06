@@ -1,6 +1,7 @@
 package com.group2.bookstoreproject.ui.common.chat;
 
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 
@@ -50,17 +51,24 @@ public class ChatViewModel extends BaseViewModel {
         return currentChatRoom;
     }
 
-    public void setCurrentChatRoom(MutableLiveData<Resource<ChatRoom>> currentChatRoom) {
-        this.currentChatRoom = currentChatRoom;
+    public void setCurrentChatRoom(ChatRoom chatRoom) {
+        currentChatRoom.setValue(Resource.success(chatRoom));
     }
 
+    public void setReceiver(User receiver) {
+        this.receiver = receiver;
+    }
+
+    public User getReceiver() {
+        return receiver;
+    }
 
     public ChatViewModel() {
         chatRoomRepository = new ChatRoomRepositoryImpl();
         chatMessages = new MutableLiveData<>();
         currentChatRoom = new MutableLiveData<>();
+        sender = sessionManager.getLoggedInUser();
         if(sessionManager.getLoggedInUser().getRole() == 2){
-            sender = sessionManager.getLoggedInUser();
             receiver = sessionManager.getAdmin();
             getMyChatRooms();
         }
@@ -110,50 +118,6 @@ public class ChatViewModel extends BaseViewModel {
         });
     }
 
-    private void addListener(){
-        //listen all
-//        chatRoomRepository.listenAll((querySnapshot,e) ->{
-//            if (e != null) {
-//                Log.d(TAG, "Listen failed.", e);
-//                return;
-//            }
-//            if (querySnapshot!=null){
-//                for (DocumentChange dc : querySnapshot.getDocumentChanges()){
-//                    switch (dc.getType()){
-//                        case ADDED:
-//                            Log.d(TAG, "New chat room: " + dc.getDocument().getData());
-//                            break;
-//                        case MODIFIED:
-//                            Log.d(TAG, "Modified chat room: " + dc.getDocument().getData());
-//                            break;
-//                    }
-//                }
-//            }else{
-//                Log.d(TAG, "Current data: null");
-//            }
-//        });
-        //
-//        chatRoomRepository.listenToChatRoomsByMember(senderId,(querySnapshot, e) -> {
-//            if (e != null) {
-//                Log.d(TAG, "Listen failed.", e);
-//                return;
-//            }
-//            if (querySnapshot != null) {
-//                for (DocumentChange dc : querySnapshot.getDocumentChanges()) {
-//                    switch (dc.getType()) {
-//                        case ADDED:
-//                            Log.d(TAG, "New chat room: " + dc.getDocument().getData());
-//                            break;
-//                        case MODIFIED:
-//                            Log.d(TAG, "Modified chat room: " + dc.getDocument().getData());
-//                            break;
-//                    }
-//                }
-//            } else {
-//                Log.d(TAG, "Current data: null");
-//            }
-//        });
-    }
 
     public void addMessageToChatRoom( String text) {
         String chatRoomId = currentChatRoom.getValue().getData().getChatRoomId();
@@ -176,12 +140,31 @@ public class ChatViewModel extends BaseViewModel {
             setLoading(false);
         });
     }
+    public void setSeen( ChatMessage chatMessage) {
+       if(chatMessage.getReceiverId() == sender.getUserId() && !chatMessage.isSeen()){
+           chatMessage.setSeen(true);
+           updateMessage(chatMessage);
+       }
+    }
+    public void updateMessage( ChatMessage chatMessage) {
+        chatRoomRepository.addMessageToChatRoom(chatMessage.getChatRoomId(), chatMessage, task -> {
+            if (task.isSuccessful()) {
+                Log.d(TAG, "Message update successfully.");
+            } else {
+                Log.d(TAG, "Error adding message: ", task.getException());
+                setErrorMessage(task.getException().getMessage());
+            }
+            setLoading(false);
+        });
+    }
 
     public void listenToMessagesInChatRoom(String chatRoomId) {
         Log.d(TAG, "add message: "+chatRoomId);
+        setLoading(true);
         listenToMessagesInChatRoom = chatRoomRepository.listenToMessages(chatRoomId, (querySnapshot, e) -> {
             if (e != null) {
                 Log.d(TAG, "Listen failed.", e);
+                setLoading(false);
                 return;
             }
             if (querySnapshot != null) {
@@ -218,6 +201,7 @@ public class ChatViewModel extends BaseViewModel {
             } else {
                 Log.d(TAG, "Current data: null");
             }
+            new Handler(Looper.getMainLooper()).postDelayed(() -> setLoading(false), 500);
         });
     }
 

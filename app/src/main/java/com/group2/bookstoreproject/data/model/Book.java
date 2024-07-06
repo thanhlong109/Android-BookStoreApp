@@ -109,4 +109,16 @@ public class Book implements Serializable {
     public void setSale(int sale) {
         this.sale = sale>100?100:(sale<0?0:sale);
     }
+
+    @Override
+    public String toString() {
+        return "Book{" +
+                "bookId='" + bookId + '\'' +
+                ", title='" + title + '\'' +
+                ", author='" + author + '\'' +
+                ", price=" + price +
+                ", description='" + description + '\'' +
+                ", categoryId='" + categoryId + '\'' +
+                '}';
+    }
 }
