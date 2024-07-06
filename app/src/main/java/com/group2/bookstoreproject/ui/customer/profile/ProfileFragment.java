@@ -25,6 +25,7 @@ import com.group2.bookstoreproject.databinding.FragmentProfileBinding;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.group2.bookstoreproject.ui.activity.AuthActivity;
 import com.group2.bookstoreproject.util.DateUtils;
 import com.group2.bookstoreproject.util.session.SessionManager;
 
@@ -95,6 +96,16 @@ public class ProfileFragment extends BaseFragment<FragmentProfileBinding, Profil
         binding.imageViewAdd.setOnClickListener(v -> openImagePicker());
 
         binding.imgSetting.setOnClickListener(v -> openUpdateProfileFragment());
+
+        binding.tvLogout.setOnClickListener(v -> handleLogout()); // Add logout click listener
+    }
+
+    private void handleLogout() {
+        SessionManager sessionManager = SessionManager.getInstance();
+        sessionManager.clearUser(); // Clear the user session
+        Intent intent = new Intent(getActivity(), AuthActivity.class);
+        startActivity(intent);
+        getActivity().finish(); // Close the current activity
     }
 
     private void navigateToOrderList() {

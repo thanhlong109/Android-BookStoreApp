@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.group2.bookstoreproject.R;
 import com.group2.bookstoreproject.base.BaseFragment;
 import com.group2.bookstoreproject.data.model.CartItem;
 import com.group2.bookstoreproject.data.model.User;
@@ -79,6 +80,7 @@ public class CartFragment extends BaseFragment<FragmentCartBinding, CartViewMode
         if (accountId != null) {
             viewModel.loadCartItems(accountId);
         }
+        binding.buttonProceedToCheckout.setOnClickListener(v -> navigateToPage(R.id.paymentFragment));
     }
 
     private void setUpRecyclerView() {

@@ -94,7 +94,7 @@ public class CartItemRepositoryImpl extends BaseRepositoryImpl<CartItem> impleme
 
     @Override
     public ListenerRegistration listenToAllCartItems(EventListener<QuerySnapshot> listener) {
-         return getCollection(getCollectionPath())
+        return getCollection(getCollectionPath())
                 .addSnapshotListener(listener);
     }
 
@@ -106,3 +106,4 @@ public class CartItemRepositoryImpl extends BaseRepositoryImpl<CartItem> impleme
         query.get().addOnCompleteListener(onCompleteListener);
     }
 }
+
