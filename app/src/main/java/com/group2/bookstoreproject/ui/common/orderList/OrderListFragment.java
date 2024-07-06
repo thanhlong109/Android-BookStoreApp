@@ -7,9 +7,11 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 
 import android.transition.TransitionManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,6 +57,7 @@ public class OrderListFragment extends BaseFragment<FragmentOrderListBinding, Or
            role = loggedInUser.getRole();
         }
 
+
     }
 
     @Override
@@ -71,11 +74,45 @@ public class OrderListFragment extends BaseFragment<FragmentOrderListBinding, Or
 //            order.setAddress("Quan 9 ");
 //            viewModel.addOrder(order);
 //        });
+
+        binding.backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Navigation.findNavController(view).navigateUp();
+            }
+        });
+
         orderListAdapter = new OrderListAdapter(role);
+        orderListAdapter.setOnOrderDetailClickListener(position -> {
+            Order order = orderListAdapter.getOrders().get(position);
+            if (order != null && order.getOrderId() != null) {
+                Bundle bundle = new Bundle();
+                bundle.putString("userId", order.getUserId());
+                bundle.putString("orderId", order.getOrderId());
+                try {
+                    if(role==2){
+                        Navigation.findNavController(view).navigate(R.id.action_orderListFragment2_to_orderDetailsFragment2, bundle);
+                    } else if (role==1) {
+                        Navigation.findNavController(view).navigate(R.id.action_orderListFragment3_to_orderDetailsFragment3, bundle);
+                    } else if (role==3) {
+                        Navigation.findNavController(view).navigate(R.id.action_orderListFragment_to_orderDetailsFragment, bundle);
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } else {
+                Log.e("OrderListFragment", "Order or Order ID is null");
+            }
+        });
         binding.recyclerViewOrder.setLayoutManager(new GridLayoutManager(getContext(),1));
         binding.recyclerViewOrder.setAdapter(orderListAdapter);
 
-        viewModel.getOrders().observe(getViewLifecycleOwner(),orderListAdapter::setOrders);
+     //   viewModel.getOrders().observe(getViewLifecycleOwner(),orderListAdapter::setOrders);
+        viewModel.getOrders().observe(getViewLifecycleOwner(), orders -> {
+            orderListAdapter.setOrders(orders);
+            updateEmptyView(orders);
+        });
 
         if(role==1 || role==3){
             viewModel.fetchOrders();
@@ -143,6 +180,11 @@ public class OrderListFragment extends BaseFragment<FragmentOrderListBinding, Or
             });
         }
 
+
+//        orderListAdapter.setOnOrderItemClickListener(((position, newStatus) -> {
+//            Order order = orderListAdapter.getOrders().get(position);
+//            navigateToOrderDetails(order);
+//        }));
     }
     private void setTabIndicatorAndTextColor(boolean dangDoiGiao, boolean daHoanThanh, boolean huyDonHang, boolean danhSachDonHang) {
         binding.indicatorDangDoiGiao.setVisibility(dangDoiGiao ? View.VISIBLE : View.GONE);
@@ -156,5 +198,23 @@ public class OrderListFragment extends BaseFragment<FragmentOrderListBinding, Or
         binding.tabAllDonHang.setTextColor(danhSachDonHang ? getResources().getColor(R.color.colorPrimary) : getResources().getColor(R.color.black));
     }
 
+//    private void navigateToOrderDetails(Order order) {
+//        Bundle bundle = new Bundle();
+//        bundle.putString("orderId", order.getOrderId());
+//
+//        Navigation.findNavController(requireView()).navigate(
+//                R.id.action_orderListFragment_to_orderDetailsFragment,
+//                bundle
+//        );
+//    }
 
+    private void updateEmptyView(List<Order> orders) {
+        if (orders == null || orders.isEmpty()) {
+            binding.recyclerViewOrder.setVisibility(View.GONE);
+            binding.emptyOrderLayout.emptyOrderListLayout.setVisibility(View.VISIBLE);
+        } else {
+            binding.recyclerViewOrder.setVisibility(View.VISIBLE);
+            binding.emptyOrderLayout.emptyOrderListLayout.setVisibility(View.GONE);
+        }
+    }
 }
