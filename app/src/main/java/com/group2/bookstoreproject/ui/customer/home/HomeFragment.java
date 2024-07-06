@@ -30,6 +30,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding,HomeViewHolde
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        viewModel.sendNotification(getContext());
+
+        viewModel.showNotificationTotalCardItems(getContext());
     }
 }

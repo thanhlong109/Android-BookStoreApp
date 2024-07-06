@@ -19,6 +19,7 @@ import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.group2.bookstoreproject.R;
 import com.group2.bookstoreproject.base.BaseActivity;
+import com.group2.bookstoreproject.base.common.Constants;
 import com.group2.bookstoreproject.databinding.ActivityCustomerBinding;
 import com.group2.bookstoreproject.ui.adapter.CustomerViewPageAdapter;
 import com.group2.bookstoreproject.util.session.SessionManager;
@@ -37,6 +38,10 @@ public class CustomerActivity extends BaseActivity<ActivityCustomerBinding> {
             NavController navController = navHostFragment.getNavController();
             NavigationUI.setupWithNavController(binding.cusBottomNavigation, navController);
         }
+
+        //listen to customer id notification
         FirebaseMessaging.getInstance().subscribeToTopic(SessionManager.getInstance().getLoggedInUser().getDeviceToken());
+        //listen to global id notification
+        FirebaseMessaging.getInstance().subscribeToTopic(Constants.GLOBAL_NOTIFICATION_ID);
     }
 }
