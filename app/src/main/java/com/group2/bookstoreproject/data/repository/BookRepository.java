@@ -4,9 +4,12 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.group2.bookstoreproject.data.model.Book;
 
+import java.util.List;
+
 public interface BookRepository extends BaseRepository<Book>{
 
     public void getThreeBooksWithHighestStock(OnCompleteListener<QuerySnapshot> onCompleteListener);
     public void getThreeNewestBooks(OnCompleteListener<QuerySnapshot> onCompleteListener);
     public void getThreeBestSellingBooks(OnCompleteListener<QuerySnapshot> onCompleteListener);
+    void getBooksByIds(List<String> bookIds, OnCompleteListener<QuerySnapshot> onCompleteListener);
 }

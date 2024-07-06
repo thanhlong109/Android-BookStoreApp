@@ -13,6 +13,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.group2.bookstoreproject.R;
 import com.group2.bookstoreproject.base.BaseDialog;
 import com.group2.bookstoreproject.base.BaseFragment;
 import com.group2.bookstoreproject.data.model.ChatListItem;
@@ -22,6 +24,7 @@ import com.group2.bookstoreproject.data.model.User;
 import com.group2.bookstoreproject.data.model.base.Resource;
 import com.group2.bookstoreproject.databinding.DialogStartChatBinding;
 import com.group2.bookstoreproject.databinding.FragmentChatBinding;
+import com.group2.bookstoreproject.util.KeyboardUtils;
 
 import java.util.List;
 
@@ -47,10 +50,18 @@ public class ChatFragment extends BaseFragment<FragmentChatBinding,ChatViewModel
         super.onViewCreated(view, savedInstanceState);
         Bundle bundle =  getArguments();
         if(bundle !=null && bundle.containsKey("ChatRoomData")){
-            Log.d("test", "have data");
             ChatListItem chatListItem = (ChatListItem) bundle.getSerializable("ChatRoomData");
             viewModel.setReceiver(chatListItem.getPartner());
             viewModel.setCurrentChatRoom(chatListItem.getChatRoom());
+            binding.chatToolbar.isShowStartIcon(true);
+            binding.chatToolbar.isShowStartText(true);
+            binding.chatToolbar.setTitle(viewModel.getReceiver().getFullName());
+            binding.chatToolbar.setOnStartIconClick(() -> {
+                navigateToPage(R.id.action_chatFragment_to_chatListFragment);
+            });
+        }else {
+            binding.chatToolbar.setTitleStart(true);
+            binding.chatToolbar.setTitle("Hỗ trợ");
         }
         binding.ibSend.setOnClickListener(v -> onSendMessage());
         setUpDialog();
@@ -60,7 +71,7 @@ public class ChatFragment extends BaseFragment<FragmentChatBinding,ChatViewModel
            viewModel.setSeen(message);
         });
         recyclerView.setAdapter(chatMessageRecyclerViewAdapter);
-
+        binding.flMap.setOnClickListener(v -> navigateToPage(R.id.action_navigation_chat_to_mapFragment2));
 
     }
 
@@ -86,6 +97,8 @@ public class ChatFragment extends BaseFragment<FragmentChatBinding,ChatViewModel
         if(message.length()>0){
             viewModel.addMessageToChatRoom(message);
             binding.etInput.setText("");
+            binding.etInput.clearFocus();
+            KeyboardUtils.hideKeyboard(getActivity());
         }
     }
 

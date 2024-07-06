@@ -1,8 +1,8 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">BookStoreProject</string>
     <string name="default_notify_title">Thông báo</string>
     <string-array name="category_array">
-
+        <item>ALL</item>
     </string-array>
 
     <string-array name="price_filter_array">
@@ -20,7 +20,6 @@
     <string name="previous">Previous</string>
     <string name="book_cover">Book Cover</string>
     <string name="forgetpassword"><u>Quên mật khẩu?</u> </string>
-
     <string name="lorem_ipsum">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in scelerisque sem. Mauris
         volutpat, dolor id interdum ullamcorper, risus dolor egestas lectus, sit amet mattis purus

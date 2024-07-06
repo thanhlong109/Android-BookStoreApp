@@ -6,9 +6,197 @@
     tools:context=".ui.common.orderDetails.OrderDetailsFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <!-- Header Layout -->
+    <LinearLayout
+        android:id="@+id/header_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="8dp"
+        android:gravity="center_vertical"
+        android:background="@color/white"
+        android:elevation="4dp">
+
+        <ImageButton
+            android:id="@+id/back_button"
+            android:layout_width="23dp"
+            android:layout_height="33dp"
+            android:src="@drawable/ic_arrow_back_ios_new_24px"
+            android:background="@color/white"/>
+
+        <TextView
+            android:id="@+id/header_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Thông tin đơn hàng"
+            android:fontFamily="@font/app_font_medium"
+            android:textColor="@android:color/black"
+            android:textSize="18sp"
+            android:gravity="center"
+            android:visibility="visible"/>
+
+    </LinearLayout>
+
+    <!-- Content Layout -->
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:descendantFocusability="blocksDescendants">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:orientation="vertical">
+
+            <!-- Order Status Section -->
+            <RelativeLayout
+                android:id="@+id/lnBackGroundStatus"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_marginBottom="16dp">
+
+                <TextView
+                    android:id="@+id/orderStatusTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:text=""
+                    android:paddingLeft="20dp"
+                    android:textColor="@color/white"
+                    android:fontFamily="@font/app_font_bold"
+                    android:textSize="18sp"
+                    android:gravity="center"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"/>
+
+                <TextView
+                    android:id="@+id/orderStatusSubtitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:text=""
+                    android:paddingLeft="20dp"
+                    android:gravity="center"
+                    android:textColor="#F8FF3B"
+                    android:fontFamily="@font/app_font_thin_italic"
+                    android:textSize="18sp"
+                    android:layout_below="@id/orderStatusTitle"
+                    android:layout_alignParentStart="true"/>
+
+                <ImageView
+                    android:id="@+id/orderStatusIcon"
+                    android:layout_width="70dp"
+                    android:layout_height="45dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:paddingEnd="0dp"
+                    android:src="@drawable/icon_sign"/>
+
+            </RelativeLayout>
+
+            <!-- Shipping Info Section -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="#418D8D8D"
+                android:padding="10dp"
+                android:layout_marginBottom="16dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="8dp">
+
+                    <ImageView
+                        android:id="@+id/ivTransport"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/icon_transport"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="  Thông tin vận chuyển"
+                        android:textStyle="bold"/>
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tvTransport"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    />
+            </LinearLayout>
+
+            <!-- Shipping Address Section -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/tvCopyAddress"
+                android:orientation="vertical"
+                android:background="#418D8D8D"
+                android:padding="10dp"
+                android:layout_marginBottom="16dp">
+                  <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="8dp"
+                      android:layout_gravity="end">
+
+                      <ImageView
+                          android:id="@+id/ivProductImage"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:src="@drawable/icon_location"/>
+
+                      <TextView
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:text="  Địa chỉ nhận hàng"
+                          android:textStyle="bold"/>
+
+                      <View
+                          android:layout_width="0dp"
+                          android:layout_height="0dp"
+                          android:layout_weight="1" />
+
+                      <TextView
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:clickable="true"
+                          android:focusable="true"
+                          android:text="Sao chép"
+                          android:textColor="@android:color/holo_blue_dark" />
+                  </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tvFullname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:layout_marginBottom="4dp"/>
+                <TextView
+                    android:id="@+id/tvPhone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" "
+                    android:layout_marginBottom="4dp"/>
+                <TextView
+                    android:id="@+id/tvAddress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""/>
+            </LinearLayout>
+
+            <!-- RecyclerView for Items -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewOrderItems"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+    </ScrollView>
 
 </FrameLayout>
