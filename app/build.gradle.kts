@@ -50,6 +50,7 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+    packaging { resources.excludes.add("META-INF/*") }
 }
 
 dependencies {
@@ -94,6 +95,7 @@ dependencies {
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.analytics)
     implementation(libs.firebase.firestore)
+    implementation(libs.firebase.messaging)
 
     //viewpager
     implementation(libs.viewpager2)
@@ -117,6 +119,8 @@ dependencies {
     //mapbox
     implementation(libs.mapbox.android)
     implementation(libs.mapbox.search)
+
+    implementation("com.google.auth:google-auth-library-oauth2-http:0.20.0")
 }
 
 

@@ -57,6 +57,7 @@ legacy-support-v4 = { group = "androidx.legacy", name = "legacy-support-v4", ver
 mapbox-android = {group="com.mapbox.maps",name="android", version.ref="mapboxAndroid"}
 mapbox-search = {group="com.mapbox.search", name="mapbox-search-android-ui" ,version.ref="mapboxSearch"}
 firebase-storage = {group = "com.google.firebase", name = "firebase-storage"}
+firebase-messaging = {group = "com.google.firebase", name = "firebase-messaging"}
 
 
 [plugins]
