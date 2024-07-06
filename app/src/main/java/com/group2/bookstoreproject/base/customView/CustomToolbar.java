@@ -30,6 +30,8 @@ public class CustomToolbar extends ConstraintLayout {
         String textStart = attr.getString(R.styleable.CustomToolbar_textStart);
         boolean showShadow = attr.getBoolean(R.styleable.CustomToolbar_showShadow, false);
 
+        float textStartSize = attr.getFloat(R.styleable.CustomToolbar_textStartSize, 25);
+
         attr.recycle();
 
         LayoutInflater inflater = LayoutInflater.from(context);
@@ -44,6 +46,7 @@ public class CustomToolbar extends ConstraintLayout {
         isShowStartText(showTextStart);
         isShowShadow(showShadow);
         setTitleStart(titleStart);
+        setTextStartSize(textStartSize);
         binding.llStartIcon.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -109,5 +112,9 @@ public class CustomToolbar extends ConstraintLayout {
 
     public void isShowShadow(boolean show) {
         binding.toolBarShadow.setVisibility(show ? View.VISIBLE : View.GONE);
+    }
+
+    public void setTextStartSize(float size) {
+        binding.tvStartText.setTextSize(size);
     }
 }

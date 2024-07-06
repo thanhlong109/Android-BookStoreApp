@@ -66,6 +66,6 @@ public class SessionManager {
 
 
     public void clearUser() {
-        Instance.appSharePreference.putString(KEY_USER, null);
+        appSharePreference.remove(KEY_USER); // Remove the key from SharedPreferences
     }
 }

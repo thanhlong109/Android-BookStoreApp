@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.group2.bookstoreproject.R;
 import com.group2.bookstoreproject.base.BaseFragment;
 import com.group2.bookstoreproject.data.model.CartItem;
 import com.group2.bookstoreproject.data.model.User;
@@ -25,7 +26,7 @@ import java.util.Objects;
 public class CartFragment extends BaseFragment<FragmentCartBinding, CartViewModel> {
     private CartItemAdapter cartItemAdapter;
     private String accountId;
-    private final double shipFee = 30000;
+
     @NonNull
     @Override
     protected FragmentCartBinding inflateBinding(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, boolean attachToParent) {
@@ -52,6 +53,14 @@ public class CartFragment extends BaseFragment<FragmentCartBinding, CartViewMode
                 }
             }
         });
+        viewModel.getCartChangedLiveData().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean cartChanged) {
+                if (cartChanged) {
+                    viewModel.loadCartItems(accountId);
+                }
+            }
+        });
     }
 
     @Override
@@ -71,6 +80,7 @@ public class CartFragment extends BaseFragment<FragmentCartBinding, CartViewMode
         if (accountId != null) {
             viewModel.loadCartItems(accountId);
         }
+        binding.buttonProceedToCheckout.setOnClickListener(v -> navigateToPage(R.id.paymentFragment));
     }
 
     private void setUpRecyclerView() {
@@ -96,10 +106,11 @@ public class CartFragment extends BaseFragment<FragmentCartBinding, CartViewMode
     private void calculateAndShowSubtotal(List<CartItem> cartItems) {
         double subtotal = 0.0;
         for (CartItem item : cartItems) {
-            subtotal += item.getPrice() * item.getQuantity();
+            subtotal += item.getPrice();
         }
         TextView textViewSubtotal = binding.textViewSubtotal;
         textViewSubtotal.setText(String.format("%.0fVND", subtotal));
+        double shipFee = 30000;
         double total = subtotal + shipFee;
         TextView textViewTotal = binding.textViewTotal;
         textViewTotal.setText(String.format("%.0fVND", total));
