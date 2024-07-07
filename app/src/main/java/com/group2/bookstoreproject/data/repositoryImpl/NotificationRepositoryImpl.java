@@ -13,7 +13,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GetTokenResult;
 import com.group2.bookstoreproject.R;
 import com.group2.bookstoreproject.data.api.RetrofitInstance;
-import com.group2.bookstoreproject.data.model.FCMNotification;
+//import com.group2.bookstoreproject.data.model.FCMNotification;
 import com.group2.bookstoreproject.data.model.FCMRequest;
 import com.group2.bookstoreproject.data.model.Notification;
 import com.group2.bookstoreproject.data.repository.NotificationRepository;
@@ -54,7 +54,7 @@ public class NotificationRepositoryImpl extends BaseRepositoryImpl<Notification>
     }
 
     private String getAccessToken(Context context) throws IOException {
-        InputStream inputStream = context.getResources().openRawResource(R.raw.service_account);
+        InputStream inputStream = context.getResources().openRawResource(R.raw.account_service);
         GoogleCredentials googleCredentials = GoogleCredentials.fromStream(inputStream).createScoped(SCOPES);
         googleCredentials.refresh();
         return ACCESS_TOKEN_PREFIX + googleCredentials.getAccessToken().getTokenValue();
