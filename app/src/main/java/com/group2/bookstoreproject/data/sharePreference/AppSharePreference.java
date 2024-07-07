@@ -1,13 +1,15 @@
 package com.group2.bookstoreproject.data.sharePreference;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Base64;
-import javax.inject.Inject;
+
 import com.squareup.moshi.JsonAdapter;
 import com.squareup.moshi.Moshi;
 
 import java.io.IOException;
 
+import javax.inject.Inject;
 
 public class AppSharePreference {
 
@@ -97,5 +99,10 @@ public class AppSharePreference {
             }
         }
         return null;
+    }
+
+    // Remove
+    public void remove(String key) {
+        prefs.edit().remove(key).apply();
     }
 }
