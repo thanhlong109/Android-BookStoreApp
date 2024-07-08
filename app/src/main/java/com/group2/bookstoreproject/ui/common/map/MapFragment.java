@@ -192,8 +192,12 @@ public class MapFragment extends BaseFragment<FragmentMapBinding, MapViewModel> 
                 pointAnnotationManager.create(pointAnnotationOptions);
 
                 binding.fabStoreLocation.setOnClickListener(v -> {
+                    getLocationComponent(mapView).removeOnIndicatorPositionChangedListener(onIndicatorPositionChangedListener);
+                    getLocationComponent(mapView).removeOnIndicatorBearingChangedListener(onIndicatorBearingChangedListener);
+                    getGestures(mapView).removeOnMoveListener(onMoveListener);
                     mapView.getMapboxMap().setCamera(new CameraOptions.Builder().center(storeLocation).zoom(16.0).build());
                     getGestures(mapView).setFocalPoint(mapView.getMapboxMap().pixelForCoordinate(storeLocation));
+                    getGestures(mapView).addOnMoveListener(onMoveListener);
                     binding.fabStoreLocation.hide();
                     binding.fabMyLocation.show();
                 });
