@@ -50,7 +50,10 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
-    packaging { resources.excludes.add("META-INF/*") }
+    packaging { resources{
+        excludes.add("META-INF/*")
+        excludes.add("mozilla/public-suffix-list.txt")
+    }}
 }
 
 dependencies {

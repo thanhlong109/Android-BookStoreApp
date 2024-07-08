@@ -36,37 +36,30 @@
 
             <TextView
                 android:id="@+id/book_author"
+                android:layout_marginTop="5dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Book Author"
                 android:textSize="14sp"/>
 
             <TextView
+                android:layout_marginTop="2dp"
                 android:id="@+id/book_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="100.000VND"
+                android:textStyle="bold"
+                android:textColor="#E91E63"
                 android:textSize="12sp"/>
-            <LinearLayout
-                android:layout_width="match_parent"
+
+            <TextView
+                android:id="@+id/stock"
+                android:layout_marginTop="2dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="end">
+                android:text="SL: 5"
+                android:textSize="12sp"/>
 
-                <Button
-                    android:id="@+id/btn_update"
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:textSize="12sp"
-                    android:text="Update"/>
-
-                <Button
-                    android:id="@+id/btn_delete"
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:textSize="12sp"
-                    android:text="Delete"/>
-            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 
