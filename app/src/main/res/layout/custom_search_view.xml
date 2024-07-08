@@ -29,6 +29,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:hint="Search title/author"
+            android:maxLines="1"
             android:background="@android:color/transparent"
             android:paddingStart="8dp"
             android:fontFamily="@font/app_font_light_italic"

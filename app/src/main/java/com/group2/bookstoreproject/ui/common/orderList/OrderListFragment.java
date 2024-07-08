@@ -116,6 +116,7 @@ public class OrderListFragment extends BaseFragment<FragmentOrderListBinding, Or
 
         if(role==1 || role==3){
             viewModel.fetchOrders();
+            binding.backButton.setVisibility(View.GONE);
         } else if (role==2) {
             viewModel.fetchOrdersByUserId(accountId);
         }

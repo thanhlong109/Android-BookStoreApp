@@ -50,6 +50,10 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+    packaging { resources{
+        excludes.add("META-INF/*")
+        excludes.add("mozilla/public-suffix-list.txt")
+    }}
 }
 
 dependencies {
@@ -59,6 +63,7 @@ dependencies {
     implementation(libs.activity)
     implementation(libs.constraintlayout)
     implementation(libs.legacy.support.v4)
+    implementation(libs.firebase.crashlytics.buildtools)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
@@ -94,6 +99,7 @@ dependencies {
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.analytics)
     implementation(libs.firebase.firestore)
+    implementation(libs.firebase.messaging)
 
     //viewpager
     implementation(libs.viewpager2)
@@ -117,6 +123,13 @@ dependencies {
     //mapbox
     implementation(libs.mapbox.android)
     implementation(libs.mapbox.search)
+    implementation(libs.mapbox.sdk.services)
+
+    implementation (libs.volley)
+    //implementation (libs.commons.codec)
+    implementation("commons-codec:commons-codec:1.15")
+
+    implementation("com.google.auth:google-auth-library-oauth2-http:0.20.0")
 }
 
 
