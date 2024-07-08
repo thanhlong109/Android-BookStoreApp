@@ -24,6 +24,9 @@ navigation = "2.5.3"
 legacySupportV4 = "1.0.0"
 mapboxAndroid = "10.15.0"
 mapboxSearch ="1.0.0-rc.7"
+volley = "1.2.1"
+commonsCodec = "1.17.0"
+firebaseCrashlyticsBuildtools = "3.0.2"
 mapboxSdkServicesVersion = "7.0.0"
 
 [libraries]
@@ -58,11 +61,16 @@ legacy-support-v4 = { group = "androidx.legacy", name = "legacy-support-v4", ver
 mapbox-android = {group="com.mapbox.maps",name="android", version.ref="mapboxAndroid"}
 mapbox-search = {group="com.mapbox.search", name="mapbox-search-android-ui" ,version.ref="mapboxSearch"}
 firebase-storage = {group = "com.google.firebase", name = "firebase-storage"}
+
+volley = { group = "com.android.volley", name = "volley", version.ref = "volley" }
+commons-codec = { group = "org.apache.commons", name = "commons-codec", version.ref = "commonsCodec" }
+firebase-crashlytics-buildtools = { group = "com.google.firebase", name = "firebase-crashlytics-buildtools", version.ref = "firebaseCrashlyticsBuildtools" }
+
+firebase-messaging = {group = "com.google.firebase", name = "firebase-messaging"}
+
 mapbox-sdk-services = { module = "com.mapbox.mapboxsdk:mapbox-sdk-services", version.ref = "mapboxSdkServicesVersion" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 dagger-hilt = { id = "com.google.dagger.hilt.android", version.ref = "daggerHilt" }
 google-services = { id = "com.google.gms.google-services", version.ref = "googleServices" }
-
-

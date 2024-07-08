@@ -3,7 +3,9 @@ package com.group2.bookstoreproject.ui.customer.home;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import com.group2.bookstoreproject.base.BaseFragment;
@@ -23,5 +25,12 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding,HomeViewHolde
     @Override
     protected Class<HomeViewHolder> getViewModelClass() {
         return HomeViewHolder.class;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        viewModel.showNotificationTotalCardItems(getContext());
     }
 }

@@ -17,6 +17,8 @@ import com.group2.bookstoreproject.data.model.User;
 import com.group2.bookstoreproject.data.model.base.Resource;
 import com.group2.bookstoreproject.databinding.FragmentSignUpBinding;
 
+import java.util.UUID;
+
 public class SignUpFragment extends BaseFragment<FragmentSignUpBinding, SignUpViewModel> {
 
     @NonNull
@@ -90,6 +92,7 @@ public class SignUpFragment extends BaseFragment<FragmentSignUpBinding, SignUpVi
                 user.setPhone(phone);
                 user.setUserId(email);
                 user.setAddress(new Address());
+                user.setDeviceToken(String.valueOf(UUID.randomUUID()));
                 viewModel.signUp(user);
             }
         });

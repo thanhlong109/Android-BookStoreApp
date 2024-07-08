@@ -80,8 +80,7 @@ public class SignInFragment extends BaseFragment<FragmentSignInBinding, SignInVi
         SessionManager sessionManager = new SessionManager(new AppSharePreference(getContext()));
         User loggedInUser = sessionManager.getLoggedInUser();
         if (loggedInUser != null) {
-            // User is already logged in, navigate to the appropriate activity
-            navigateToActivity(loggedInUser.getRole());
+                viewModel.signIn(getContext(), loggedInUser.getEmail(), loggedInUser.getPassword());
         }
     }
 

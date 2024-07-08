@@ -12,10 +12,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.group2.bookstoreproject.R;
 import com.group2.bookstoreproject.base.BaseFragment;
 import com.group2.bookstoreproject.data.model.CartItem;
 import com.group2.bookstoreproject.data.model.User;
 import com.group2.bookstoreproject.databinding.FragmentCartBinding;
+import com.group2.bookstoreproject.ui.customer.payment.PaymentFragment;
+import com.group2.bookstoreproject.ui.customer.profile.UpdateProfileFragment;
 import com.group2.bookstoreproject.util.session.SessionManager;
 
 import java.util.List;
@@ -79,6 +82,7 @@ public class CartFragment extends BaseFragment<FragmentCartBinding, CartViewMode
         if (accountId != null) {
             viewModel.loadCartItems(accountId);
         }
+        binding.buttonProceedToCheckout.setOnClickListener(v -> navigateToPage(R.id.paymentFragment));
     }
 
     private void setUpRecyclerView() {
@@ -112,5 +116,10 @@ public class CartFragment extends BaseFragment<FragmentCartBinding, CartViewMode
         double total = subtotal + shipFee;
         TextView textViewTotal = binding.textViewTotal;
         textViewTotal.setText(String.format("%.0fVND", total));
+
+        PaymentFragment fragment = new PaymentFragment();
+        Bundle args = new Bundle();
+        args.putSerializable("total", total);
+        fragment.setArguments(args);
     }
 }
