@@ -24,6 +24,7 @@ public class PaymentFragment extends BaseFragment<FragmentPaymentBinding, Paymen
     private CartItemPaymentAdapter cartItemAdapter;
 
     private String accountId;
+    private float total_price = 0;
     @NonNull
     @Override
     protected FragmentPaymentBinding inflateBinding(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, boolean attachToParent) {
@@ -51,9 +52,12 @@ public class PaymentFragment extends BaseFragment<FragmentPaymentBinding, Paymen
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        Bundle args = getArguments();
         cartItemAdapter = new CartItemPaymentAdapter();
         binding.recyclerViewCartItems.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.recyclerViewCartItems.setAdapter(cartItemAdapter);
+
+        total_price = (float) args.getSerializable("total");
 
         viewModel.getCartItemsLiveData().observe(getViewLifecycleOwner(), new Observer<List<CartItem>>() {
             @Override
@@ -66,7 +70,7 @@ public class PaymentFragment extends BaseFragment<FragmentPaymentBinding, Paymen
             @Override
             public void onChanged(User user) {
                 if (user != null) {
-                    binding.tvFullName.setText(user.getFullName());
+                    //binding.tvFullName.setText(user.getFullName());
                     binding.tvEmailv.setText(user.getEmail());
                     binding.tvSDT.setText(user.getPhone());
                     if (user.getAddress() != null) {

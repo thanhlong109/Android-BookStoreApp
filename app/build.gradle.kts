@@ -59,6 +59,7 @@ dependencies {
     implementation(libs.activity)
     implementation(libs.constraintlayout)
     implementation(libs.legacy.support.v4)
+    implementation(libs.firebase.crashlytics.buildtools)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
@@ -117,6 +118,11 @@ dependencies {
     //mapbox
     implementation(libs.mapbox.android)
     implementation(libs.mapbox.search)
+
+    implementation (libs.volley)
+    //implementation (libs.commons.codec)
+    implementation("commons-codec:commons-codec:1.15")
+
 }
 
 
