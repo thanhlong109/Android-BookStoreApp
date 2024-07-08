@@ -60,9 +60,13 @@ legacy-support-v4 = { group = "androidx.legacy", name = "legacy-support-v4", ver
 mapbox-android = {group="com.mapbox.maps",name="android", version.ref="mapboxAndroid"}
 mapbox-search = {group="com.mapbox.search", name="mapbox-search-android-ui" ,version.ref="mapboxSearch"}
 firebase-storage = {group = "com.google.firebase", name = "firebase-storage"}
+
 volley = { group = "com.android.volley", name = "volley", version.ref = "volley" }
 commons-codec = { group = "org.apache.commons", name = "commons-codec", version.ref = "commonsCodec" }
 firebase-crashlytics-buildtools = { group = "com.google.firebase", name = "firebase-crashlytics-buildtools", version.ref = "firebaseCrashlyticsBuildtools" }
+
+firebase-messaging = {group = "com.google.firebase", name = "firebase-messaging"}
+
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
