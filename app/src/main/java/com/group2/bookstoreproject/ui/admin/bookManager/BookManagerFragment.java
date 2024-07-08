@@ -60,6 +60,15 @@ public class BookManagerFragment extends BaseFragment<FragmentBookManagerBinding
         RecyclerView recyclerView = binding.recyclerViewBook;
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new BookItemAdapter(viewModel);
+
+        //send to book details
+        adapter.setItemOnClickListener((book) ->{
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("book", book);
+            navigateToPage(R.id.action_bookManagerFragment_to_bookDetailsFragment,bundle);
+
+        });
+
         recyclerView.setAdapter(adapter);
     }
 

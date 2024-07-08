@@ -30,7 +30,7 @@ public class CustomToolbar extends ConstraintLayout {
         String textStart = attr.getString(R.styleable.CustomToolbar_textStart);
         boolean showShadow = attr.getBoolean(R.styleable.CustomToolbar_showShadow, false);
 
-        float textStartSize = attr.getFloat(R.styleable.CustomToolbar_textStartSize, 25);
+        float textStartSize = attr.getFloat(R.styleable.CustomToolbar_textStartSize, 18);
 
         attr.recycle();
 

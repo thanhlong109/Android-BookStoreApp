@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
 import androidx.navigation.NavDirections;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.viewbinding.ViewBinding;
@@ -26,7 +27,6 @@ public abstract class BaseFragment<B extends ViewBinding, VM extends BaseViewMod
 
     @NonNull
     protected abstract Class<VM> getViewModelClass();
-
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -58,6 +58,13 @@ public abstract class BaseFragment<B extends ViewBinding, VM extends BaseViewMod
                 }
             }
         });
+    }
+
+    protected void navigateBack(){
+        if(getActivity() instanceof BaseActivity){
+            BaseActivity baseActivity = (BaseActivity) getActivity();
+            baseActivity.getNavController().popBackStack();
+        }
     }
 
     protected void navigateToPage(int actionId) {

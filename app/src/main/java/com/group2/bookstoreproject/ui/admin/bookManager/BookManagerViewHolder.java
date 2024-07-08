@@ -23,13 +23,5 @@ public class BookManagerViewHolder extends BaseItemViewHolder<Book, RowItemBookB
         Glide.with(binding.bookCover.getContext())
                 .load(item.getBookImg())
                 .into(binding.bookCover);
-
-//        binding.btnDelete.setOnClickListener(v -> viewModel.deleteBook(item.getBookId()));
-//        binding.btnUpdate.setOnClickListener(v -> {
-//            // Logic to show update dialog
-//        });
-        binding.getRoot().setOnClickListener(v -> {
-            // Logic to show book details
-        });
     }
 }

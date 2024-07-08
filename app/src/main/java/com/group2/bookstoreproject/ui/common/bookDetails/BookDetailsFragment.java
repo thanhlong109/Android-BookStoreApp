@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.group2.bookstoreproject.R;
 import com.group2.bookstoreproject.base.BaseFragment;
+import com.group2.bookstoreproject.base.common.Constants;
 import com.group2.bookstoreproject.data.model.Book;
 import com.group2.bookstoreproject.data.model.CartItem;
 import com.group2.bookstoreproject.data.model.User;
@@ -32,8 +33,9 @@ import java.util.UUID;
 
 
 public class BookDetailsFragment extends BaseFragment<FragmentBookDetailsBinding, BookDetailsViewModel> {
+    private final static String TAG = "BookDetailsFragment";
     private boolean isHeaderTitleSet = false;
-    private String accountId;
+    private Book book;
 
     private static final int[] backgroundImages = {
             R.drawable.imgb_background1,
@@ -60,15 +62,14 @@ public class BookDetailsFragment extends BaseFragment<FragmentBookDetailsBinding
         super.onViewCreated(view, savedInstanceState);
 
         if (getArguments() != null) {
-            Book book = (Book) getArguments().getSerializable("book");
-            if (book != null) {
-                displayBookDetails(book);
-            }
+            book = (Book) getArguments().getSerializable("book");
+            displayBookDetails();
+
         }
         binding.backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                requireActivity().onBackPressed();
+               navigateBack();
             }
         });
 
@@ -94,21 +95,31 @@ public class BookDetailsFragment extends BaseFragment<FragmentBookDetailsBinding
         binding.backgroundImage.setImageResource(selectedBackground);
         binding.backgroundImage.setAlpha(alpha);
 
+        int role = viewModel.sessionManager.getLoggedInUser().getRole();
+        Log.d(TAG, ""+role);
+        if(role == Constants.CUSTOMER){
+            Log.d(TAG, "cus");
+            handleCustomer();
+        }else if(role == Constants.ADMIN){
+            Log.d(TAG, "admin");
+            handleAdmin();
+        }
+
+    }
+
+    private void handleCustomer(){
+        binding.addToCartButton.setVisibility(View.VISIBLE);
+        binding.ibEdit.setVisibility(View.GONE);
         binding.addToCartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SessionManager sessionManager = SessionManager.getInstance();
-                User loggedInUser = sessionManager.getLoggedInUser();
-                if (loggedInUser != null) {
                     // Get the account ID from the logged-in user
-                    String accountId = loggedInUser.getUserId();
+                    String accountId = viewModel.sessionManager.getLoggedInUser().getUserId();
 
                     // Check if accountId is not null or empty
                     if (accountId != null && !accountId.isEmpty()) {
                         // Create a new CartItem
                         CartItem item = new CartItem();
-                        Book book = (Book) getArguments().getSerializable("book");
-
                         item.setCartItemId(UUID.randomUUID().toString());
                         item.setBookId(book.getBookId());
                         item.setAccountId(accountId);
@@ -121,12 +132,18 @@ public class BookDetailsFragment extends BaseFragment<FragmentBookDetailsBinding
                     } else {
                         Toast.makeText(getContext(), "Account ID is missing. Please login again.", Toast.LENGTH_SHORT).show();
                     }
-                } else {
-                    Toast.makeText(getContext(), "User is not logged in. Please login to add items to cart.", Toast.LENGTH_SHORT).show();
-                }
             }
         });
     }
+
+    private void handleAdmin(){
+        binding.ibEdit.setVisibility(View.VISIBLE);
+        binding.addToCartButton.setVisibility(View.GONE);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("book", book);
+        binding.ibEdit.setOnClickListener(v -> navigateToPage(R.id.action_bookDetailsFragment_to_upsertBookFragment));
+    }
+
 
     private void updateHeaderTitle() {
         int[] bookTitleLocation = new int[2];
@@ -152,15 +169,18 @@ public class BookDetailsFragment extends BaseFragment<FragmentBookDetailsBinding
         }
     }
 
-    private void displayBookDetails(Book book) {
-        binding.bookTitle.setText(book.getTitle());
-        binding.author.setText(book.getAuthor());
-        binding.price.setText(String.valueOf(book.getPrice()));
-        binding.description.setText(book.getDescription());
-        binding.sale.setText( String.valueOf(book.getSale()));
-        binding.publisher.setText(book.getPublisher());
-        Glide.with(requireContext())
-                .load(book.getBookImg())
-                .into(binding.bookCover);
+    private void displayBookDetails() {
+        if (book != null) {
+            binding.bookTitle.setText(book.getTitle());
+            binding.author.setText(book.getAuthor());
+            binding.price.setText(String.valueOf(book.getPrice()));
+            binding.description.setText(book.getDescription());
+            binding.sale.setText( String.valueOf(book.getSale()));
+            binding.publisher.setText(book.getPublisher());
+            Glide.with(requireContext())
+                    .load(book.getBookImg())
+                    .into(binding.bookCover);
+        }
+
     }
 }

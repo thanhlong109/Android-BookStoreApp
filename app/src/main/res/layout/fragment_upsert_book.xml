@@ -1,14 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
     tools:context=".ui.admin.upsertBook.UpsertBookFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+  <com.group2.bookstoreproject.base.customView.CustomToolbar
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      app:textStart="Quay lại"
+      app:textStartSize="16"
+      app:showShadow="true"
+      android:id="@+id/upsetBookToolbar"
+      />
 
-</FrameLayout>
+</RelativeLayout>

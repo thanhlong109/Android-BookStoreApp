@@ -10,7 +10,7 @@ import com.group2.bookstoreproject.util.session.SessionManager;
 import javax.inject.Inject;
 public abstract class BaseViewModel extends ViewModel {
 
-    protected SessionManager sessionManager;
+    public SessionManager sessionManager;
 
     // LiveData to track loading state
     private final MutableLiveData<Boolean> isLoading = new MutableLiveData<>(false);
