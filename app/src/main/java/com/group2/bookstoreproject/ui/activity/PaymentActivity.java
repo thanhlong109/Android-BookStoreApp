@@ -35,8 +35,7 @@ public class PaymentActivity extends AppCompatActivity {
     private static final String SECRET_KEY = "QKJ5S206Z41HGUG7LU742WL0M1T8I3RO";
     private static final String RETURN_URL = "http://your-return-url.com";
 
-    private TextView edtAmount;
-    private Button btnPay;
+    private TextView edtAmount, btnPay;
 
 
     @Override
@@ -44,8 +43,8 @@ public class PaymentActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_payment);
 
-        edtAmount = findViewById(R.id.tv_total_price);
-        //btnPay = findViewById(R.id.btnPay);
+        edtAmount = findViewById(R.id.total_price);
+        btnPay = findViewById(R.id.tv_Checkout);
 
         btnPay.setOnClickListener(v -> {
             String amount = edtAmount.getText().toString().trim();

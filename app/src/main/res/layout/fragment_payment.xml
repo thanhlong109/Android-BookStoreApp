@@ -155,7 +155,7 @@
         android:layout_marginTop="10dp"
         android:background="@drawable/rounded_square_background"
         android:padding="3dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/framePayment"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
@@ -210,7 +210,7 @@
             android:padding="5dp"
             android:layout_marginHorizontal="5dp"
             android:textSize="14sp"
-            android:text="Tổng tiền voucher giảm giá"
+            android:text="Tổng cộng Voucher giảm giá"
             android:textColor="@color/gray_600"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/textView7" />
@@ -257,7 +257,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="5dp"
             android:padding="5dp"
-            android:text="money"
+            android:text="- 0VND"
             android:textColor="@color/black"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -280,8 +280,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:background="@drawable/rounded_square_background"
-        android:padding="3dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -300,12 +298,15 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/black"
                 android:text="Tổng thanh toán" />
 
             <TextView
                 android:id="@+id/total_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/border_color"
+                android:textSize="16dp"
                 android:text="Tổng thanh toán" />
         </LinearLayout>
 
@@ -319,8 +320,6 @@
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
-
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,6 +5,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.Observer;
@@ -24,7 +26,7 @@ public class PaymentFragment extends BaseFragment<FragmentPaymentBinding, Paymen
     private CartItemPaymentAdapter cartItemAdapter;
 
     private String accountId;
-    private float total_price = 0;
+    private double total_price = 0;
     @NonNull
     @Override
     protected FragmentPaymentBinding inflateBinding(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, boolean attachToParent) {
@@ -45,20 +47,31 @@ public class PaymentFragment extends BaseFragment<FragmentPaymentBinding, Paymen
         if (loggedInUser != null) {
             accountId = loggedInUser.getUserId();
         }
+
+        if (getArguments() != null) {
+            total_price = getArguments().getDouble("total");
+        } else {
+            // Handle the case where arguments are not passed
+            total_price = 0.0;
+        }
     }
 
-    // PaymentFragment.java
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        Bundle args = getArguments();
         cartItemAdapter = new CartItemPaymentAdapter();
         binding.recyclerViewCartItems.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.recyclerViewCartItems.setAdapter(cartItemAdapter);
 
-        total_price = (float) args.getSerializable("total");
+        // Display the total price
+        binding.tvTotalPriceItems.setText(String.format("%.0fVND", total_price));
+        binding.tvTotalDelivery.setText("30000VND");
 
+        double total = total_price + 30000;
+        TextView textViewTotal = binding.tvTotalPrice;
+        textViewTotal.setText(String.format("%.0fVND", total));
+        binding.totalPrice.setText(String.format("%.0fVND", total));
         viewModel.getCartItemsLiveData().observe(getViewLifecycleOwner(), new Observer<List<CartItem>>() {
             @Override
             public void onChanged(List<CartItem> cartItems) {
@@ -85,5 +98,6 @@ public class PaymentFragment extends BaseFragment<FragmentPaymentBinding, Paymen
         viewModel.loadCartItems(accountId);
         viewModel.loadUser(accountId);  // Load user data
     }
+
 
 }

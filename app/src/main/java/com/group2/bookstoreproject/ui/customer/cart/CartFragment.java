@@ -3,6 +3,8 @@ package com.group2.bookstoreproject.ui.customer.cart;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.Observer;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -82,7 +84,16 @@ public class CartFragment extends BaseFragment<FragmentCartBinding, CartViewMode
         if (accountId != null) {
             viewModel.loadCartItems(accountId);
         }
-        binding.buttonProceedToCheckout.setOnClickListener(v -> navigateToPage(R.id.paymentFragment));
+        binding.buttonProceedToCheckout.setOnClickListener(v -> navigateToPaymentFragment());
+    }
+
+    private void navigateToPaymentFragment() {
+        double total = calculateTotal(); // Assuming you have a method to calculate the total
+        Bundle args = new Bundle();
+        args.putDouble("total", total);
+
+        NavController navController = NavHostFragment.findNavController(this);
+        navController.navigate(R.id.paymentFragment, args);
     }
 
     private void setUpRecyclerView() {
@@ -114,12 +125,20 @@ public class CartFragment extends BaseFragment<FragmentCartBinding, CartViewMode
         textViewSubtotal.setText(String.format("%.0fVND", subtotal));
         double shipFee = 30000;
         double total = subtotal + shipFee;
-        TextView textViewTotal = binding.textViewTotal;
-        textViewTotal.setText(String.format("%.0fVND", total));
 
         PaymentFragment fragment = new PaymentFragment();
         Bundle args = new Bundle();
-        args.putSerializable("total", total);
+        args.putDouble("total", total);
         fragment.setArguments(args);
+    }
+
+    private double calculateTotal() {
+        double subtotal = 0.0;
+        List<CartItem> cartItems = Objects.requireNonNull(viewModel.getCartItems().getValue());
+        for (CartItem item : cartItems) {
+            subtotal += item.getPrice();
+        }
+        //double shipFee = 30000;
+        return subtotal;
     }
 }
