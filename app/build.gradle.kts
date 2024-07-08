@@ -120,6 +120,7 @@ dependencies {
     //mapbox
     implementation(libs.mapbox.android)
     implementation(libs.mapbox.search)
+    implementation(libs.mapbox.sdk.services)
 
     implementation (libs.volley)
     //implementation (libs.commons.codec)
