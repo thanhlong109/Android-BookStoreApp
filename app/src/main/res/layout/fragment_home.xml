@@ -8,86 +8,149 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
 
-        <!-- Row 1 -->
+
+        <!-- Horizontal ScrollView for Tabs -->
         <LinearLayout
+            android:id="@+id/header_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginBottom="16dp">
+            android:orientation="horizontal"
+            android:padding="8dp"
+            android:gravity="center_vertical"
+            android:elevation="4dp"
+            android:background="@color/white">
+
+
 
             <TextView
-                android:id="@+id/row1_name"
-                android:layout_width="match_parent"
+                android:id="@+id/header_title"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Best Deals"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                android:gravity="center" />
+                android:layout_weight="1"
+                android:text="Trang chủ"
+                android:fontFamily="@font/app_font_medium"
+                android:textColor="@android:color/black"
+                android:textSize="20sp"
+                android:gravity="left"
+                android:visibility="visible"/>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_view1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginBottom="16dp" />
+    </LinearLayout>
 
-        </LinearLayout>
 
-        <!-- Row 2 -->
-        <LinearLayout
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginBottom="16dp">
+            tools:context=".ui.customer.home.HomeFragment"
+            tools:ignore="UselessParent">
 
-            <TextView
-                android:id="@+id/row2_name"
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Top Books"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                android:gravity="center" />
+                android:backgroundTint="#FF5722"
+                android:orientation="vertical"
+                android:padding="16dp"
+                tools:ignore="ExtraText">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_view2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginBottom="16dp" />
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="215dp"
+                    android:layout_marginBottom="21dp"
 
-        </LinearLayout>
+                    android:padding="0dp"
+                    android:src="@mipmap/ic_banner_home_1_foreground" />
 
-        <!-- Row 3 -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginBottom="16dp">
+                <!-- Row 1 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:background="#40E6DFDF"
+                    android:baselineAligned="true"
+                    android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/row3_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Latest Books"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                android:gravity="center" />
+                    <TextView
+                        android:id="@+id/row1_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="Ưu Đãi Tốt Nhất"
+                        android:textColor="@android:color/black"
+                        android:textSize="24sp"
+                        android:textStyle="bold" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_view3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginBottom="16dp" />
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recycler_view1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginBottom="16dp"
+                        android:orientation="horizontal" />
 
-        </LinearLayout>
+                </LinearLayout>
 
+                <!-- Row 2 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:background="#40E6DFDF"
+                    android:baselineAligned="true"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/row2_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="Sách Bán Chạy"
+                        android:textColor="@android:color/black"
+                        android:textSize="24sp"
+                        android:textStyle="bold" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recycler_view2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="16dp"
+                        android:orientation="horizontal" />
+
+                </LinearLayout>
+
+                <!-- Row 3 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:background="#40E6DFDF"
+                    android:baselineAligned="true"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/row3_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="Sách Mới Nhất"
+                        android:textColor="@android:color/black"
+                        android:textSize="24sp"
+                        android:textStyle="bold" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recycler_view3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="16dp"
+                        android:orientation="horizontal" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </ScrollView>
     </LinearLayout>
 
 
