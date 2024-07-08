@@ -71,7 +71,7 @@ public class ChatFragment extends BaseFragment<FragmentChatBinding,ChatViewModel
            viewModel.setSeen(message);
         });
         recyclerView.setAdapter(chatMessageRecyclerViewAdapter);
-
+        binding.flMap.setOnClickListener(v -> navigateToPage(R.id.action_navigation_chat_to_mapFragment2));
 
     }
 

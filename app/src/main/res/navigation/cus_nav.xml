@@ -18,7 +18,11 @@
         android:id="@+id/navigation_chat"
         android:name="com.group2.bookstoreproject.ui.common.chat.ChatFragment"
         android:label="fragment_chat"
-        tools:layout="@layout/fragment_chat" />
+        tools:layout="@layout/fragment_chat" >
+        <action
+            android:id="@+id/action_navigation_chat_to_mapFragment2"
+            app:destination="@id/mapFragment" />
+    </fragment>
     <fragment
         android:id="@+id/navigation_cus_cart"
         android:name="com.group2.bookstoreproject.ui.customer.cart.CartFragment"
@@ -27,6 +31,9 @@
         <action
             android:id="@+id/action_navigation_cus_cart_to_bookDetailsFragment2"
             app:destination="@id/bookDetailsFragment2" />
+        <action
+            android:id="@+id/action_navigation_cus_cart_to_paymentFragment"
+            app:destination="@id/paymentFragment" />
     </fragment>
     <fragment
         android:id="@+id/navigation_cus_profile"
@@ -36,6 +43,9 @@
         <action
             android:id="@+id/action_navigation_cus_profile_to_orderListFragment2"
             app:destination="@id/orderListFragment2" />
+        <action
+            android:id="@+id/action_navigation_cus_profile_to_update_profile"
+            app:destination="@id/update_profile" />
     </fragment>
     <fragment
         android:id="@+id/bookDetailsFragment2"
@@ -78,5 +88,27 @@
         <action
             android:id="@+id/action_navigation_category_to_bookDetailsFragment2"
             app:destination="@id/bookDetailsFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/mapFragment"
+        android:name="com.group2.bookstoreproject.ui.common.map.MapFragment"
+        android:label="fragment_map"
+        tools:layout="@layout/fragment_map" />
+    <fragment
+        android:id="@+id/update_profile"
+        android:name="com.group2.bookstoreproject.ui.customer.profile.UpdateProfileFragment"
+        android:label="fragment_update_profile"
+        tools:layout="@layout/fragment_update_profile" >
+        <action
+            android:id="@+id/action_update_profile_to_navigation_cus_profile"
+            app:destination="@id/navigation_cus_profile" />
+    </fragment>
+    <fragment
+        android:id="@+id/paymentFragment"
+        android:name="com.group2.bookstoreproject.ui.customer.payment.PaymentFragment"
+        android:label="PaymentFragment" >
+        <action
+            android:id="@+id/action_paymentFragment_to_navigation_cus_cart"
+            app:destination="@id/navigation_cus_cart" />
     </fragment>
 </navigation>
