@@ -3,9 +3,13 @@ package com.group2.bookstoreproject.ui.activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.StrictMode;
+import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -18,6 +22,10 @@ import com.android.volley.toolbox.Volley;
 import com.google.firebase.crashlytics.buildtools.reloc.org.apache.commons.codec.binary.Hex;
 import com.google.firebase.crashlytics.buildtools.reloc.org.apache.commons.codec.digest.DigestUtils;
 import com.group2.bookstoreproject.R;
+import com.group2.bookstoreproject.ui.customer.payment.Api.CreateOrder;
+import com.group2.bookstoreproject.ui.customer.profile.ProfileFragment;
+
+import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -27,75 +35,78 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.TimeZone;
 
-public class PaymentActivity extends AppCompatActivity {
+import vn.zalopay.sdk.Environment;
+import vn.zalopay.sdk.ZaloPayError;
+import vn.zalopay.sdk.ZaloPaySDK;
+import vn.zalopay.sdk.listeners.PayOrderListener;
 
-    private static final String VNPAY_URL = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-    private static final String MERCHANT_ID = "7NHFIZA3";
-    private static final String ACCESS_CODE = "YourAccessCode";
-    private static final String SECRET_KEY = "QKJ5S206Z41HGUG7LU742WL0M1T8I3RO";
-    private static final String RETURN_URL = "http://your-return-url.com";
+public class PaymentActivity extends AppCompatActivity {
 
     private TextView edtAmount;
     private Button btnPay;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_payment);
 
-        edtAmount = findViewById(R.id.tv_total_price);
-        //btnPay = findViewById(R.id.btnPay);
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
 
-        btnPay.setOnClickListener(v -> {
-            String amount = edtAmount.getText().toString().trim();
-            if (!amount.isEmpty()) {
-                startPayment(amount);
+        // ZaloPay SDK Init
+        ZaloPaySDK.init(2553, Environment.SANDBOX);
+
+        edtAmount = findViewById(R.id.total_price);
+        btnPay = findViewById(R.id.tv_Checkout);
+
+        btnPay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                CreateOrder orderApi = new CreateOrder();
+                try {
+                    JSONObject data = orderApi.createOrder(edtAmount.getText().toString());
+                    Log.d("Amount", edtAmount.getText().toString());
+
+                    String code = data.getString("return_code");
+                    Toast.makeText(getApplicationContext(), "return_code: " + code, Toast.LENGTH_LONG).show();
+
+                    if (code.equals("1")) {
+                        String token = data.getString("zp_trans_token");
+                        ZaloPaySDK.getInstance().payOrder(PaymentActivity.this, token, "demozpdk://app", new PayOrderListener() {
+                            @Override
+                            public void onPaymentSucceeded(String s, String s1, String s2) {
+                                Intent intent = new Intent(PaymentActivity.this, ProfileFragment.class);
+                                startActivity(intent);
+                                Toast.makeText(PaymentActivity.this, "Success", Toast.LENGTH_SHORT).show();
+                            }
+
+                            @Override
+                            public void onPaymentCanceled(String s, String s1) {
+                                Intent intent = new Intent(PaymentActivity.this, ProfileFragment.class);
+                                startActivity(intent);
+                                Toast.makeText(PaymentActivity.this, "Canceled", Toast.LENGTH_SHORT).show();
+                            }
+
+                            @Override
+                            public void onPaymentError(ZaloPayError zaloPayError, String s, String s1) {
+                                Intent intent = new Intent(PaymentActivity.this, ProfileFragment.class);
+                                startActivity(intent);
+                                Toast.makeText(PaymentActivity.this, "Error", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
 
-    private void startPayment(String amount) {
-        String orderId = generateOrderId();
-        String tmnCode = MERCHANT_ID;
-
-        Map<String, String> params = new HashMap<>();
-        params.put("vnp_Version", "2.1.0");
-        params.put("vnp_Command", "pay");
-        params.put("vnp_TmnCode", tmnCode);
-        params.put("vnp_Amount", String.valueOf(Integer.parseInt(amount) * 100));
-        params.put("vnp_CurrCode", "VND");
-        params.put("vnp_TxnRef", orderId);
-        params.put("vnp_OrderInfo", "Thanh toan don hang: " + orderId);
-        params.put("vnp_OrderType", "other");
-        params.put("vnp_Locale", "vn");
-        params.put("vnp_ReturnUrl", RETURN_URL);
-        params.put("vnp_IpAddr", "127.0.0.1");
-
-        String vnp_CreateDate = getCurrentDateTime();
-        params.put("vnp_CreateDate", vnp_CreateDate);
-
-        StringBuilder hashData = new StringBuilder();
-        StringBuilder queryString = new StringBuilder();
-        for (Map.Entry<String, String> param : params.entrySet()) {
-            if (hashData.length() > 0) {
-                hashData.append('&');
-                queryString.append('&');
-            }
-            hashData.append(param.getKey()).append('=').append(param.getValue());
-            try {
-                queryString.append(param.getKey()).append('=').append(URLEncoder.encode(param.getValue(), "UTF-8"));
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            }
-        }
-
-        String secureHash = new String(Hex.encodeHex(DigestUtils.sha256(hashData.toString() + SECRET_KEY)));
-        queryString.append("&vnp_SecureHashType=SHA256&vnp_SecureHash=").append(secureHash);
-
-        String paymentUrl = VNPAY_URL + "?" + queryString.toString();
-        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(paymentUrl));
-        startActivity(browserIntent);
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        ZaloPaySDK.getInstance().onResult(intent);
     }
 
     private String generateOrderId() {
@@ -110,3 +121,4 @@ public class PaymentActivity extends AppCompatActivity {
         return sdf.format(new Date());
     }
 }
+

@@ -1,9 +1,16 @@
 package com.group2.bookstoreproject.ui.customer.home;
 
+import androidx.annotation.NonNull;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.QuerySnapshot;
 import android.content.Context;
 import android.util.Log;
 
 import com.group2.bookstoreproject.base.BaseViewModel;
+import com.group2.bookstoreproject.data.repository.BookRepository;
+import com.group2.bookstoreproject.data.repositoryImpl.BookRepositoryImpl;
 import com.group2.bookstoreproject.data.model.CartItem;
 import com.group2.bookstoreproject.data.model.FCMRequest;
 import com.group2.bookstoreproject.data.repository.CartItemRepository;
@@ -12,6 +19,23 @@ import com.group2.bookstoreproject.data.repositoryImpl.CartItemRepositoryImpl;
 import com.group2.bookstoreproject.data.repositoryImpl.NotificationRepositoryImpl;
 
 public class HomeViewHolder extends BaseViewModel {
+
+    private BookRepository bookRepository;
+
+    public HomeViewHolder() {
+        bookRepository = new BookRepositoryImpl();
+    }
+
+    public void loadNewestBooks(OnCompleteListener<QuerySnapshot> onCompleteListener) {
+        bookRepository.getThreeNewestBooks(onCompleteListener);
+    }
+
+    public void loadBooksWithHighestStock(OnCompleteListener<QuerySnapshot> onCompleteListener) {
+        bookRepository.getThreeBooksWithHighestStock(onCompleteListener);
+    }
+    public void loadBestSellingBooks(OnCompleteListener<QuerySnapshot> onCompleteListener) {
+        bookRepository.getThreeBestSellingBooks(onCompleteListener);
+    }
     private final String TAG = "HomeViewHolder";
     private final NotificationRepository notificationRepository = new NotificationRepositoryImpl();
     private final CartItemRepository cartItemRepository = new CartItemRepositoryImpl();

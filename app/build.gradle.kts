@@ -64,6 +64,7 @@ dependencies {
     implementation(libs.constraintlayout)
     implementation(libs.legacy.support.v4)
     implementation(libs.firebase.crashlytics.buildtools)
+    implementation(fileTree(mapOf("dir" to "W:\\zalopay", "include" to listOf("*.aar", "*.jar"))))
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
@@ -130,6 +131,8 @@ dependencies {
     implementation("commons-codec:commons-codec:1.15")
 
     implementation("com.google.auth:google-auth-library-oauth2-http:0.20.0")
+
+    implementation("com.squareup.okhttp3:okhttp:4.6.0")
 }
 
 
