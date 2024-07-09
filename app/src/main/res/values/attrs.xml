@@ -11,6 +11,7 @@
         <attr name="showShadow" format="boolean"/>
         <attr name="titleStart" format="boolean"/>
         <attr name="textStartSize" format="integer"/>
+        <attr name="textColor" format="reference|color"/>
     </declare-styleable>
 
     <declare-styleable name="CustomChatMessage">

@@ -140,8 +140,9 @@ public class BookDetailsFragment extends BaseFragment<FragmentBookDetailsBinding
         binding.ibEdit.setVisibility(View.VISIBLE);
         binding.addToCartButton.setVisibility(View.GONE);
         Bundle bundle = new Bundle();
+        bundle.putInt(Constants.MODE_KEY,Constants.UPDATE_MODE);
         bundle.putSerializable("book", book);
-        binding.ibEdit.setOnClickListener(v -> navigateToPage(R.id.action_bookDetailsFragment_to_upsertBookFragment));
+        binding.ibEdit.setOnClickListener(v -> navigateToPage(R.id.action_bookDetailsFragment_to_upsertBookFragment, bundle));
     }
 
 

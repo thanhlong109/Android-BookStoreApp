@@ -3,6 +3,7 @@ package com.group2.bookstoreproject.data.model;
 import androidx.annotation.Nullable;
 
 import java.io.Serializable;
+import java.util.UUID;
 
 public class Book implements Serializable {
     private String bookId;
@@ -30,6 +31,7 @@ public class Book implements Serializable {
     }
 
     public Book() {
+        bookId = UUID.randomUUID().toString();
     }
 
     public String getBookId() {

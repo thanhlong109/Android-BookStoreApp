@@ -20,8 +20,10 @@
       android:layout_height="wrap_content"
       app:layout_constraintTop_toTopOf="parent"
       app:layout_constraintStart_toStartOf="parent"
+      android:background="@color/primaryColor"
       app:showShadow="true"
       app:textStart="Quay lại"
+      app:textColor="@color/white"
       app:textStartSize="16" />
 
   <LinearLayout
@@ -67,6 +69,8 @@
             android:id="@+id/etTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/primaryColor"
+            android:fontFamily="@font/app_font_medium"
             android:backgroundTint="@android:color/transparent" />
 
       </com.google.android.material.textfield.TextInputLayout>
@@ -83,6 +87,8 @@
             android:id="@+id/etAuthor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="#4CAF50"
+            android:fontFamily="@font/app_font_regular"
             android:backgroundTint="@android:color/transparent" />
 
       </com.google.android.material.textfield.TextInputLayout>
@@ -121,6 +127,8 @@
             android:id="@+id/etPrice"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="#E91E63"
+            android:fontFamily="@font/app_font_regular"
             android:backgroundTint="@android:color/transparent"
             android:inputType="numberDecimal" />
 
@@ -139,6 +147,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="@android:color/transparent"
+            android:textColor="#009688"
             android:inputType="number" />
 
       </com.google.android.material.textfield.TextInputLayout>
@@ -156,7 +165,6 @@
           android:text="Category: "
           android:layout_marginLeft="12dp"
           android:textSize="16sp"
-          android:textColor="@android:color/black"
           />
       <Spinner
           android:id="@+id/spinnerCategory"
@@ -173,13 +181,13 @@
         android:layout_marginTop="20dp"
         android:layout_height="wrap_content" android:orientation="horizontal">
       <TextView
-          android:id="@+id/tvSliderValue"
-          android:layout_width="50dp"
+          android:id="@+id/tvSaleValue"
+          android:layout_width="65dp"
           android:layout_height="wrap_content"
           android:text="Sale: "
           android:layout_marginLeft="12dp"
           android:textSize="16sp"
-          android:textColor="@android:color/black"
+          android:textColor="#FF5722"
            />
 
       <SeekBar
@@ -204,6 +212,7 @@
           android:id="@+id/etDescription"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
+          android:fontFamily="@font/app_font_light_italic"
           android:backgroundTint="@android:color/transparent" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -216,6 +225,7 @@
         android:paddingVertical="15dp"
         android:text="Lưu Sách"
         android:textStyle="bold"
+        android:id="@+id/btnSaveBook"
         app:shapeAppearance="@style/ShapeAppearance.Material3.Corner.Small" />
 
   </LinearLayout>
