@@ -92,8 +92,10 @@ public class CartFragment extends BaseFragment<FragmentCartBinding, CartViewMode
         Bundle args = new Bundle();
         args.putDouble("total", total);
 
-        NavController navController = NavHostFragment.findNavController(this);
-        navController.navigate(R.id.paymentFragment, args);
+//        NavController navController = NavHostFragment.findNavController(this);
+//        navController.navigate(R.id.paymentFragment, args);
+
+        navigateToPage(R.id.action_navigation_cus_cart_to_paymentFragment, args);
     }
 
     private void setUpRecyclerView() {

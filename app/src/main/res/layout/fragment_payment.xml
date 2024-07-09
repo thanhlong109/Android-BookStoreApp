@@ -292,7 +292,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginRight="20dp"
-            app:layout_constraintEnd_toStartOf="@+id/tv_Checkout"
+            app:layout_constraintEnd_toStartOf="@+id/btn_Checkout"
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
@@ -311,7 +311,7 @@
         </LinearLayout>
 
         <Button
-            android:id="@+id/tv_Checkout"
+            android:id="@+id/btn_Checkout"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:padding="15dp"
