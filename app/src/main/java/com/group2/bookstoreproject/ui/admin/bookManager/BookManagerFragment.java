@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 
 import com.group2.bookstoreproject.R;
 import com.group2.bookstoreproject.base.BaseFragment;
+import com.group2.bookstoreproject.base.common.Constants;
 import com.group2.bookstoreproject.data.model.Book;
 import com.group2.bookstoreproject.databinding.FragmentBookManagerBinding;
 
@@ -52,7 +53,9 @@ public class BookManagerFragment extends BaseFragment<FragmentBookManagerBinding
         viewModel.loadBooks();
 
         binding.fabAdd.setOnClickListener(v -> {
-            // Logic to show add book dialog
+            Bundle bundle = new Bundle();
+            bundle.putInt(Constants.MODE_KEY,Constants.CREATE_MODE);
+            navigateToPage(R.id.action_bookManagerFragment_to_upsertBookFragment,bundle);
         });
     }
 

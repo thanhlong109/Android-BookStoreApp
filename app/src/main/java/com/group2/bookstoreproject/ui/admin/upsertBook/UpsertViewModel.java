@@ -5,14 +5,18 @@ import android.content.Context;
 import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.group2.bookstoreproject.base.BaseViewModel;
 import com.group2.bookstoreproject.base.common.Constants;
+import com.group2.bookstoreproject.data.model.Book;
 import com.group2.bookstoreproject.data.model.Category;
 import com.group2.bookstoreproject.data.model.FCMRequest;
+import com.group2.bookstoreproject.data.repository.BookRepository;
 import com.group2.bookstoreproject.data.repository.CategoryRepository;
 import com.group2.bookstoreproject.data.repository.NotificationRepository;
+import com.group2.bookstoreproject.data.repositoryImpl.BookRepositoryImpl;
 import com.group2.bookstoreproject.data.repositoryImpl.CategoryRepositoryImpl;
 import com.group2.bookstoreproject.data.repositoryImpl.NotificationRepositoryImpl;
 
@@ -21,6 +25,7 @@ import java.util.List;
 public class UpsertViewModel extends BaseViewModel {
     private final NotificationRepository notificationRepository = new NotificationRepositoryImpl();
     private final CategoryRepository categoryRepository = new CategoryRepositoryImpl();
+    private final BookRepository bookRepository = new BookRepositoryImpl();
 
     public  void sendNotificationToCustomer(Context context, String title, String message){
         FCMRequest.Notification notification = new FCMRequest.Notification(title, message);
@@ -40,6 +45,18 @@ public class UpsertViewModel extends BaseViewModel {
                 }
                 setLoading(false);
             }
+        });
+    }
+
+    public void  upsertBook(Book book, OnSuccessListener onSuccessListener){
+        setLoading(true);
+        bookRepository.upsert(book.getBookId(), book, task -> {
+            if(task.isSuccessful()){
+                onSuccessListener.onSuccess(null);
+            }else{
+                setErrorMessage(task.getException().getMessage());
+            }
+            setLoading(false);
         });
     }
 

@@ -13,6 +13,18 @@ public class DataConverter {
         }
         return  converted;
     }
+    public static Double DoubleSafeConvert(String value, double defaultValue,OnError onError){
+        double converted = defaultValue;
+        try{
+            converted = Double.parseDouble(value);
+        }catch (Exception e){
+            if(onError!=null){
+                onError.onError();
+            }
+            return converted;
+        }
+        return  converted;
+    }
 
     public interface OnError{
         void onError();

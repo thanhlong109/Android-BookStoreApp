@@ -33,6 +33,7 @@
         android:layout_margin="16dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:src="@drawable/ic_add"
+        android:src="@drawable/ic_add_white"
+        android:backgroundTint="@color/primaryColor"
         android:contentDescription="Add book"/>
 </RelativeLayout>

@@ -31,7 +31,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Book Title"
+                android:maxLines="1"
                 android:textSize="16sp"
+                android:ellipsize="end"
                 android:textStyle="bold"/>
 
             <TextView
@@ -39,6 +41,7 @@
                 android:layout_marginTop="5dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="#3F51B5"
                 android:text="Book Author"
                 android:textSize="14sp"/>
 
@@ -57,7 +60,8 @@
                 android:layout_marginTop="2dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="SL: 5"
+                android:text="Số Lượng: 5"
+                android:fontFamily="@font/app_font_light"
                 android:textSize="12sp"/>
 
         </LinearLayout>

@@ -63,7 +63,7 @@
           style="@style/Widget.Material3.TextInputLayout.FilledBox.Dense"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          android:hint="Title">
+          android:hint="Tên Sách">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etTitle"
@@ -81,7 +81,7 @@
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
           android:layout_marginTop="20dp"
-          android:hint="Author">
+          android:hint="Tác Giả">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etAuthor"
@@ -121,7 +121,7 @@
           android:layout_width="0dp"
           android:layout_weight="1"
           android:layout_height="wrap_content"
-          android:hint="Price">
+          android:hint="Giá">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etPrice"
@@ -140,7 +140,7 @@
           android:layout_marginLeft="20dp"
           android:layout_weight="1"
           android:layout_height="wrap_content"
-          android:hint="Stock">
+          android:hint="Số Lượng">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etStock"
@@ -162,7 +162,7 @@
           android:id="@+id/tvCategory"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
-          android:text="Category: "
+          android:text="Thể loại: "
           android:layout_marginLeft="12dp"
           android:textSize="16sp"
           />
@@ -182,9 +182,9 @@
         android:layout_height="wrap_content" android:orientation="horizontal">
       <TextView
           android:id="@+id/tvSaleValue"
-          android:layout_width="65dp"
+          android:layout_width="80dp"
           android:layout_height="wrap_content"
-          android:text="Sale: "
+          android:text="Giảm: "
           android:layout_marginLeft="12dp"
           android:textSize="16sp"
           android:textColor="#FF5722"
@@ -206,7 +206,7 @@
         android:layout_width="match_parent"
         android:layout_marginTop="20dp"
         android:layout_height="wrap_content"
-        android:hint="Description">
+        android:hint="Miêu tả">
 
       <com.google.android.material.textfield.TextInputEditText
           android:id="@+id/etDescription"
@@ -216,7 +216,6 @@
           android:backgroundTint="@android:color/transparent" />
 
     </com.google.android.material.textfield.TextInputLayout>
-
 
     <Button
         android:layout_width="match_parent"
