@@ -314,7 +314,6 @@
             android:id="@+id/tv_Checkout"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:background="@color/background_header_color"
             android:padding="15dp"
             android:text="Đặt hàng"
             android:textColor="@color/white"

@@ -44,17 +44,17 @@
             </intent-filter>
         </activity>
 
-        <activity
-            android:name=".ui.activity.PaymentActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="demozpdk"
-                    android:host="app" />
-            </intent-filter>
-        </activity>
+<!--        <activity-->
+<!--            android:name=".ui.activity.PaymentActivity"-->
+<!--            android:exported="true">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.VIEW" />-->
+<!--                <category android:name="android.intent.category.DEFAULT" />-->
+<!--                <category android:name="android.intent.category.BROWSABLE" />-->
+<!--                <data android:scheme="demozpdk"-->
+<!--                    android:host="app" />-->
+<!--            </intent-filter>-->
+<!--        </activity>-->
         <service
             android:name=".service.FirebaseNotificationService"
             android:exported="false">

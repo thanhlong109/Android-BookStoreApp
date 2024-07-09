@@ -64,7 +64,11 @@ dependencies {
     implementation(libs.constraintlayout)
     implementation(libs.legacy.support.v4)
     implementation(libs.firebase.crashlytics.buildtools)
-    implementation(fileTree(mapOf("dir" to "W:\\zalopay", "include" to listOf("*.aar", "*.jar"))))
+    implementation(fileTree(mapOf(
+            "dir" to "${rootProject.projectDir}/app/lib",
+            "include" to listOf("*.aar", "*.jar"),
+            "exclude" to listOf("")
+    )))
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
