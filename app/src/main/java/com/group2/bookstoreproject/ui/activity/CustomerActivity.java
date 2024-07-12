@@ -25,6 +25,21 @@ import com.group2.bookstoreproject.ui.adapter.CustomerViewPageAdapter;
 import com.group2.bookstoreproject.util.session.SessionManager;
 
 public class CustomerActivity extends BaseActivity<ActivityCustomerBinding> {
+    private static Runnable runnable;
+
+    public static void setCallBackWhenResume(Runnable runnable){
+        CustomerActivity.runnable = runnable;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(runnable!=null){
+            runnable.run();
+            runnable = null;
+        }
+    }
+
     @NonNull
     @Override
     protected ActivityCustomerBinding inflateBinding(LayoutInflater layoutInflater) {

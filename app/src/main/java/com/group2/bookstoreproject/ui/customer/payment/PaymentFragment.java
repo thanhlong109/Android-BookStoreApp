@@ -123,6 +123,12 @@ public class PaymentFragment extends BaseFragment<FragmentPaymentBinding, Paymen
         binding.btnCheckout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                CustomerActivity.setCallBackWhenResume(() -> {
+                    Intent intent = new Intent(requireActivity(), PaymentResultActivity.class);
+                    intent.putExtra("result", "Thanh Toán Thành Công");
+                    //Log.d("result", "a");
+                    startActivity(intent);
+                });
                 CreateOrder orderApi = new CreateOrder();
                 try {
                     JSONObject data = orderApi.createOrder("70000");
@@ -136,10 +142,7 @@ public class PaymentFragment extends BaseFragment<FragmentPaymentBinding, Paymen
                         ZaloPaySDK.getInstance().payOrder((CustomerActivity)requireActivity(), token, "demozpdk://app", new PayOrderListener() {
                             @Override
                             public void onPaymentSucceeded(String s, String s1, String s2) {
-                                Intent intent = new Intent(requireActivity(), PaymentResultActivity.class);
-                                intent.putExtra("result", "Thanh Toán Thành Công");
-                                Log.d("result", "a");
-                                startActivity(intent);
+
                                 //Toast.makeText(PaymentFragment.this, "Success", Toast.LENGTH_SHORT).show();
                             }
 
