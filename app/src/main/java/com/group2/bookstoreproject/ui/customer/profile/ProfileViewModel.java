@@ -19,7 +19,6 @@ public class ProfileViewModel extends BaseViewModel {
 
     private final ProfileRepository profileRepository;
     private final MutableLiveData<User> userLiveData = new MutableLiveData<>();
-    private final MutableLiveData<String> errorLiveData = new MutableLiveData<>();
 
     public ProfileViewModel() {
         this.profileRepository = new ProfileRepositoryImpl();
@@ -29,9 +28,6 @@ public class ProfileViewModel extends BaseViewModel {
         return userLiveData;
     }
 
-    public LiveData<String> getErrorLiveData() {
-        return errorLiveData;
-    }
 
     public void loadUserProfile() {
         SessionManager sessionManager = SessionManager.getInstance();
@@ -44,15 +40,16 @@ public class ProfileViewModel extends BaseViewModel {
                     User user = task.getResult();
                     userLiveData.setValue(user);
                 } else {
-                    errorLiveData.setValue(task.getException().getMessage());
+                    setErrorMessage(task.getException().getMessage());
                 }
             });
         } else {
-            errorLiveData.setValue("No user session found");
+           setErrorMessage("No user session found");
         }
     }
 
     public void loadUserProfileUD() {
+        setLoading(true);
         SessionManager sessionManager = SessionManager.getInstance();
         User loggedInUser = sessionManager.getLoggedInUser();
 
@@ -60,18 +57,18 @@ public class ProfileViewModel extends BaseViewModel {
             String userId = loggedInUser.getUserId();
             profileRepository.listenToUserChanges(userId, (snapshot, error) -> {
                 if (error != null) {
-                    errorLiveData.setValue(error.getMessage());
+                    setErrorMessage(error.getMessage());
                     return;
                 }
                 if (snapshot != null && snapshot.exists()) {
                     User updatedUser = snapshot.toObject(User.class);
                     userLiveData.setValue(updatedUser);
                 } else {
-                    errorLiveData.setValue("User data not found");
+                    setErrorMessage("User data not found");
                 }
             });
         } else {
-            errorLiveData.setValue("No user session found");
+            setErrorMessage("No user session found");
         }
     }
 
@@ -80,7 +77,7 @@ public class ProfileViewModel extends BaseViewModel {
             if (task.isSuccessful()) {
                 userLiveData.setValue(updatedUser); // Update LiveData with the new user data
             } else {
-                errorLiveData.setValue(task.getException().getMessage());
+                setErrorMessage(task.getException().getMessage());
             }
             setLoading(false); // Optional: Update loading state
         });

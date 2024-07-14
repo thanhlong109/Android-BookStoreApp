@@ -20,6 +20,7 @@ import androidx.navigation.Navigation;
 import com.bumptech.glide.Glide;
 import com.group2.bookstoreproject.R;
 import com.group2.bookstoreproject.base.BaseFragment;
+import com.group2.bookstoreproject.base.common.Constants;
 import com.group2.bookstoreproject.data.model.User;
 import com.group2.bookstoreproject.databinding.FragmentProfileBinding;
 import com.google.firebase.storage.FirebaseStorage;
@@ -54,10 +55,31 @@ public class ProfileFragment extends BaseFragment<FragmentProfileBinding, Profil
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         firebaseStorage = FirebaseStorage.getInstance();
-        
-        binding.imageToListOrder.setOnClickListener(v -> navigateToOrderList());
+
+        switch (SessionManager.getInstance().getLoggedInUser().getRole()){
+            case Constants.ADMIN:{
+                handleAdmin();
+                break;
+            }
+            case Constants.CUSTOMER:{
+                handleCustomer();
+                break;
+            }
+            case Constants.SHIPPER:{
+                handleShipper();
+                break;
+            }
+        }
+        viewModel.loadUserProfileUD();
+        binding.imageViewAdd.setOnClickListener(v -> openImagePicker());
+        binding.imgSetting.setOnClickListener(v -> openUpdateProfileFragment());
+        binding.tvLogout.setOnClickListener(v -> handleLogout()); // Add logout click listener
+    }
+
+    @Override
+    protected void observeViewModel() {
+        super.observeViewModel();
         viewModel.getUserLiveData().observe(getViewLifecycleOwner(), new Observer<User>() {
             @Override
             public void onChanged(User user) {
@@ -79,25 +101,20 @@ public class ProfileFragment extends BaseFragment<FragmentProfileBinding, Profil
                 }
             }
         });
+    }
 
-        viewModel.getErrorLiveData().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(String error) {
-                hideLoading(); // Hide loading on error
-                if (error != null) {
-                    Log.e(TAG, error);
-                }
-            }
-        });
+    private void handleAdmin(){
+        binding.frameUserHistory.setVisibility(View.GONE);
+    }
 
-        showLoading(true); // Show loading before starting to load the user profile
-        viewModel.loadUserProfileUD();
+    private void handleCustomer(){
+        binding.frameUserHistory.setVisibility(View.VISIBLE);
+        binding.imageToListOrder.setOnClickListener(v -> navigateToOrderList());
+    }
 
-        binding.imageViewAdd.setOnClickListener(v -> openImagePicker());
+    private void  handleShipper(){
+        binding.frameUserHistory.setVisibility(View.GONE);
 
-        binding.imgSetting.setOnClickListener(v -> openUpdateProfileFragment());
-
-        binding.tvLogout.setOnClickListener(v -> handleLogout()); // Add logout click listener
     }
 
     private void handleLogout() {
