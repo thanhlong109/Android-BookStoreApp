@@ -132,7 +132,7 @@ public class OrderDetailsFragment extends BaseFragment<FragmentOrderDetailsBindi
 
      private void displayOrderDetails(Order order) {
         // Hiển thị chi tiết đơn hàng trong giao diện người dùng
-        binding.tvAddress.setText(order.getAddress());
+        binding.tvAddress.setText("Địa chỉ: "+order.getAddress());
         int status = order.getOrderStatus();
         if(status ==1){
             binding.tvTransport.setText("Đang vận chuyển");
@@ -147,7 +147,7 @@ public class OrderDetailsFragment extends BaseFragment<FragmentOrderDetailsBindi
 
             binding.orderStatusTitle.setText("Đơn hàng đã bị hủy ");
             binding.orderStatusSubtitle.setText("Mong quý khách ủng hộ shop");
-            binding.lnBackGroundStatus.setBackgroundColor(getResources().getColor(R.color.red_light));
+            binding.lnBackGroundStatus.setBackgroundColor(getResources().getColor(R.color.red_light_bg));
         } else if (status==2) {
             binding.tvTransport.setText("Giao hàng thành công");
             binding.tvTransport.setTextColor(getResources().getColor(R.color.green_3));
@@ -159,7 +159,7 @@ public class OrderDetailsFragment extends BaseFragment<FragmentOrderDetailsBindi
     }
 
     private void displayUserInfor(User user){
-        binding.tvPhone.setText(user.getPhone());
-        binding.tvFullname.setText(user.getFullName());
+        binding.tvPhone.setText("Số điện thoại: "+user.getPhone());
+        binding.tvFullname.setText("Khách hàng: "+user.getFullName());
     }
 }

@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".ui.common.orderDetails.OrderDetailsFragment">
 
     <!-- TODO: Update blank fragment layout -->
@@ -22,7 +24,7 @@
             android:layout_width="23dp"
             android:layout_height="33dp"
             android:src="@drawable/ic_arrow_back_ios_new_24px"
-            android:background="@color/white"/>
+            android:background="@color/white" />
 
         <TextView
             android:id="@+id/header_title"
@@ -34,7 +36,7 @@
             android:textColor="@android:color/black"
             android:textSize="18sp"
             android:gravity="center"
-            android:visibility="visible"/>
+            android:visibility="visible" />
 
     </LinearLayout>
 
@@ -68,20 +70,20 @@
                     android:textSize="18sp"
                     android:gravity="center"
                     android:layout_alignParentStart="true"
-                    android:layout_alignParentTop="true"/>
+                    android:layout_alignParentTop="true" />
 
                 <TextView
                     android:id="@+id/orderStatusSubtitle"
                     android:layout_width="wrap_content"
-                    android:layout_height="40dp"
+                    android:layout_height="30dp"
                     android:text=""
                     android:paddingLeft="20dp"
                     android:gravity="center"
-                    android:textColor="#F8FF3B"
-                    android:fontFamily="@font/app_font_thin_italic"
+                    android:textColor="#FFFFFF"
+                    android:fontFamily="@font/app_font_italic"
                     android:textSize="18sp"
                     android:layout_below="@id/orderStatusTitle"
-                    android:layout_alignParentStart="true"/>
+                    android:layout_alignParentStart="true" />
 
                 <ImageView
                     android:id="@+id/orderStatusIcon"
@@ -90,7 +92,8 @@
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:paddingEnd="0dp"
-                    android:src="@drawable/icon_sign"/>
+                    android:src="@drawable/icon_sign"
+                    app:tint="@color/white" />
 
             </RelativeLayout>
 
@@ -99,7 +102,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:background="#418D8D8D"
+                android:elevation="2dp"
                 android:padding="10dp"
                 android:layout_marginBottom="16dp">
 
@@ -107,6 +110,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
+                    android:gravity="center_vertical"
                     android:layout_marginBottom="8dp">
 
                     <ImageView
@@ -136,8 +140,8 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/tvCopyAddress"
                 android:orientation="vertical"
-                android:background="#418D8D8D"
                 android:padding="10dp"
+                android:elevation="2dp"
                 android:layout_marginBottom="16dp">
                   <LinearLayout
                     android:layout_width="wrap_content"
@@ -155,7 +159,7 @@
                       <TextView
                           android:layout_width="wrap_content"
                           android:layout_height="wrap_content"
-                          android:text="  Địa chỉ nhận hàng"
+                          android:text="  Thông tin giao hàng"
                           android:textStyle="bold"/>
 
                       <View
@@ -176,6 +180,7 @@
                     android:id="@+id/tvFullname"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/gray_600"
                     android:text=""
                     android:layout_marginBottom="4dp"/>
                 <TextView
@@ -183,17 +188,23 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text=" "
+                    android:textColor="@color/gray_600"
                     android:layout_marginBottom="4dp"/>
                 <TextView
                     android:id="@+id/tvAddress"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/gray_600"
                     android:text=""/>
+                <com.google.android.material.divider.MaterialDivider
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"/>
             </LinearLayout>
 
             <!-- RecyclerView for Items -->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerViewOrderItems"
+                android:layout_marginHorizontal="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
         </LinearLayout>
