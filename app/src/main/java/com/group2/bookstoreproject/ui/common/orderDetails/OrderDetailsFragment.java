@@ -7,9 +7,6 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.view.LayoutInflater;
@@ -19,7 +16,6 @@ import android.widget.Toast;
 
 import com.group2.bookstoreproject.R;
 import com.group2.bookstoreproject.base.BaseFragment;
-import com.group2.bookstoreproject.data.model.Book;
 import com.group2.bookstoreproject.data.model.Order;
 import com.group2.bookstoreproject.data.model.OrderItem;
 import com.group2.bookstoreproject.data.model.User;
@@ -62,19 +58,7 @@ public class OrderDetailsFragment extends BaseFragment<FragmentOrderDetailsBindi
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        binding.backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (role ==3 ){
-                    Navigation.findNavController(view).navigate(R.id.action_orderDetailsFragment_to_orderListFragment);
-                } else if (role ==2){
-                    Navigation.findNavController(view).navigate(R.id.action_orderDetailsFragment2_to_orderListFragment2);
-                } else if (role==1) {
-                    Navigation.findNavController(view).navigate(R.id.action_orderDetailsFragment3_to_orderListFragment3);
-                }
-            }
-        });
+        binding.backButton.setOnClickListener(v -> navigateBack(view));
 
         if (getArguments() != null) {
             String orderId = getArguments().getString("orderId", "");

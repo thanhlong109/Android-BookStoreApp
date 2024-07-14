@@ -134,7 +134,7 @@ public class UpsertBookFragment extends BaseFragment<FragmentUpsertBookBinding, 
             }
         });
         binding.bookCover.setOnClickListener(v -> openImagePicker());
-        binding.upsetBookToolbar.setOnStartIconClick(() -> navigateBack());
+        binding.upsetBookToolbar.setOnStartIconClick(() -> navigateBack(view));
         binding.btnSaveBook.setOnClickListener(v -> {
             Book data = getBookInput();
             if(data !=null){
@@ -222,13 +222,15 @@ public class UpsertBookFragment extends BaseFragment<FragmentUpsertBookBinding, 
             showToast("Số lượng không hợp lệ!");
         });
         int sale = binding.seekBarSale.getProgress();
+        if(selectedImage == null){
+            showToast("Vui lòng chọn ảnh");
+            isError.set(true);
+        }
         if(isError.get()) return null;
         Book newBook = new Book();
         if(MODE == Constants.UPDATE_MODE){
             newBook.setBookId(book.getBookId());
             newBook.setBookImg(book.getBookImg());
-        }else if(selectedImage == null){
-            showToast("Vui lòng chọn ảnh");
         }
         newBook.setAuthor(author);
         newBook.setPrice(nPrice);

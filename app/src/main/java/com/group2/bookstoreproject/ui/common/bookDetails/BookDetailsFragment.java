@@ -69,7 +69,7 @@ public class BookDetailsFragment extends BaseFragment<FragmentBookDetailsBinding
         binding.backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               navigateBack();
+               navigateBack(view);
             }
         });
 

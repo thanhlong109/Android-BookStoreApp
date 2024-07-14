@@ -128,8 +128,7 @@ public class ProfileFragment extends BaseFragment<FragmentProfileBinding, Profil
     }
 
     private void navigateToOrderList() {
-        NavController navController = Navigation.findNavController(requireView());
-        navController.navigate(R.id.action_navigation_cus_profile_to_orderListFragment2);
+        navigateToPage(R.id.action_navigation_cus_profile_to_orderListFragment);
     }
     private void openImagePicker() {
         Intent intent = new Intent();

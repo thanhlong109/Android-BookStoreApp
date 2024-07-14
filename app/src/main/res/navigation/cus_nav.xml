@@ -41,8 +41,8 @@
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" >
         <action
-            android:id="@+id/action_navigation_cus_profile_to_orderListFragment2"
-            app:destination="@id/orderListFragment2" />
+            android:id="@+id/action_navigation_cus_profile_to_orderListFragment"
+            app:destination="@id/orderListFragment" />
         <action
             android:id="@+id/action_navigation_cus_profile_to_update_profile"
             app:destination="@id/update_profile" />
@@ -60,25 +60,25 @@
             app:destination="@id/navigation_cus_cart" />
     </fragment>
     <fragment
-        android:id="@+id/orderListFragment2"
+        android:id="@+id/orderListFragment"
         android:name="com.group2.bookstoreproject.ui.common.orderList.OrderListFragment"
         android:label="fragment_order_list"
         tools:layout="@layout/fragment_order_list" >
         <action
-            android:id="@+id/action_orderListFragment2_to_navigation_cus_profile"
+            android:id="@+id/action_orderListFragment_to_navigation_cus_profile"
             app:destination="@id/navigation_cus_profile" />
         <action
-            android:id="@+id/action_orderListFragment2_to_orderDetailsFragment2"
-            app:destination="@id/orderDetailsFragment2" />
+            android:id="@+id/action_orderListFragment_to_orderDetailsFragment"
+            app:destination="@id/orderDetailsFragment" />
     </fragment>
     <fragment
-        android:id="@+id/orderDetailsFragment2"
+        android:id="@+id/orderDetailsFragment"
         android:name="com.group2.bookstoreproject.ui.common.orderDetails.OrderDetailsFragment"
         android:label="fragment_order_details"
         tools:layout="@layout/fragment_order_details" >
         <action
-            android:id="@+id/action_orderDetailsFragment2_to_orderListFragment2"
-            app:destination="@id/orderListFragment2" />
+            android:id="@+id/action_orderDetailsFragment_to_orderListFragment"
+            app:destination="@id/orderListFragment" />
     </fragment>
     <fragment
         android:id="@+id/navigation_category"

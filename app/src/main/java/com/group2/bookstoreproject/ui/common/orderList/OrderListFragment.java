@@ -1,23 +1,15 @@
 package com.group2.bookstoreproject.ui.common.orderList;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 
-import android.transition.TransitionManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.group2.bookstoreproject.R;
 import com.group2.bookstoreproject.base.BaseFragment;
@@ -75,12 +67,7 @@ public class OrderListFragment extends BaseFragment<FragmentOrderListBinding, Or
 //            viewModel.addOrder(order);
 //        });
 
-        binding.backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Navigation.findNavController(view).navigateUp();
-            }
-        });
+        binding.backButton.setOnClickListener(v -> navigateBack(view));
 
         orderListAdapter = new OrderListAdapter(role);
         orderListAdapter.setOnOrderDetailClickListener(position -> {
@@ -90,13 +77,14 @@ public class OrderListFragment extends BaseFragment<FragmentOrderListBinding, Or
                 bundle.putString("userId", order.getUserId());
                 bundle.putString("orderId", order.getOrderId());
                 try {
-                    if(role==2){
-                        Navigation.findNavController(view).navigate(R.id.action_orderListFragment2_to_orderDetailsFragment2, bundle);
-                    } else if (role==1) {
-                        Navigation.findNavController(view).navigate(R.id.action_orderListFragment3_to_orderDetailsFragment3, bundle);
-                    } else if (role==3) {
-                        Navigation.findNavController(view).navigate(R.id.action_orderListFragment_to_orderDetailsFragment, bundle);
-                    }
+//                    if(role==2){
+//                        Navigation.findNavController(view).navigate(R.id.action_orderListFragment2_to_orderDetailsFragment2, bundle);
+//                    } else if (role==1) {
+//                        Navigation.findNavController(view).navigate(R.id.action_orderListFragment3_to_orderDetailsFragment3, bundle);
+//                    } else if (role==3) {
+//                        cNavigation.findNavController(view).navigate(R.id.action_orderListFragment_to_orderDetailsFragment, bundle);
+//                    }
+                    navigateToPage(R.id.action_orderListFragment_to_orderDetailsFragment, bundle);//.findNavController(view).navigate(R.id.action_orderListFragment_to_orderDetailsFragment, bundle);
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -199,15 +187,6 @@ public class OrderListFragment extends BaseFragment<FragmentOrderListBinding, Or
         binding.tabAllDonHang.setTextColor(danhSachDonHang ? getResources().getColor(R.color.colorPrimary) : getResources().getColor(R.color.black));
     }
 
-//    private void navigateToOrderDetails(Order order) {
-//        Bundle bundle = new Bundle();
-//        bundle.putString("orderId", order.getOrderId());
-//
-//        Navigation.findNavController(requireView()).navigate(
-//                R.id.action_orderListFragment_to_orderDetailsFragment,
-//                bundle
-//        );
-//    }
 
     private void updateEmptyView(List<Order> orders) {
         if (orders == null || orders.isEmpty()) {

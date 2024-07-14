@@ -14,6 +14,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDirections;
+import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.viewbinding.ViewBinding;
 import com.group2.bookstoreproject.R;
@@ -61,6 +62,9 @@ public abstract class BaseFragment<B extends ViewBinding, VM extends BaseViewMod
         });
     }
 
+    protected void navigateBack(View view){
+        Navigation.findNavController(view).navigateUp();
+    }
     protected void navigateBack(){
         if(getActivity() instanceof BaseActivity){
             BaseActivity baseActivity = (BaseActivity) getActivity();
