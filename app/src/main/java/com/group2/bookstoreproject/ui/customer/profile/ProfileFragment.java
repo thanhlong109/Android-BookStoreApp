@@ -18,6 +18,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import com.bumptech.glide.Glide;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.group2.bookstoreproject.R;
 import com.group2.bookstoreproject.base.BaseFragment;
 import com.group2.bookstoreproject.base.common.Constants;
@@ -119,6 +120,7 @@ public class ProfileFragment extends BaseFragment<FragmentProfileBinding, Profil
 
     private void handleLogout() {
         SessionManager sessionManager = SessionManager.getInstance();
+        FirebaseMessaging.getInstance().unsubscribeFromTopic(sessionManager.getLoggedInUser().getDeviceToken());
         sessionManager.clearUser(); // Clear the user session
         Intent intent = new Intent(getActivity(), AuthActivity.class);
         startActivity(intent);

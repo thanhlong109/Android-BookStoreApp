@@ -3,7 +3,6 @@ package com.group2.bookstoreproject.ui.admin.upsertBook;
 import static android.app.Activity.RESULT_OK;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -164,6 +163,9 @@ public class UpsertBookFragment extends BaseFragment<FragmentUpsertBookBinding, 
             @Override
             public void onSuccess(Object object) {
                 showToast("Lưu sách thành công!");
+                if(MODE == Constants.CREATE_MODE){
+                    viewModel.sendNotificationToCustomer(requireContext(),"Sách mới!","Sách "+data.getTitle()+" mới được thêm vào!");
+                }
                 navigateBack();
             }
         });

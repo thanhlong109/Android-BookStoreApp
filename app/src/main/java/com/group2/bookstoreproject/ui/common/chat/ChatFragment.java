@@ -95,7 +95,7 @@ public class ChatFragment extends BaseFragment<FragmentChatBinding,ChatViewModel
     private void onSendMessage(){
         String message = binding.etInput.getText().toString().trim();
         if(message.length()>0){
-            viewModel.addMessageToChatRoom(message);
+            viewModel.addMessageToChatRoom(message, requireContext());
             binding.etInput.setText("");
             binding.etInput.clearFocus();
             KeyboardUtils.hideKeyboard(getActivity());

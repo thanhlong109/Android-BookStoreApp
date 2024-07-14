@@ -50,7 +50,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding,HomeViewHolde
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        viewModel.showNotificationTotalCardItems(requireContext());
 
         recyclerView1 = binding.recyclerView1;
         recyclerView2 = binding.recyclerView2;
