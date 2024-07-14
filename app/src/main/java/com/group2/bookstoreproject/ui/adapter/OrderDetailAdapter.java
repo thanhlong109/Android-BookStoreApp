@@ -16,6 +16,7 @@ import com.group2.bookstoreproject.R;
 import com.group2.bookstoreproject.data.model.Book;
 import com.group2.bookstoreproject.data.model.Order;
 import com.group2.bookstoreproject.data.model.OrderItem;
+import com.group2.bookstoreproject.util.FormatterUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,12 +48,9 @@ public class OrderDetailAdapter extends RecyclerView.Adapter<OrderDetailAdapter.
     @Override
     public void onBindViewHolder(@NonNull OrderDetailViewHolder holder, int position) {
         OrderItem orderItem = orderItems.get(position);
-        holder.tvQuantity.setText(String.valueOf(orderItem.getQuantity()));
-        holder.tvPrice.setText(String.valueOf(orderItem.getPrice()));
+        holder.tvQuantity.setText("SL: "+orderItem.getQuantity());
+        holder.tvPrice.setText(FormatterUtils.ToMoneyText(orderItem.getPrice()));
 
-//        Book book = books.get(position);
-//        holder.tvBookName.setText(book.getTitle());
-//        holder.tvAuthor.setText(book.getAuthor());
         if(position< books.size()){
             Book book = books.get(position);
             holder.tvBookName.setText(book.getTitle());
@@ -82,7 +80,7 @@ public class OrderDetailAdapter extends RecyclerView.Adapter<OrderDetailAdapter.
         public OrderDetailViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            tvQuantity = itemView.findViewById(R.id.tvProductOriginalPrice);
+            tvQuantity = itemView.findViewById(R.id.tvProductQuantity);
             tvPrice = itemView.findViewById(R.id.tvProductPrice);
             tvBookName = itemView.findViewById(R.id.tvBookName);
             tvAuthor = itemView.findViewById(R.id.tvAuthor);

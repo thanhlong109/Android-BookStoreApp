@@ -45,6 +45,7 @@ public class OrderListViewModel extends BaseViewModel {
     }
 
     public void fetchOrders(){
+        setLoading(true);
         orderRepository.getAll(task -> {
             if (task.isSuccessful()) {
                 AllListOrder = task.getResult().toObjects(Order.class);
@@ -52,6 +53,7 @@ public class OrderListViewModel extends BaseViewModel {
             } else {
                 Log.e(TAG, "Error fetching books", task.getException());
             }
+            setLoading(false);
         });
     }
 
@@ -74,6 +76,7 @@ public class OrderListViewModel extends BaseViewModel {
         ordersLiveData.setValue(filteredOrders);
     }
     public void fetchOrdersByUserId(String userId) {
+        setLoading(true);
         orderRepository.getOrdersByUserId(userId, task -> {
             if (task.isSuccessful()) {
                 AllListOrder = task.getResult().toObjects(Order.class);
@@ -81,9 +84,11 @@ public class OrderListViewModel extends BaseViewModel {
             } else {
                 Log.e(TAG, "Error fetching orders by userId", task.getException());
             }
+            setLoading(false);
         });
     }
     public void updateOrderStatus(String orderId, int newStatus) {
+        setLoading(true);
         orderRepository.updateOrderStatus(orderId, newStatus, task -> {
             if (task.isSuccessful()) {
                 Log.d(TAG, "Order status updated successfully");
@@ -92,6 +97,7 @@ public class OrderListViewModel extends BaseViewModel {
             } else {
                 Log.e(TAG, "Error updating order status", task.getException());
             }
+            setLoading(false);
         });
     }
 }

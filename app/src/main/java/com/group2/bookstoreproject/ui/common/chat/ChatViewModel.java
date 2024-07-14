@@ -1,5 +1,6 @@
 package com.group2.bookstoreproject.ui.common.chat;
 
+import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
@@ -16,12 +17,16 @@ import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.group2.bookstoreproject.base.BaseViewModel;
+import com.group2.bookstoreproject.base.common.Constants;
 import com.group2.bookstoreproject.data.model.ChatMessage;
 import com.group2.bookstoreproject.data.model.ChatRoom;
+import com.group2.bookstoreproject.data.model.FCMRequest;
 import com.group2.bookstoreproject.data.model.User;
 import com.group2.bookstoreproject.data.model.base.Resource;
 import com.group2.bookstoreproject.data.repository.ChatRoomRepository;
+import com.group2.bookstoreproject.data.repository.NotificationRepository;
 import com.group2.bookstoreproject.data.repositoryImpl.ChatRoomRepositoryImpl;
+import com.group2.bookstoreproject.data.repositoryImpl.NotificationRepositoryImpl;
 import com.group2.bookstoreproject.util.session.SessionManager;
 
 import java.util.ArrayList;
@@ -35,6 +40,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel;
 public class ChatViewModel extends BaseViewModel {
     public static final String TAG = "Chat view model";
     private MutableLiveData<List<ChatMessage>> chatMessages;
+    private final NotificationRepository notificationRepository = new NotificationRepositoryImpl();
     private ChatRoomRepository chatRoomRepository;
 
     private MutableLiveData<Resource<ChatRoom>> currentChatRoom;
@@ -119,7 +125,7 @@ public class ChatViewModel extends BaseViewModel {
     }
 
 
-    public void addMessageToChatRoom( String text) {
+    public void addMessageToChatRoom( String text, Context context) {
         String chatRoomId = currentChatRoom.getValue().getData().getChatRoomId();
         setLoading(true);
         ChatMessage message = new ChatMessage();
@@ -133,6 +139,7 @@ public class ChatViewModel extends BaseViewModel {
         chatRoomRepository.addMessageToChatRoom(chatRoomId, message, task -> {
             if (task.isSuccessful()) {
                 Log.d(TAG, "Message added successfully.");
+                sendNotificationToReceiver(context);
             } else {
                 Log.d(TAG, "Error adding message: ", task.getException());
                 setErrorMessage(task.getException().getMessage());
@@ -156,6 +163,12 @@ public class ChatViewModel extends BaseViewModel {
             }
             setLoading(false);
         });
+    }
+    public  void sendNotificationToReceiver(Context context){
+        FCMRequest.Notification notification = new FCMRequest.Notification("Tin nhắn mới", sender.getFullName()+" vừa gửi một tin nhắn cho bạn!");
+        FCMRequest.Message body = new FCMRequest.Message(receiver.getDeviceToken(), notification);
+        FCMRequest fcmRequest = new FCMRequest(body);
+        notificationRepository.sendNotification(fcmRequest,context);
     }
 
     public void listenToMessagesInChatRoom(String chatRoomId) {

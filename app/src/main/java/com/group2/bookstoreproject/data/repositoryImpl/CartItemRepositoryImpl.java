@@ -37,7 +37,6 @@ public class CartItemRepositoryImpl extends BaseRepositoryImpl<CartItem> impleme
     public CartItemRepositoryImpl() {
         super();
         bookRepository = new BookRepositoryImpl();
-        // Listen to changes in the cart items collection
         listenToAllCartItems((snapshots, e) -> cartChangedLiveData.setValue(true));
     }
 

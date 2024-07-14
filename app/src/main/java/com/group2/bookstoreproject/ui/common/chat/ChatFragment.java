@@ -95,7 +95,7 @@ public class ChatFragment extends BaseFragment<FragmentChatBinding,ChatViewModel
     private void onSendMessage(){
         String message = binding.etInput.getText().toString().trim();
         if(message.length()>0){
-            viewModel.addMessageToChatRoom(message);
+            viewModel.addMessageToChatRoom(message, requireContext());
             binding.etInput.setText("");
             binding.etInput.clearFocus();
             KeyboardUtils.hideKeyboard(getActivity());
@@ -138,6 +138,8 @@ public class ChatFragment extends BaseFragment<FragmentChatBinding,ChatViewModel
     @Override // hủy listener cho nhẹ máy
     public void onDestroy() {
         super.onDestroy();
-        viewModel.removeListener();
+        if(viewModel!=null){
+            viewModel.removeListener();
+        }
     }
 }

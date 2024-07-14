@@ -20,12 +20,14 @@ import com.group2.bookstoreproject.base.dialog.NotifyDialog;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.view.WindowInsetsCompat.Type;
+import androidx.navigation.NavController;
 import androidx.viewbinding.ViewBinding;
 
 public abstract class BaseActivity<T extends ViewBinding> extends AppCompatActivity {
 
     private LoadingDialog loadingDialog;
     protected T binding;
+    protected NavController navController;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -60,6 +62,10 @@ public abstract class BaseActivity<T extends ViewBinding> extends AppCompatActiv
         loadingDialog = new LoadingDialog(this);
         loadingDialog.show();
 
+    }
+
+    public NavController getNavController(){
+        return navController;
     }
 
     public void hideLoading() {

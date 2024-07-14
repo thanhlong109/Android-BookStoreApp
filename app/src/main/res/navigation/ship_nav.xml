@@ -28,4 +28,9 @@
         android:name="com.group2.bookstoreproject.ui.common.notification.NotificationFragment"
         android:label="fragment_notification"
         tools:layout="@layout/fragment_notification" />
+    <fragment
+        android:id="@+id/navigation_shipper_profile"
+        android:name="com.group2.bookstoreproject.ui.customer.profile.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" />
 </navigation>

@@ -5,12 +5,14 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
 import androidx.navigation.NavDirections;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.viewbinding.ViewBinding;
@@ -26,7 +28,6 @@ public abstract class BaseFragment<B extends ViewBinding, VM extends BaseViewMod
 
     @NonNull
     protected abstract Class<VM> getViewModelClass();
-
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -58,6 +59,20 @@ public abstract class BaseFragment<B extends ViewBinding, VM extends BaseViewMod
                 }
             }
         });
+    }
+
+    protected void navigateBack(){
+        if(getActivity() instanceof BaseActivity){
+            BaseActivity baseActivity = (BaseActivity) getActivity();
+            baseActivity.getNavController().popBackStack();
+        }
+    }
+
+    protected void navigateBack(int destinationId, boolean inclusive){
+        if(getActivity() instanceof BaseActivity){
+            BaseActivity baseActivity = (BaseActivity) getActivity();
+            baseActivity.getNavController().popBackStack(destinationId, inclusive);
+        }
     }
 
     protected void navigateToPage(int actionId) {
@@ -95,6 +110,10 @@ public abstract class BaseFragment<B extends ViewBinding, VM extends BaseViewMod
     protected void showNotify(String title, String message) {
         BaseActivity activity = (BaseActivity) requireActivity();
         activity.showNotifyDialog(title != null ? title : getDefaultNotifyTitle(), message);
+    }
+
+    protected void showToast(String message){
+        Toast.makeText(getContext(),message, Toast.LENGTH_SHORT).show();
     }
 
     private String getDefaultNotifyTitle() {

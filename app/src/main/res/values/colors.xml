@@ -16,7 +16,7 @@
     <color name="navigation_checked_color">#ff6c2f</color>
     <color name="navigation_checked_color_icon">#fff</color>
 
-    <color name="primaryColor">#ff6c2f</color>
+    <color name="primaryColor">#00BCD4</color>
     <color name="primaryLightColor">#ff9e5d</color>
     <color name="primaryDarkColor">#c53a00</color>
 
@@ -62,6 +62,7 @@
     <color name="light_blue_600">#FF039BE5</color>
     <color name="gray_400">#FFBDBDBD</color>
     <color name="gray_600">#FF757575</color>
+    <color name="red_light_bg">#FFAEA8</color>
 
     <color name="zxing_transparent">#00000000</color>
 

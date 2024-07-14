@@ -60,6 +60,8 @@ public class SessionManager {
             AdminInstance.setAvatar("https://firebasestorage.googleapis.com/v0/b/bookstore-832c5.appspot.com/o/images%2Fuser-4.jpg?alt=media&token=f43cb1a5-3359-4f15-a9d3-dc8f8ac0befa");
             AdminInstance.setEmail("admin@gmail.com");
             AdminInstance.setUserId("admin@gmail.com");
+            AdminInstance.setFullName("BookStore");
+            AdminInstance.setDeviceToken("iuvnaoeimov");
         }
         return AdminInstance;
     }

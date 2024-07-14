@@ -1,6 +1,9 @@
 package com.group2.bookstoreproject.data.model;
 
+import androidx.annotation.Nullable;
+
 import java.io.Serializable;
+import java.util.UUID;
 
 public class Book implements Serializable {
     private String bookId;
@@ -28,6 +31,7 @@ public class Book implements Serializable {
     }
 
     public Book() {
+        bookId = UUID.randomUUID().toString();
     }
 
     public String getBookId() {
@@ -120,5 +124,13 @@ public class Book implements Serializable {
                 ", description='" + description + '\'' +
                 ", categoryId='" + categoryId + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(@Nullable Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Book book = (Book) obj;
+        return bookId.equals(book.bookId);
     }
 }

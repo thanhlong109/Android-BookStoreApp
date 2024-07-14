@@ -12,11 +12,14 @@
     import android.widget.TextView;
 
     import androidx.annotation.NonNull;
+    import androidx.appcompat.content.res.AppCompatResources;
+    import androidx.core.content.ContextCompat;
     import androidx.recyclerview.widget.DiffUtil;
     import androidx.recyclerview.widget.RecyclerView;
 
     import com.group2.bookstoreproject.R;
     import com.group2.bookstoreproject.data.model.Order;
+    import com.group2.bookstoreproject.util.FormatterUtils;
 
     import java.text.SimpleDateFormat;
     import java.util.ArrayList;
@@ -161,16 +164,16 @@
             void bind(Order order) {
                 tvAddress.setText(order.getAddress());
                 tvOrderId.setText(order.getOrderId());
-                tvTotalAmount.setText(String.valueOf(order.getTotalAmount()));
+                tvTotalAmount.setText(FormatterUtils.ToMoneyText(order.getTotalAmount()));
                 int orderStatus = order.getOrderStatus();
                 if (orderStatus == 1) {
-                    tvStatus.setText("Đang Giao hàng");
+                    tvStatus.setText("Đang Giao Hàng");
                     linearLayout.setBackgroundColor(Color.GRAY);
                 } else if (orderStatus == 2) {
-                    tvStatus.setText("Đã Giao hàng");
-                    linearLayout.setBackgroundColor(Color.GREEN);
+                    tvStatus.setText("Đã Giao Hàng");
+                    linearLayout.setBackgroundColor(ContextCompat.getColor(itemView.getContext(), R.color.green_3));
                 } else if (orderStatus == 3) {
-                    tvStatus.setText("Hủy đơn hàng");
+                    tvStatus.setText("Đã Hủy Đơn Hàng");
                     linearLayout.setBackgroundColor(Color.RED);
                 }
                 long orderAt = order.getOrderAt();

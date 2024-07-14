@@ -33,7 +33,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Approved"
-                android:textSize="25sp"
+                android:textSize="22sp"
                 android:textColor="@color/white"
                 android:fontFamily="@font/app_font_black"
                 android:layout_gravity="center" />
@@ -88,139 +88,124 @@
             </LinearLayout>
         </LinearLayout>
         <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            >
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Mail đặt hàng: "
-                android:textStyle="bold"
-                android:textColor="@android:color/black"
-                android:paddingTop="8dp" />
-            <TextView
-                android:id="@+id/tvType"
+            android:paddingHorizontal="20dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="20dp"
+            android:layout_height="wrap_content">
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text=""
-                android:textStyle="bold"
-                android:textColor="@android:color/black"
-                android:paddingTop="8dp" />
-        </LinearLayout>
+                android:orientation="horizontal"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Mail đặt hàng: "
+                    android:textStyle="bold"
+                    android:textColor="@android:color/black"
+                    android:paddingTop="8dp" />
+                <TextView
+                    android:id="@+id/tvType"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textStyle="bold"
+                    android:textColor="@android:color/black"
+                    android:paddingTop="8dp" />
+            </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            >
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingTop="8dp"
-                android:text="Ngày đặt: "
-                android:textColor="@android:color/black" />
-            <TextView
-                android:id="@+id/tvNgayDat"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="8dp"
-                android:text=""
-                android:textColor="@android:color/black" />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            >
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingTop="8dp"
-                android:text="Mã Đơn Hàng: "
-                android:textColor="@android:color/black" />
-            <TextView
-                android:id="@+id/tvMaDonHang"
+                android:orientation="horizontal"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="8dp"
+                    android:text="Ngày đặt: "
+                    android:textColor="@android:color/black" />
+                <TextView
+                    android:id="@+id/tvNgayDat"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="8dp"
+                    android:text=""
+                    android:textColor="@android:color/black" />
+            </LinearLayout>
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="8dp"
-                android:text=""
-                android:textColor="@android:color/black" />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            >
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingTop="8dp"
-                android:text="Địa chỉ: "
-                android:textColor="@android:color/black" />
-            <TextView
-                android:id="@+id/tvDiaChi"
+                android:orientation="horizontal"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="8dp"
+                    android:text="Mã Đơn Hàng: "
+                    android:textColor="@android:color/black" />
+                <TextView
+                    android:id="@+id/tvMaDonHang"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="8dp"
+                    android:text=""
+                    android:textColor="@android:color/black" />
+            </LinearLayout>
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="8dp"
-                android:text=""
-                android:textColor="@android:color/black" />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            >
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingTop="8dp"
-                android:text="Giảm giá: "
-                android:textColor="@android:color/black" />
-            <TextView
-                android:id="@+id/tvMaGiamGia"
+                android:orientation="horizontal"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="8dp"
+                    android:text="Địa chỉ: "
+                    android:textColor="@android:color/black" />
+                <TextView
+                    android:id="@+id/tvDiaChi"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="8dp"
+                    android:text=""
+                    android:textColor="@android:color/black" />
+            </LinearLayout>
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="8dp"
-                android:text=""
-                android:textColor="@android:color/black" />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            >
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingTop="8dp"
-                android:text="Tổng giá tiền: "
-                android:textColor="@android:color/black" />
-            <TextView
-                android:id="@+id/tcTongGiaTien"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingTop="8dp"
-                android:text=""
-                android:textColor="@android:color/black" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingTop="8dp"
-                android:text=" VND"
-                android:textColor="@android:color/black" />
-        </LinearLayout>
-        <TextView
-            android:id="@+id/tvXemChiTietDonHang"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Xem chi tiết đơn hàng"
-            android:textColor="@android:color/holo_blue_dark"
-            android:paddingTop="8dp"
-            android:textStyle="italic"
-            android:textSize="15sp"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
+                android:orientation="horizontal"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="8dp"
+                    android:text="Tổng giá tiền: "
+                    android:textColor="@android:color/black" />
+                <TextView
+                    android:id="@+id/tcTongGiaTien"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="8dp"
+                    android:text=""
+                    android:textStyle="bold"
+                    android:textColor="@color/red_light"/>
 
+            </LinearLayout>
+            <TextView
+                android:id="@+id/tvXemChiTietDonHang"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Xem chi tiết đơn hàng"
+                android:textColor="@android:color/holo_blue_dark"
+                android:paddingTop="8dp"
+                android:textStyle="italic"
+                android:textSize="15sp"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        </LinearLayout>
     </LinearLayout>
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

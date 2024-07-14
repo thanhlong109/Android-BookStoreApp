@@ -6,6 +6,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import com.group2.bookstoreproject.R;
 import com.group2.bookstoreproject.databinding.CustomToolbarBinding;
@@ -29,8 +30,9 @@ public class CustomToolbar extends ConstraintLayout {
         boolean titleStart = attr.getBoolean(R.styleable.CustomToolbar_titleStart, false);
         String textStart = attr.getString(R.styleable.CustomToolbar_textStart);
         boolean showShadow = attr.getBoolean(R.styleable.CustomToolbar_showShadow, false);
+        int textColor = attr.getColor(R.styleable.CustomToolbar_textColor, ContextCompat.getColor(context,R.color.black));
 
-        float textStartSize = attr.getFloat(R.styleable.CustomToolbar_textStartSize, 25);
+        float textStartSize = attr.getFloat(R.styleable.CustomToolbar_textStartSize, 18);
 
         attr.recycle();
 
@@ -47,6 +49,7 @@ public class CustomToolbar extends ConstraintLayout {
         isShowShadow(showShadow);
         setTitleStart(titleStart);
         setTextStartSize(textStartSize);
+        setTextColor(textColor);
         binding.llStartIcon.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -116,5 +119,11 @@ public class CustomToolbar extends ConstraintLayout {
 
     public void setTextStartSize(float size) {
         binding.tvStartText.setTextSize(size);
+    }
+    public void setTextColor(int color){
+        binding.tvTitle.setTextColor(color);
+        binding.tvStartText.setTextColor(color);
+        binding.ivStartIcon.setColorFilter(color);
+        binding.ivEndIcon.setColorFilter(color);
     }
 }
