@@ -6,14 +6,6 @@
     tools:context=".ui.common.orderList.OrderListFragment"
     android:background="@color/navigation_color">
 
-    <!-- TODO: Update blank fragment layout -->
-<!--    <Button-->
-<!--        android:id="@+id/btnAdd"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:text="Add order"-->
-<!--        android:visibility="visible"/>-->
-    <!-- Title -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -69,6 +61,7 @@
         <HorizontalScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/white"
             android:scrollbars="none">
 
             <LinearLayout
@@ -86,7 +79,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:padding="16dp"
-                        android:text="danh sách đơn hàng"
+                        android:text="Danh sách đơn hàng"
                         android:textSize="16sp"
                         android:textColor="@color/colorPrimary"
                         android:background="?attr/selectableItemBackground"
@@ -112,7 +105,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:padding="16dp"
-                        android:text="đang đợi giao"
+                        android:text="Đang đợi giao"
                         android:textSize="16sp"
                         android:textColor="@color/black"
                         android:background="?attr/selectableItemBackground"
@@ -139,7 +132,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:padding="16dp"
-                        android:text="đã hoàn thành"
+                        android:text="Đã hoàn thành"
                         android:textSize="16sp"
                         android:textColor="@android:color/black"
                         android:background="?attr/selectableItemBackground"
