@@ -22,11 +22,12 @@
 
     <TextView
         android:id="@+id/tv_Result"
-        android:layout_width="150dp"
+        android:layout_width="309dp"
         android:layout_height="150dp"
         android:text="result"
-        android:textSize="40dp"
-        />
+        android:textColor="#4CAF50"
+        android:gravity="center"
+        android:textSize="30dp" />
 
 
 </LinearLayout>
