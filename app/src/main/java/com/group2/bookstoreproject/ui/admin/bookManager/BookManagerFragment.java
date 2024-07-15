@@ -8,6 +8,9 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +25,8 @@ import java.util.List;
 
 public class BookManagerFragment extends BaseFragment<FragmentBookManagerBinding, BookManagerViewModel> {
     private BookItemAdapter adapter;
+    private Handler handler = new Handler();
+    private Runnable searchRunnable;
 
     @NonNull
     @Override
@@ -51,6 +56,30 @@ public class BookManagerFragment extends BaseFragment<FragmentBookManagerBinding
         super.onViewCreated(view, savedInstanceState);
         setUpRecyclerView();
         viewModel.loadBooks();
+        binding.searchView.searchSrcText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                handler.removeCallbacks(searchRunnable);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                final String query = s.toString();
+                searchRunnable = new Runnable() {
+                    @Override
+                    public void run() {
+                        viewModel.search(query);
+                    }
+                };
+                // Post the Runnable with a delay of 500ms
+                handler.postDelayed(searchRunnable, 500);
+            }
+        });
 
         binding.fabAdd.setOnClickListener(v -> {
             Bundle bundle = new Bundle();

@@ -2,10 +2,14 @@ package com.group2.bookstoreproject.ui.admin.bookManager;
 
 import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.ListenerRegistration;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.group2.bookstoreproject.base.BaseViewModel;
 import com.group2.bookstoreproject.data.model.Book;
 import com.group2.bookstoreproject.data.repository.BookRepository;
@@ -58,12 +62,24 @@ public class BookManagerViewModel extends BaseViewModel {
         });
     }
 
-    public void deleteBook(String bookId) {
-        bookRepository.delete(bookId, task -> {
-            if (!task.isSuccessful()) {
-                Log.e(TAG, "Error deleting book", task.getException());
-            }
-        });
+
+
+    public void search(String bookTile){
+        if(bookTile.trim().isEmpty()){
+            loadBooks();
+        }else{
+            bookRepository.searchBooksByTitle(bookTile, new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    if(task.isSuccessful()){
+                        books.setValue(task.getResult().toObjects(Book.class));
+                    }else{
+                        Log.e(TAG, "Error search book", task.getException());
+                    }
+                }
+            });
+        }
+
     }
 
     private void startListeningToBooks() {
