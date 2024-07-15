@@ -2,6 +2,7 @@ package com.group2.bookstoreproject.ui.admin.upsertBook;
 
 import static android.app.Activity.RESULT_OK;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -38,6 +39,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 
 public class UpsertBookFragment extends BaseFragment<FragmentUpsertBookBinding, UpsertViewModel> {
     public static final String EMPTY_MESSAGE = "Không được bỏ trống trường này!";
@@ -71,9 +76,12 @@ public class UpsertBookFragment extends BaseFragment<FragmentUpsertBookBinding, 
                 MODE = bundle.getInt(Constants.MODE_KEY);
             }else{
                 MODE = Constants.CREATE_MODE;
+                binding.upsetBookToolbar.isShowEndIcon(false);
             }
             if(MODE == Constants.UPDATE_MODE){
+                binding.upsetBookToolbar.isShowEndIcon(true);
                 book = (Book) bundle.getSerializable("book");
+                binding.upsetBookToolbar.setOnEndIconClick(() -> deleteBook());
             }
         }
         firebaseStorage = FirebaseStorage.getInstance();
@@ -183,6 +191,21 @@ public class UpsertBookFragment extends BaseFragment<FragmentUpsertBookBinding, 
             binding.etStock.setText(""+book.getStock());
             Glide.with(getContext()).load(book.getBookImg()).into(binding.bookCover);
         }
+    }
+
+    private void deleteBook(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+        builder.setTitle("Xóa sách");
+        builder.setMessage("Bạn có chắc muốn xóa " + book.getTitle() + "?");
+        builder.setPositiveButton("Có", (dialog, which) -> {
+           viewModel.deleteBook(book.getBookId());
+            navigateToPage(R.id.action_upsertBookFragment_to_navigation_books);
+        });
+        builder.setNegativeButton("Không", (dialog, which) -> {
+            dialog.dismiss();
+        });
+        builder.show();
+
     }
 
     private Book getBookInput(){

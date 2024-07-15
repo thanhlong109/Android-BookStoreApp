@@ -1,6 +1,7 @@
 package com.group2.bookstoreproject.ui.admin.upsertBook;
 
 import android.content.Context;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -44,6 +45,14 @@ public class UpsertViewModel extends BaseViewModel {
                     onLoadDone.OnLoadDone(list);
                 }
                 setLoading(false);
+            }
+        });
+    }
+
+    public void deleteBook(String bookId) {
+        bookRepository.delete(bookId, task -> {
+            if (!task.isSuccessful()) {
+                Log.e("test", "Error deleting book", task.getException());
             }
         });
     }

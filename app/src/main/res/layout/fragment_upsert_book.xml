@@ -22,6 +22,7 @@
       app:layout_constraintStart_toStartOf="parent"
       android:background="@color/primaryColor"
       app:showShadow="true"
+      app:endIcon="@drawable/delete_24px"
       app:textStart="Quay lại"
       app:textColor="@color/white"
       app:textStartSize="16" />

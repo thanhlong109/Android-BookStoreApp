@@ -10,7 +10,7 @@
         android:id="@+id/tv_empty_book"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Book list is empty."
+        android:text="Không tìm thấy sản phẩm nào!"
         android:textSize="18sp"
         android:textColor="@android:color/black"/>
 </LinearLayout>
