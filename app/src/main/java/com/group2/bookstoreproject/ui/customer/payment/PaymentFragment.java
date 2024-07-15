@@ -143,7 +143,8 @@ public class PaymentFragment extends BaseFragment<FragmentPaymentBinding, Paymen
                 });
                 CreateOrder orderApi = new CreateOrder();
                 try {
-                    JSONObject data = orderApi.createOrder("70000");
+                    int totalInt = (int)Math.floor(total);
+                    JSONObject data = orderApi.createOrder(totalInt + "");
                     Log.d("Amount", total+"");
 
                     String code = data.getString("return_code");
