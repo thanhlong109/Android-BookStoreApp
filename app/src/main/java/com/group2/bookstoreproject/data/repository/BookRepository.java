@@ -16,4 +16,5 @@ public interface BookRepository extends BaseRepository<Book>{
     public void getThreeBestSellingBooks(OnCompleteListener<QuerySnapshot> onCompleteListener);
     ListenerRegistration listenToBooks(EventListener<QuerySnapshot> eventListener);
     void getBooksByIds(List<String> bookIds, OnCompleteListener<QuerySnapshot> onCompleteListener);
+    void searchBooksByTitle(String title, OnCompleteListener<QuerySnapshot> onCompleteListener);
 }

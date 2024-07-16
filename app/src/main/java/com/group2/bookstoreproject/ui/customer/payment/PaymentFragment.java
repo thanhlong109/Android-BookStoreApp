@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.group2.bookstoreproject.R;
 import com.group2.bookstoreproject.base.BaseFragment;
 import com.group2.bookstoreproject.data.model.CartItem;
+import com.group2.bookstoreproject.data.model.Order;
 import com.group2.bookstoreproject.data.model.User;
 import com.group2.bookstoreproject.databinding.FragmentPaymentBinding;
 import com.group2.bookstoreproject.ui.activity.CustomerActivity;
@@ -28,6 +29,7 @@ import com.group2.bookstoreproject.util.session.SessionManager;
 import org.json.JSONObject;
 
 import java.util.List;
+import java.util.UUID;
 
 import retrofit2.http.Tag;
 import vn.zalopay.sdk.Environment;
@@ -41,6 +43,7 @@ public class PaymentFragment extends BaseFragment<FragmentPaymentBinding, Paymen
 
     private String accountId;
     private double total_price = 0;
+    private User loggedInUser;
     @NonNull
     @Override
     protected FragmentPaymentBinding inflateBinding(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, boolean attachToParent) {
@@ -64,7 +67,7 @@ public class PaymentFragment extends BaseFragment<FragmentPaymentBinding, Paymen
         super.onViewCreated(view, savedInstanceState);
 
         SessionManager sessionManager = SessionManager.getInstance();
-        User loggedInUser = sessionManager.getLoggedInUser();
+        loggedInUser = sessionManager.getLoggedInUser();
         if (loggedInUser != null) {
             accountId = loggedInUser.getUserId();
         }
@@ -127,11 +130,21 @@ public class PaymentFragment extends BaseFragment<FragmentPaymentBinding, Paymen
                     Intent intent = new Intent(requireActivity(), PaymentResultActivity.class);
                     intent.putExtra("result", "Thanh Toán Thành Công");
                     //Log.d("result", "a");
+                    Order order = new Order();
+                    order.setOrderId(UUID.randomUUID().toString());
+                    order.setUserId(accountId);
+                    order.setTotalAmount(total);
+                    order.setOrderStatus(1);
+                    order.setOrderAt(System.currentTimeMillis());
+                    order.setTransactionNo(UUID.randomUUID().toString());
+                    order.setAddress(loggedInUser.getAddress().toString());
+                    viewModel.addOrder(order);
                     startActivity(intent);
                 });
                 CreateOrder orderApi = new CreateOrder();
                 try {
-                    JSONObject data = orderApi.createOrder("70000");
+                    int totalInt = (int)Math.floor(total);
+                    JSONObject data = orderApi.createOrder(totalInt + "");
                     Log.d("Amount", total+"");
 
                     String code = data.getString("return_code");

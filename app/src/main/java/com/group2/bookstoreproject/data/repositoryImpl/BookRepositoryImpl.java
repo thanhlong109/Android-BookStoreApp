@@ -41,4 +41,16 @@ public class BookRepositoryImpl extends BaseRepositoryImpl<Book> implements Book
         Query query = db.collection(COLLECTION_PATH).whereIn("bookId", bookIds);
         query.get().addOnCompleteListener(onCompleteListener);
     }
+
+    @Override
+    public void searchBooksByTitle(String title, OnCompleteListener<QuerySnapshot> onCompleteListener) {
+        String searchQuery = title;
+        String endQuery = searchQuery + "\uf8ff"; // Ký tự đặc biệt để tạo khoảng tìm kiếm
+
+        Query query = getCollection(getCollectionPath())
+                .orderBy("title")
+                .startAt(searchQuery)
+                .endAt(endQuery);
+        query.get().addOnCompleteListener(onCompleteListener);
+    }
 }

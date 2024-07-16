@@ -2,6 +2,7 @@ package com.group2.bookstoreproject.ui.admin.upsertBook;
 
 import static android.app.Activity.RESULT_OK;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -38,6 +39,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 
 public class UpsertBookFragment extends BaseFragment<FragmentUpsertBookBinding, UpsertViewModel> {
     public static final String EMPTY_MESSAGE = "Không được bỏ trống trường này!";
@@ -71,9 +76,12 @@ public class UpsertBookFragment extends BaseFragment<FragmentUpsertBookBinding, 
                 MODE = bundle.getInt(Constants.MODE_KEY);
             }else{
                 MODE = Constants.CREATE_MODE;
+                binding.upsetBookToolbar.isShowEndIcon(false);
             }
             if(MODE == Constants.UPDATE_MODE){
+                binding.upsetBookToolbar.isShowEndIcon(true);
                 book = (Book) bundle.getSerializable("book");
+                binding.upsetBookToolbar.setOnEndIconClick(() -> deleteBook());
             }
         }
         firebaseStorage = FirebaseStorage.getInstance();
@@ -134,7 +142,7 @@ public class UpsertBookFragment extends BaseFragment<FragmentUpsertBookBinding, 
             }
         });
         binding.bookCover.setOnClickListener(v -> openImagePicker());
-        binding.upsetBookToolbar.setOnStartIconClick(() -> navigateBack());
+        binding.upsetBookToolbar.setOnStartIconClick(() -> navigateBack(view));
         binding.btnSaveBook.setOnClickListener(v -> {
             Book data = getBookInput();
             if(data !=null){
@@ -185,6 +193,21 @@ public class UpsertBookFragment extends BaseFragment<FragmentUpsertBookBinding, 
         }
     }
 
+    private void deleteBook(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+        builder.setTitle("Xóa sách");
+        builder.setMessage("Bạn có chắc muốn xóa " + book.getTitle() + "?");
+        builder.setPositiveButton("Có", (dialog, which) -> {
+           viewModel.deleteBook(book.getBookId());
+            navigateToPage(R.id.action_upsertBookFragment_to_navigation_books);
+        });
+        builder.setNegativeButton("Không", (dialog, which) -> {
+            dialog.dismiss();
+        });
+        builder.show();
+
+    }
+
     private Book getBookInput(){
         AtomicBoolean isError = new AtomicBoolean(false);
         String author = binding.etAuthor.getText().toString();
@@ -222,13 +245,15 @@ public class UpsertBookFragment extends BaseFragment<FragmentUpsertBookBinding, 
             showToast("Số lượng không hợp lệ!");
         });
         int sale = binding.seekBarSale.getProgress();
+        if(selectedImage == null){
+            showToast("Vui lòng chọn ảnh");
+            isError.set(true);
+        }
         if(isError.get()) return null;
         Book newBook = new Book();
         if(MODE == Constants.UPDATE_MODE){
             newBook.setBookId(book.getBookId());
             newBook.setBookImg(book.getBookImg());
-        }else if(selectedImage == null){
-            showToast("Vui lòng chọn ảnh");
         }
         newBook.setAuthor(author);
         newBook.setPrice(nPrice);

@@ -45,6 +45,9 @@
         <action
             android:id="@+id/action_upsertBookFragment_to_bookDetailsFragment"
             app:destination="@id/bookDetailsFragment" />
+        <action
+            android:id="@+id/action_upsertBookFragment_to_navigation_books"
+            app:destination="@id/navigation_books" />
     </fragment>
     <fragment
         android:id="@+id/bookDetailsFragment"
@@ -78,16 +81,16 @@
         android:label="fragment_order_list"
         tools:layout="@layout/fragment_order_list" >
         <action
-            android:id="@+id/action_orderListFragment3_to_orderDetailsFragment3"
-            app:destination="@id/orderDetailsFragment3" />
+            android:id="@+id/action_orderListFragment_to_orderDetailsFragment"
+            app:destination="@id/orderDetailsFragment" />
     </fragment>
     <fragment
-        android:id="@+id/orderDetailsFragment3"
+        android:id="@+id/orderDetailsFragment"
         android:name="com.group2.bookstoreproject.ui.common.orderDetails.OrderDetailsFragment"
         android:label="fragment_order_details"
         tools:layout="@layout/fragment_order_details" >
         <action
-            android:id="@+id/action_orderDetailsFragment3_to_orderListFragment3"
+            android:id="@+id/action_orderDetailsFragment_to_orderListFragment"
             app:destination="@id/navigation_order" />
     </fragment>
     <fragment
