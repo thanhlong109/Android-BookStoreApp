@@ -105,6 +105,9 @@ dependencies {
     implementation(libs.firebase.analytics)
     implementation(libs.firebase.firestore)
     implementation(libs.firebase.messaging)
+    implementation("com.google.firebase:firebase-appcheck-debug")
+    implementation("com.google.firebase:firebase-appcheck-playintegrity")
+    implementation("com.google.android.play:integrity:1.4.0")
 
     //viewpager
     implementation(libs.viewpager2)

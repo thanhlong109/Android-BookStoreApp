@@ -3,6 +3,7 @@ package com.group2.bookstoreproject.base;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -13,6 +14,13 @@ import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
+
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseOptions;
+import com.google.firebase.appcheck.FirebaseAppCheck;
+import com.google.firebase.appcheck.debug.DebugAppCheckProviderFactory;
+import com.google.firebase.appcheck.FirebaseAppCheck;
+import com.google.firebase.appcheck.playintegrity.PlayIntegrityAppCheckProviderFactory;
 import com.group2.bookstoreproject.base.dialog.ConfirmDialog;
 import com.group2.bookstoreproject.base.dialog.ErrorDialog;
 import com.group2.bookstoreproject.base.dialog.LoadingDialog;
@@ -25,6 +33,7 @@ import androidx.viewbinding.ViewBinding;
 
 public abstract class BaseActivity<T extends ViewBinding> extends AppCompatActivity {
 
+
     private LoadingDialog loadingDialog;
     protected T binding;
     protected NavController navController;
@@ -32,6 +41,11 @@ public abstract class BaseActivity<T extends ViewBinding> extends AppCompatActiv
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FirebaseApp.initializeApp(/*context=*/ this);
+        FirebaseAppCheck firebaseAppCheck = FirebaseAppCheck.getInstance();
+        firebaseAppCheck.installAppCheckProviderFactory(
+                DebugAppCheckProviderFactory.getInstance());
+
         EdgeToEdge.enable(this);
         binding = inflateBinding(getLayoutInflater());
         setContentView(binding.getRoot());
